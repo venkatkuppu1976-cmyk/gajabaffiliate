@@ -14,6 +14,40 @@ export const ambassador = {
   totalAmbassadors: 312,
 };
 
+// Per-URL affiliate tracking (master + campaign-specific)
+export const affiliateUrls = [
+  { id: "URL-001", label: "Master Link", url: "https://gajab.com/r/RIYA-DU24", campaign: "—", channel: "All", clicks: 2847, signups: 312, orders: 184, revenue: 248650, commission: 24865, ctr: 10.96, lastClick: "Dec 14, 2026 2:14 PM", createdOn: "Aug 12, 2026" },
+  { id: "URL-002", label: "Insta Bio Link", url: "https://gajab.com/r/RIYA-DU24?utm_source=instagram&utm_campaign=bio", campaign: "Insta-Bio", channel: "Instagram", clicks: 1242, signups: 145, orders: 92, revenue: 121400, commission: 12140, ctr: 11.67, lastClick: "Dec 14, 2026 1:42 PM", createdOn: "Aug 12, 2026" },
+  { id: "URL-003", label: "WhatsApp Hostel Group", url: "https://gajab.com/r/RIYA-DU24?utm_source=whatsapp&utm_campaign=hostel", campaign: "Hostel-WA", channel: "WhatsApp", clicks: 824, signups: 98, orders: 58, revenue: 78200, commission: 7820, ctr: 11.89, lastClick: "Dec 14, 2026 11:02 AM", createdOn: "Sep 02, 2026" },
+  { id: "URL-004", label: "Freshers Fest Reel", url: "https://gajab.com/r/RIYA-DU24?utm_source=reel&utm_campaign=freshers", campaign: "Freshers-Reel", channel: "Instagram", clicks: 612, signups: 52, orders: 28, revenue: 38900, commission: 3890, ctr: 8.50, lastClick: "Dec 13, 2026 8:20 PM", createdOn: "Oct 18, 2026" },
+  { id: "URL-005", label: "Notice Board QR", url: "https://gajab.com/r/RIYA-DU24?utm_source=qr&utm_campaign=poster", campaign: "Campus-QR", channel: "Offline / QR", clicks: 169, signups: 17, orders: 6, revenue: 10150, commission: 1015, ctr: 10.06, lastClick: "Dec 12, 2026 5:05 PM", createdOn: "Nov 04, 2026" },
+];
+
+// Detailed order-level commission history (for ambassador performance log)
+export const commissionHistory = [
+  { id: "GJ20485", date: "14/12/2026 02:14 PM", product: "RC Drift Car 1:18", category: "Toys & Games", urlLabel: "Insta Bio", orderValue: 1066, commissionPct: 10, commission: 106, status: "Confirmed", payoutStatus: "Pending" },
+  { id: "GJ20471", date: "14/12/2026 11:02 AM", product: "Glass Container Pack of 4", category: "Home & Garden", urlLabel: "WhatsApp Hostel", orderValue: 581, commissionPct: 10, commission: 58, status: "Confirmed", payoutStatus: "Pending" },
+  { id: "GJ20458", date: "13/12/2026 06:48 PM", product: "Kids Instant Print Camera", category: "Electronics", urlLabel: "Insta Bio", orderValue: 1761, commissionPct: 10, commission: 176, status: "Placed", payoutStatus: "Locked" },
+  { id: "GJ20442", date: "13/12/2026 04:12 PM", product: "Foldable Art Board - Pink", category: "Arts & Crafts", urlLabel: "Master Link", orderValue: 1167, commissionPct: 10, commission: 117, status: "Confirmed", payoutStatus: "Pending" },
+  { id: "GJ20429", date: "12/12/2026 11:24 AM", product: "Diecast Rolls Royce 1:24", category: "Toys & Games", urlLabel: "Freshers Reel", orderValue: 1534, commissionPct: 10, commission: 153, status: "Cancelled", payoutStatus: "Reversed" },
+  { id: "GJ20418", date: "11/12/2026 09:38 PM", product: "Korean Skincare Combo", category: "Beauty", urlLabel: "Insta Bio", orderValue: 2244, commissionPct: 12, commission: 269, status: "Confirmed", payoutStatus: "Paid" },
+  { id: "GJ20407", date: "10/12/2026 02:55 PM", product: "Stationery Mega Box", category: "Stationery", urlLabel: "Master Link", orderValue: 489, commissionPct: 8, commission: 39, status: "Confirmed", payoutStatus: "Paid" },
+  { id: "GJ20392", date: "09/12/2026 05:14 PM", product: "Wireless Earbuds Pro", category: "Electronics", urlLabel: "Notice Board QR", orderValue: 1899, commissionPct: 10, commission: 190, status: "Confirmed", payoutStatus: "Paid" },
+  { id: "GJ20381", date: "08/12/2026 10:02 AM", product: "Foldable Camping Chair", category: "Sporting Goods", urlLabel: "WhatsApp Hostel", orderValue: 1325, commissionPct: 10, commission: 132, status: "Confirmed", payoutStatus: "Paid" },
+  { id: "GJ20364", date: "06/12/2026 03:45 PM", product: "Sling Bag - Brown", category: "Luggage & Bags", urlLabel: "Insta Bio", orderValue: 749, commissionPct: 10, commission: 75, status: "Confirmed", payoutStatus: "Paid" },
+];
+
+// Aggregated activity log (clicks, signups, orders) — last 14 days
+export const activityLog = [
+  { date: "14/12/2026", clicks: 427, signups: 41, orders: 18, revenue: 30850 },
+  { date: "13/12/2026", clicks: 480, signups: 38, orders: 24, revenue: 38900 },
+  { date: "12/12/2026", clicks: 610, signups: 52, orders: 31, revenue: 52400 },
+  { date: "11/12/2026", clicks: 520, signups: 44, orders: 26, revenue: 41200 },
+  { date: "10/12/2026", clicks: 380, signups: 32, orders: 19, revenue: 28800 },
+  { date: "09/12/2026", clicks: 410, signups: 36, orders: 22, revenue: 32500 },
+  { date: "08/12/2026", clicks: 320, signups: 28, orders: 14, revenue: 24000 },
+];
+
 export const stats = {
   totalClicks: 2847,
   ordersPlaced: 184,
@@ -127,4 +161,16 @@ export const colleges = [
   "Delhi University", "IIT Bombay", "IIT Delhi", "IIT Madras", "IIT Hyderabad",
   "VIT Vellore", "BITS Pilani", "NIT Trichy", "St. Xavier's College", "Jadavpur University",
   "Pune University", "Anna University", "IIM Bangalore", "DTU Delhi", "SRM University",
+];
+
+// Admin-side: All affiliate URLs across all ambassadors
+export const adminAffiliateUrls = [
+  { id: "URL-A001", ambassador: "Aarav Mehta", college: "IIT Bombay", label: "Master Link", url: "https://gajab.com/r/AARAV-IITB", channel: "All", clicks: 6240, signups: 482, orders: 412, revenue: 684200, commission: 68420, lastClick: "Dec 14, 2026 2:22 PM" },
+  { id: "URL-A002", ambassador: "Aarav Mehta", college: "IIT Bombay", label: "Insta Story", url: "https://gajab.com/r/AARAV-IITB?utm=insta", channel: "Instagram", clicks: 3140, signups: 218, orders: 188, revenue: 312400, commission: 31240, lastClick: "Dec 14, 2026 1:14 PM" },
+  { id: "URL-A003", ambassador: "Sneha Iyer", college: "VIT Vellore", label: "Master Link", url: "https://gajab.com/r/SNEHA-VIT", channel: "All", clicks: 5820, signups: 412, orders: 388, revenue: 612400, commission: 61240, lastClick: "Dec 14, 2026 1:58 PM" },
+  { id: "URL-A004", ambassador: "Karan Singh", college: "DTU Delhi", label: "Master Link", url: "https://gajab.com/r/KARAN-DTU", channel: "All", clicks: 4980, signups: 384, orders: 351, revenue: 548900, commission: 54890, lastClick: "Dec 14, 2026 12:42 PM" },
+  { id: "URL-A005", ambassador: "Riya Sharma", college: "Delhi University", label: "Master Link", url: "https://gajab.com/r/RIYA-DU24", channel: "All", clicks: 2847, signups: 312, orders: 184, revenue: 248650, commission: 24865, lastClick: "Dec 14, 2026 2:14 PM" },
+  { id: "URL-A006", ambassador: "Riya Sharma", college: "Delhi University", label: "WhatsApp Hostel", url: "https://gajab.com/r/RIYA-DU24?utm=wa", channel: "WhatsApp", clicks: 824, signups: 98, orders: 58, revenue: 78200, commission: 7820, lastClick: "Dec 14, 2026 11:02 AM" },
+  { id: "URL-A007", ambassador: "Priya Nair", college: "St. Xavier's", label: "Master Link", url: "https://gajab.com/r/PRIYA-SXC", channel: "All", clicks: 3120, signups: 248, orders: 312, revenue: 482300, commission: 48230, lastClick: "Dec 14, 2026 10:18 AM" },
+  { id: "URL-A008", ambassador: "Rohan Patel", college: "NIT Trichy", label: "Master Link", url: "https://gajab.com/r/ROHAN-NITT", channel: "All", clicks: 2980, signups: 224, orders: 287, revenue: 421800, commission: 42180, lastClick: "Dec 13, 2026 9:48 PM" },
 ];

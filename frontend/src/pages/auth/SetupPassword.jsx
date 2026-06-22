@@ -20,7 +20,7 @@ export default function SetupPassword() {
 
   return (
     <div className="min-h-screen grid lg:grid-cols-2">
-      <div className="hidden lg:flex bg-[#1A1A1A] text-white p-12 flex-col justify-between">
+      <div className="hidden lg:flex bg-[#1B2D54] text-white p-12 flex-col justify-between">
         <Logo size="lg" showTag={false} />
         <div>
           <span className="gajab-sticker-yellow">Almost there</span>
@@ -29,12 +29,12 @@ export default function SetupPassword() {
         </div>
         <p className="text-sm opacity-60">© 2026 Gajab Bazaar</p>
       </div>
-      <div className="flex items-center justify-center p-6 sm:p-12 bg-[#FDFBF7]">
+      <div className="flex items-center justify-center p-6 sm:p-12 bg-[#FFF7EE]">
         <div className="w-full max-w-md">
           <div className="lg:hidden mb-8"><Logo size="md" /></div>
           <span className="gajab-sticker-yellow">Step 3 of 3</span>
           <h1 className="font-display text-4xl sm:text-5xl font-extrabold mt-4">Create password</h1>
-          <p className="text-[#4A4A4A] mt-3">Mandatory first-time setup. Make it something you'll remember.</p>
+          <p className="text-[#5A6378] mt-3">Mandatory first-time setup. Make it something you'll remember.</p>
 
           <form onSubmit={submit} className="mt-8 space-y-4">
             <label className="block">

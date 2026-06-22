@@ -24,12 +24,12 @@ export default function Home() {
         <div>
           <span className="gajab-sticker-yellow">Hi {ambassador.name.split(" ")[0]} 👋</span>
           <h1 className="font-display text-3xl sm:text-4xl font-extrabold mt-2">Aaj kya bechna hai?</h1>
-          <p className="text-[#4A4A4A] mt-1">Here's how your hustle's looking this month.</p>
+          <p className="text-[#5A6378] mt-1">Here's how your hustle's looking this month.</p>
         </div>
       </div>
 
       {/* Affiliate link card */}
-      <div className="gajab-card p-5 sm:p-6 bg-[#1A1A1A] text-white">
+      <div className="gajab-card p-5 sm:p-6 bg-[#1B2D54] text-white">
         <div className="flex items-center justify-between gap-3 flex-wrap">
           <div>
             <p className="text-xs uppercase font-extrabold tracking-wider text-[#FFC93C]">Your magic link</p>
@@ -65,7 +65,7 @@ export default function Home() {
                 <XAxis dataKey="day" stroke="#1A1A1A" fontWeight="700" fontSize={12} />
                 <YAxis stroke="#1A1A1A" fontSize={12} />
                 <Tooltip contentStyle={{borderRadius:12, border:"2px solid #1A1A1A"}} />
-                <Line type="monotone" dataKey="revenue" stroke="#E11D2A" strokeWidth={3} dot={{r:5, fill:"#FFC93C", stroke:"#1A1A1A", strokeWidth:2}} />
+                <Line type="monotone" dataKey="revenue" stroke="#F26B1F" strokeWidth={3} dot={{r:5, fill:"#FFC93C", stroke:"#1A1A1A", strokeWidth:2}} />
               </LineChart>
             </ResponsiveContainer>
           </div>
@@ -75,7 +75,7 @@ export default function Home() {
           <p className="text-xs uppercase font-extrabold tracking-wider">National rank</p>
           <p className="font-display text-7xl font-extrabold leading-none mt-2">#{ambassador.rank}</p>
           <p className="text-sm font-bold mt-2">out of {ambassador.totalAmbassadors} ambassadors</p>
-          <div className="mt-5 p-3 rounded-xl bg-white/40 border-2 border-black">
+          <div className="mt-5 p-3 rounded-xl bg-white/40 border border-[#EFEAE0]">
             <p className="text-xs font-bold">🎯 Climb to #5</p>
             <p className="text-xs mt-1">Earn ₹39,200 more to overtake Rohan Patel</p>
           </div>
@@ -87,10 +87,10 @@ export default function Home() {
         <h3 className="font-display text-lg font-extrabold mb-3">Recent orders</h3>
         <div className="space-y-2">
           {recentOrders.map(o => (
-            <div key={o.id} className="flex items-center justify-between gap-3 p-3 rounded-xl border-2 border-[#EAE6E1] hover:border-black transition-all" data-testid={`order-${o.id}`}>
+            <div key={o.id} className="flex items-center justify-between gap-3 p-3 rounded-xl border border-[#EFEAE0] hover:border-[#EFEAE0] transition-all" data-testid={`order-${o.id}`}>
               <div className="min-w-0">
                 <p className="font-bold text-sm truncate">{o.product}</p>
-                <p className="text-xs text-[#737373]">{o.id} • {o.date}</p>
+                <p className="text-xs text-[#5A6378]">{o.id} • {o.date}</p>
               </div>
               <div className="text-right">
                 <p className="font-display font-extrabold">₹{o.commission}</p>

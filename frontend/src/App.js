@@ -15,6 +15,8 @@ import AmbLeaderboard from "@/pages/ambassador/Leaderboard";
 import AmbReferrals from "@/pages/ambassador/Referrals";
 import AmbPayouts from "@/pages/ambassador/Payouts";
 import AmbProfile from "@/pages/ambassador/Profile";
+import AmbAffiliateUrls from "@/pages/ambassador/AffiliateUrls";
+import AmbPerformance from "@/pages/ambassador/Performance";
 
 import AdminLayout from "@/pages/admin/AdminLayout";
 import AdminApplicants from "@/pages/admin/Applicants";
@@ -24,6 +26,7 @@ import AdminLeaderboard from "@/pages/admin/MasterLeaderboard";
 import AdminReferralCodes from "@/pages/admin/ReferralCodes";
 import AdminReferralUtilization from "@/pages/admin/ReferralUtilization";
 import AdminAnalytics from "@/pages/admin/Analytics";
+import AdminAffiliateUrls from "@/pages/admin/AffiliateUrls";
 
 function App() {
   return (
@@ -40,6 +43,8 @@ function App() {
 
           <Route path="/dashboard" element={<AmbassadorLayout />}>
             <Route index element={<AmbHome />} />
+            <Route path="urls" element={<AmbAffiliateUrls />} />
+            <Route path="performance" element={<AmbPerformance />} />
             <Route path="tasks" element={<AmbTasks />} />
             <Route path="leaderboard" element={<AmbLeaderboard />} />
             <Route path="referrals" element={<AmbReferrals />} />
@@ -51,6 +56,7 @@ function App() {
             <Route index element={<Navigate to="applicants" replace />} />
             <Route path="applicants" element={<AdminApplicants />} />
             <Route path="directory" element={<AdminDirectory />} />
+            <Route path="affiliate-urls" element={<AdminAffiliateUrls />} />
             <Route path="tasks" element={<AdminTasks />} />
             <Route path="leaderboard" element={<AdminLeaderboard />} />
             <Route path="referral-codes" element={<AdminReferralCodes />} />

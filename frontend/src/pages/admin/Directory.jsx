@@ -18,7 +18,7 @@ export default function Directory() {
       <div>
         <span className="gajab-sticker-yellow">Ambassador Directory</span>
         <h1 className="font-display text-3xl sm:text-4xl font-extrabold mt-2">Active ambassadors</h1>
-        <p className="text-[#4A4A4A] mt-1">{adminKpis.activeThisMonth} active this month</p>
+        <p className="text-[#5A6378] mt-1">{adminKpis.activeThisMonth} active this month</p>
       </div>
 
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
@@ -38,7 +38,7 @@ export default function Directory() {
       <div className="gajab-card p-0 overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full text-sm">
-            <thead className="bg-[#F3EFE9] border-b-2 border-black">
+            <thead className="bg-[#F3EFE9] border-b border-[#EFEAE0]">
               <tr className="text-left text-[10px] font-extrabold uppercase tracking-wider">
                 <th className="p-3">#</th><th className="p-3">Ambassador</th><th className="p-3">College</th><th className="p-3 text-right">Orders</th><th className="p-3 text-right">Revenue</th><th className="p-3 text-right">Task Rate</th>
               </tr>
@@ -47,7 +47,7 @@ export default function Directory() {
               {filtered.map(r => (
                 <tr key={r.rank} className="border-b border-[#EAE6E1] hover:bg-[#FFF6DC]" data-testid={`directory-row-${r.rank}`}>
                   <td className="p-3 font-display font-extrabold">#{r.rank}</td>
-                  <td className="p-3"><div className="flex items-center gap-2"><img src={r.avatar} alt="" className="w-8 h-8 rounded-full object-cover border-2 border-black" /><div><p className="font-bold">{r.name}</p><p className="text-xs text-[#737373]">{r.city}</p></div></div></td>
+                  <td className="p-3"><div className="flex items-center gap-2"><img src={r.avatar} alt="" className="w-8 h-8 rounded-full object-cover border border-[#EFEAE0]" /><div><p className="font-bold">{r.name}</p><p className="text-xs text-[#5A6378]">{r.city}</p></div></div></td>
                   <td className="p-3">{r.college}</td>
                   <td className="p-3 text-right font-bold">{r.orders}</td>
                   <td className="p-3 text-right font-display font-extrabold">₹{(r.revenue/1000).toFixed(0)}K</td>

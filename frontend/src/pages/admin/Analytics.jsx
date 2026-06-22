@@ -7,13 +7,13 @@ const convData = [
   { name: "With Referral", value: adminKpis.conversionWithRef },
   { name: "Without Referral", value: adminKpis.conversionWithoutRef },
 ];
-const COLORS = ["#E11D2A", "#FFC93C"];
+const COLORS = ["#F26B1F", "#FFC93C"];
 
 const Kpi = ({ label, value, sub, bg }) => (
   <div className={`gajab-card p-5 ${bg}`}>
     <p className="text-xs uppercase font-extrabold tracking-wider opacity-70">{label}</p>
     <p className="font-display text-4xl font-extrabold mt-1">{value}</p>
-    {sub && <p className="text-xs text-[#4A4A4A] mt-1">{sub}</p>}
+    {sub && <p className="text-xs text-[#5A6378] mt-1">{sub}</p>}
   </div>
 );
 
@@ -41,7 +41,7 @@ export default function Analytics() {
                 <XAxis dataKey="name" stroke="#1A1A1A" fontSize={11} fontWeight="700" />
                 <YAxis stroke="#1A1A1A" fontSize={11} />
                 <Tooltip contentStyle={{borderRadius:12, border:"2px solid #1A1A1A"}} />
-                <Bar dataKey="gmv" fill="#E11D2A" radius={[8,8,0,0]} />
+                <Bar dataKey="gmv" fill="#F26B1F" radius={[8,8,0,0]} />
                 <Bar dataKey="commission" fill="#FFC93C" radius={[8,8,0,0]} />
               </BarChart>
             </ResponsiveContainer>
@@ -71,7 +71,7 @@ export default function Analytics() {
               <XAxis dataKey="day" stroke="#1A1A1A" fontWeight="700" />
               <YAxis stroke="#1A1A1A" />
               <Tooltip contentStyle={{borderRadius:12, border:"2px solid #1A1A1A"}} />
-              <Bar dataKey="revenue" fill="#E11D2A" radius={[8,8,0,0]} />
+              <Bar dataKey="revenue" fill="#F26B1F" radius={[8,8,0,0]} />
             </BarChart>
           </ResponsiveContainer>
         </div>

@@ -1,0 +1,96 @@
+import React, { useState } from "react";
+import { Download, Search, Filter } from "lucide-react";
+import { toast } from "sonner";
+import { commissionHistory } from "@/data/mockData";
+
+const statusBadge = (s) => {
+  if (s === "Confirmed") return "bg-[#D1FAE5] text-[#065F46] border-[#10B981]/40";
+  if (s === "Placed") return "bg-[#FEF3C7] text-[#92400E] border-[#FFC93C]/60";
+  if (s === "Cancelled") return "bg-[#FEE2E2] text-[#991B1B] border-[#EF4444]/40";
+  return "bg-[#F3F4F6] text-[#374151] border-[#D1D5DB]";
+};
+
+const payoutBadge = (s) => {
+  if (s === "Paid") return "bg-[#D1FAE5] text-[#065F46] border-[#10B981]/40";
+  if (s === "Pending") return "bg-[#FEF3C7] text-[#92400E] border-[#FFC93C]/60";
+  if (s === "Locked") return "bg-[#E0E7FF] text-[#3730A3] border-[#6366F1]/40";
+  if (s === "Reversed") return "bg-[#FEE2E2] text-[#991B1B] border-[#EF4444]/40";
+  return "bg-[#F3F4F6] text-[#374151] border-[#D1D5DB]";
+};
+
+export default function Performance() {
+  const [q, setQ] = useState("");
+  const [filter, setFilter] = useState("All");
+
+  const filtered = commissionHistory
+    .filter(o => filter === "All" || o.status === filter)
+    .filter(o => (o.id + o.product + o.urlLabel + o.category).toLowerCase().includes(q.toLowerCase()));
+
+  const totals = filtered.reduce((a, o) => ({
+    orders: a.orders + 1, value: a.value + o.orderValue, commission: a.commission + o.commission,
+    paid: a.paid + (o.payoutStatus === "Paid" ? o.commission : 0),
+  }), { orders: 0, value: 0, commission: 0, paid: 0 });
+
+  return (
+    <div className="space-y-5">
+      <div>
+        <span className="gajab-sticker-yellow">Order-level history</span>
+        <h1 className="font-display text-3xl sm:text-4xl mt-2">Performance log</h1>
+        <p className="text-[#5A6378] mt-1">Every order, every commission. Your full earnings trail.</p>
+      </div>
+
+      {/* Summary */}
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
+        <div className="gajab-card p-4"><p className="text-[10px] font-bold uppercase tracking-wider text-[#5A6378]">Orders shown</p><p className="font-display text-3xl mt-0.5">{totals.orders}</p></div>
+        <div className="gajab-card p-4"><p className="text-[10px] font-bold uppercase tracking-wider text-[#5A6378]">Order value</p><p className="font-display text-3xl mt-0.5">₹{totals.value.toLocaleString()}</p></div>
+        <div className="gajab-card p-4 bg-[#FFE9D9]"><p className="text-[10px] font-bold uppercase tracking-wider text-[#5A6378]">Total commission</p><p className="font-display text-3xl mt-0.5 text-[#C9450C]">₹{totals.commission.toLocaleString()}</p></div>
+        <div className="gajab-card p-4 bg-[#FFF1C2]"><p className="text-[10px] font-bold uppercase tracking-wider text-[#5A6378]">Paid out</p><p className="font-display text-3xl mt-0.5">₹{totals.paid.toLocaleString()}</p></div>
+      </div>
+
+      {/* Filter row */}
+      <div className="flex items-center gap-2 flex-wrap">
+        <div className="relative flex-1 min-w-[220px] max-w-md">
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#5A6378]" />
+          <input value={q} onChange={e=>setQ(e.target.value)} placeholder="Search by order ID, product, link..." className="input-gajab pl-10" data-testid="perf-search" />
+        </div>
+        <div className="flex gap-1 p-1 bg-white border border-[#EFEAE0] rounded-xl">
+          {["All", "Confirmed", "Placed", "Cancelled"].map(f => (
+            <button key={f} onClick={()=>setFilter(f)} className={`nav-tab text-xs ${filter===f ? "bg-[#F26B1F] text-white" : "text-[#5A6378] hover:bg-[#FFF7EE]"}`} data-testid={`perf-filter-${f.toLowerCase()}`}>{f}</button>
+          ))}
+        </div>
+        <button onClick={()=>toast.success("CSV export coming soon")} className="btn-ghost" data-testid="perf-export"><Download className="w-4 h-4" /> Export</button>
+      </div>
+
+      {/* Table */}
+      <div className="gajab-card p-0 overflow-hidden">
+        <div className="overflow-x-auto">
+          <table className="w-full text-sm">
+            <thead className="bg-[#FFF7EE] border-b border-[#EFEAE0]">
+              <tr className="text-left text-[10px] font-bold uppercase tracking-wider text-[#5A6378]">
+                <th className="p-3">Order ID</th><th className="p-3">Date</th><th className="p-3">Product</th><th className="p-3">Category</th><th className="p-3">Via Link</th><th className="p-3 text-right">Order ₹</th><th className="p-3 text-right">Comm %</th><th className="p-3 text-right">Comm ₹</th><th className="p-3">Order</th><th className="p-3">Payout</th>
+              </tr>
+            </thead>
+            <tbody>
+              {filtered.map(o => (
+                <tr key={o.id} className="border-b border-[#F0EBE2] hover:bg-[#FFF7EE]" data-testid={`perf-row-${o.id}`}>
+                  <td className="p-3 font-mono text-xs">{o.id}</td>
+                  <td className="p-3 text-xs">{o.date}</td>
+                  <td className="p-3 font-bold">{o.product}</td>
+                  <td className="p-3 text-xs text-[#5A6378]">{o.category}</td>
+                  <td className="p-3 text-xs">{o.urlLabel}</td>
+                  <td className="p-3 text-right">₹{o.orderValue.toLocaleString()}</td>
+                  <td className="p-3 text-right">{o.commissionPct}%</td>
+                  <td className="p-3 text-right font-display text-[#F26B1F]">₹{o.commission}</td>
+                  <td className="p-3"><span className={`gajab-sticker border ${statusBadge(o.status)}`}>{o.status}</span></td>
+                  <td className="p-3"><span className={`gajab-sticker border ${payoutBadge(o.payoutStatus)}`}>{o.payoutStatus}</span></td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <p className="text-xs text-[#5A6378]"><Filter className="w-3 h-3 inline" /> Commission % may vary by category (Beauty 12%, Stationery 8%, others 10%). Cancelled orders auto-reverse commission. Confirmed orders move to "Paid" after the next bi-monthly payout cycle.</p>
+    </div>
+  );
+}

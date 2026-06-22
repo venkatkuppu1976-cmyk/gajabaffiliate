@@ -16,10 +16,10 @@ export default function Profile() {
         <h1 className="font-display text-3xl sm:text-4xl font-extrabold mt-2">Settings</h1>
       </div>
       <div className="gajab-card p-6 flex items-center gap-4">
-        <img src={ambassador.avatar} alt="" className="w-20 h-20 rounded-full object-cover border-2 border-black" />
+        <img src={ambassador.avatar} alt="" className="w-20 h-20 rounded-full object-cover border border-[#EFEAE0]" />
         <div>
           <p className="font-display text-2xl font-extrabold">{ambassador.name}</p>
-          <p className="text-[#4A4A4A]">{ambassador.college} • {ambassador.city}</p>
+          <p className="text-[#5A6378]">{ambassador.college} • {ambassador.city}</p>
           <span className="gajab-sticker-yellow mt-1 inline-block">{ambassador.tier} Tier • Rank #{ambassador.rank}</span>
         </div>
       </div>

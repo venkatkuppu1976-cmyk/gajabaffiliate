@@ -19,7 +19,7 @@ export default function ReferralCodesAdmin() {
         <div>
           <span className="gajab-sticker-yellow">Referral Codes Manager</span>
           <h1 className="font-display text-3xl sm:text-4xl font-extrabold mt-2">Promo codes</h1>
-          <p className="text-[#4A4A4A] mt-1">{referralCodes.length} active codes • Create, link to ambassadors, manage discounts</p>
+          <p className="text-[#5A6378] mt-1">{referralCodes.length} active codes • Create, link to ambassadors, manage discounts</p>
         </div>
         <button onClick={()=>setOpen(true)} className="btn-primary" data-testid="create-code-btn"><Plus className="w-4 h-4" />New Code</button>
       </div>
@@ -27,7 +27,7 @@ export default function ReferralCodesAdmin() {
       <div className="gajab-card p-0 overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full text-sm">
-            <thead className="bg-[#F3EFE9] border-b-2 border-black">
+            <thead className="bg-[#F3EFE9] border-b border-[#EFEAE0]">
               <tr className="text-left text-[10px] font-extrabold uppercase tracking-wider">
                 <th className="p-3">Code</th><th className="p-3">Linked to</th><th className="p-3">Type</th><th className="p-3">Value</th><th className="p-3">Cap</th><th className="p-3 text-right">Uses</th><th className="p-3 text-right">GMV</th><th className="p-3 text-right">Commission</th><th className="p-3">Status</th><th className="p-3">Expires</th><th className="p-3"></th>
               </tr>
@@ -36,14 +36,14 @@ export default function ReferralCodesAdmin() {
               {referralCodes.map(c => (
                 <tr key={c.code} className="border-b border-[#EAE6E1] hover:bg-[#FFF6DC]" data-testid={`code-row-${c.code}`}>
                   <td className="p-3"><span className="font-display font-extrabold">{c.code}</span></td>
-                  <td className="p-3"><p className="font-bold">{c.linkedTo}</p><p className="text-xs text-[#737373]">{c.college}</p></td>
+                  <td className="p-3"><p className="font-bold">{c.linkedTo}</p><p className="text-xs text-[#5A6378]">{c.college}</p></td>
                   <td className="p-3 text-xs">{c.type}</td>
                   <td className="p-3 font-bold">{c.value}</td>
                   <td className="p-3 text-xs">{c.cap}</td>
                   <td className="p-3 text-right font-bold">{c.uses}</td>
                   <td className="p-3 text-right">₹{(c.gmv/1000).toFixed(0)}K</td>
                   <td className="p-3 text-right font-display font-extrabold">₹{(c.commission/1000).toFixed(1)}K</td>
-                  <td className="p-3"><span className={`gajab-sticker border-2 ${c.status==="Active"?"bg-[#D1FAE5] text-[#065F46] border-[#065F46]":"bg-[#FEF3C7] text-[#92400E] border-[#92400E]"}`}>{c.status}</span></td>
+                  <td className="p-3"><span className={`gajab-sticker border ${c.status==="Active"?"bg-[#D1FAE5] text-[#065F46] border-[#065F46]/40":"bg-[#FEF3C7] text-[#92400E] border-[#92400E]/40"}`}>{c.status}</span></td>
                   <td className="p-3 text-xs">{c.expires}</td>
                   <td className="p-3"><div className="flex gap-1"><button className="p-1 hover:bg-[#FFF6DC] rounded"><Edit className="w-4 h-4" /></button><button className="p-1 hover:bg-[#FEE2E2] rounded"><Trash2 className="w-4 h-4" /></button></div></td>
                 </tr>

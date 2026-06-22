@@ -17,7 +17,7 @@ export default function Applicants() {
         <div>
           <span className="gajab-sticker-yellow">Applicant Tracking</span>
           <h1 className="font-display text-3xl sm:text-4xl font-extrabold mt-2">Applications inbox</h1>
-          <p className="text-[#4A4A4A] mt-1">{filtered.length} of {applicants.length} applicants</p>
+          <p className="text-[#5A6378] mt-1">{filtered.length} of {applicants.length} applicants</p>
         </div>
         <div className="relative">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4" />
@@ -28,7 +28,7 @@ export default function Applicants() {
       <div className="gajab-card p-0 overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full text-sm">
-            <thead className="bg-[#F3EFE9] border-b-2 border-black">
+            <thead className="bg-[#F3EFE9] border-b border-[#EFEAE0]">
               <tr className="text-left text-[10px] font-extrabold uppercase tracking-wider">
                 <th className="p-3">ID</th><th className="p-3">Name</th><th className="p-3">Phone</th><th className="p-3">Email</th><th className="p-3">College</th><th className="p-3">City</th><th className="p-3">Applied</th><th className="p-3">Status</th>
               </tr>
@@ -38,7 +38,7 @@ export default function Applicants() {
                 <tr key={a.id} onClick={()=>{setSel(a); setNotes("");}} className="border-b border-[#EAE6E1] hover:bg-[#FFF6DC] cursor-pointer" data-testid={`applicant-row-${a.id}`}>
                   <td className="p-3 font-mono text-xs">{a.id}</td>
                   <td className="p-3 font-bold">
-                    {a.duplicate && <AlertTriangle className="w-4 h-4 text-[#E11D2A] inline mr-1" />}
+                    {a.duplicate && <AlertTriangle className="w-4 h-4 text-[#F26B1F] inline mr-1" />}
                     {a.name}
                   </td>
                   <td className="p-3">{a.phone}</td>
@@ -46,7 +46,7 @@ export default function Applicants() {
                   <td className="p-3">{a.college}</td>
                   <td className="p-3">{a.city}</td>
                   <td className="p-3 text-xs">{a.appliedOn}</td>
-                  <td className="p-3"><span className={`gajab-sticker border-2 ${a.status==="Approved"?"bg-[#D1FAE5] text-[#065F46] border-[#065F46]":a.status==="Rejected"?"bg-[#FEE2E2] text-[#991B1B] border-[#991B1B]":"bg-[#FEF3C7] text-[#92400E] border-[#92400E]"}`}>{a.status}</span></td>
+                  <td className="p-3"><span className={`gajab-sticker border ${a.status==="Approved"?"bg-[#D1FAE5] text-[#065F46] border-[#065F46]/40":a.status==="Rejected"?"bg-[#FEE2E2] text-[#991B1B] border-[#991B1B]/40":"bg-[#FEF3C7] text-[#92400E] border-[#92400E]/40"}`}>{a.status}</span></td>
                 </tr>
               ))}
             </tbody>
@@ -58,13 +58,13 @@ export default function Applicants() {
       {sel && (
         <div className="fixed inset-0 z-50 flex">
           <div className="flex-1 bg-black/40" onClick={()=>setSel(null)} />
-          <div className="w-full max-w-md bg-white h-full overflow-y-auto border-l-2 border-black p-6" data-testid="applicant-drawer">
+          <div className="w-full max-w-md bg-white h-full overflow-y-auto border-l border-[#EFEAE0] p-6" data-testid="applicant-drawer">
             <div className="flex items-center justify-between">
               <span className="gajab-sticker-yellow">Application #{sel.id}</span>
               <button onClick={()=>setSel(null)}><X className="w-5 h-5" /></button>
             </div>
             <h2 className="font-display text-3xl font-extrabold mt-3">{sel.name}</h2>
-            {sel.duplicate && <p className="mt-2 p-3 rounded-xl bg-[#FEE2E2] border-2 border-[#991B1B] text-sm flex gap-2"><AlertTriangle className="w-4 h-4 text-[#E11D2A] flex-shrink-0" /><span><b>Duplicate detected:</b> Phone/email matches another applicant.</span></p>}
+            {sel.duplicate && <p className="mt-2 p-3 rounded-xl bg-[#FEE2E2] border border-[#991B1B]/40 text-sm flex gap-2"><AlertTriangle className="w-4 h-4 text-[#F26B1F] flex-shrink-0" /><span><b>Duplicate detected:</b> Phone/email matches another applicant.</span></p>}
             <div className="mt-4 space-y-2 text-sm">
               <p><b>Email:</b> {sel.email}</p>
               <p><b>Phone:</b> {sel.phone}</p>
@@ -80,7 +80,7 @@ export default function Applicants() {
               <button onClick={()=>act("reject")} className="btn-ghost flex-1 border-[#991B1B] text-[#991B1B]" data-testid="applicant-reject"><X className="w-4 h-4" /> Reject</button>
               <button onClick={()=>act("approve")} className="btn-primary flex-1" data-testid="applicant-approve"><Check className="w-4 h-4" /> Approve & Send credentials</button>
             </div>
-            <p className="text-xs text-[#737373] mt-3">Approving auto-generates affiliate link + sends OTP login via Email & WhatsApp.</p>
+            <p className="text-xs text-[#5A6378] mt-3">Approving auto-generates affiliate link + sends OTP login via Email & WhatsApp.</p>
           </div>
         </div>
       )}

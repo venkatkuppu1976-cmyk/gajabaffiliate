@@ -11,11 +11,11 @@ const Pill = ({ children, className = "" }) => (
 
 const Step = ({ num, title, desc, accent }) => (
   <div className="gajab-card p-6 relative">
-    <div className={`w-12 h-12 rounded-xl border-2 border-black grid place-items-center font-display text-2xl font-extrabold mb-4 ${accent}`}>
+    <div className={`w-12 h-12 rounded-xl border border-[#EFEAE0] grid place-items-center font-display text-2xl font-extrabold mb-4 ${accent}`}>
       {num}
     </div>
     <h4 className="font-display text-xl font-extrabold mb-1">{title}</h4>
-    <p className="text-sm text-[#4A4A4A]">{desc}</p>
+    <p className="text-sm text-[#5A6378]">{desc}</p>
   </div>
 );
 
@@ -30,10 +30,10 @@ const Perk = ({ icon: Icon, title, value, bg }) => (
 const Testimonial = ({ name, college, quote, img }) => (
   <div className="gajab-card p-5">
     <div className="flex items-center gap-3 mb-3">
-      <img src={img} alt="" className="w-12 h-12 rounded-full object-cover border-2 border-black" />
+      <img src={img} alt="" className="w-12 h-12 rounded-full object-cover border border-[#EFEAE0]" />
       <div>
         <p className="font-display font-extrabold">{name}</p>
-        <p className="text-xs text-[#4A4A4A]">{college}</p>
+        <p className="text-xs text-[#5A6378]">{college}</p>
       </div>
     </div>
     <div className="flex gap-0.5 mb-2">{[...Array(5)].map((_, i) => <Star key={i} className="w-4 h-4 fill-[#FFC93C] text-[#FFC93C]" />)}</div>
@@ -44,12 +44,12 @@ const Testimonial = ({ name, college, quote, img }) => (
 const Faq = ({ q, a }) => {
   const [open, setOpen] = useState(false);
   return (
-    <button onClick={() => setOpen(!open)} className="w-full text-left gajab-card-soft p-5 hover:border-black transition-all" data-testid={`faq-${q.slice(0, 10)}`}>
+    <button onClick={() => setOpen(!open)} className="w-full text-left gajab-card-soft p-5 hover:border-[#EFEAE0] transition-all" data-testid={`faq-${q.slice(0, 10)}`}>
       <div className="flex items-center justify-between gap-4">
         <p className="font-display font-extrabold">{q}</p>
         <ChevronDown className={`w-5 h-5 transition-transform ${open ? "rotate-180" : ""}`} />
       </div>
-      {open && <p className="mt-3 text-sm text-[#4A4A4A] leading-relaxed">{a}</p>}
+      {open && <p className="mt-3 text-sm text-[#5A6378] leading-relaxed">{a}</p>}
     </button>
   );
 };
@@ -76,9 +76,9 @@ export default function ApplyPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#FDFBF7] text-[#1A1A1A]">
+    <div className="min-h-screen bg-[#FFF7EE] text-[#1B2D54]">
       {/* NAV */}
-      <header className="sticky top-0 z-40 bg-[#FDFBF7]/85 backdrop-blur border-b-2 border-black/10">
+      <header className="sticky top-0 z-40 bg-[#FFF7EE]/85 backdrop-blur border-b border-[#EFEAE0]/10">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
           <Logo size="md" />
           <div className="flex items-center gap-2">
@@ -87,7 +87,7 @@ export default function ApplyPage() {
           </div>
         </div>
         {/* marquee */}
-        <div className="bg-[#1A1A1A] text-[#FFC93C] py-2 overflow-hidden whitespace-nowrap">
+        <div className="bg-[#1B2D54] text-[#FFC93C] py-2 overflow-hidden whitespace-nowrap">
           <div className="marquee-track inline-block">
             {Array(2).fill(0).map((_, i) => (
               <span key={i} className="inline-flex items-center gap-8 px-4 font-display font-extrabold uppercase tracking-wider text-sm">
@@ -104,16 +104,16 @@ export default function ApplyPage() {
       {/* HERO */}
       <section className="relative overflow-hidden">
         <div className="absolute -top-20 -right-20 w-96 h-96 rounded-full bg-[#FFC93C] blur-3xl opacity-40 pointer-events-none" />
-        <div className="absolute -bottom-20 -left-20 w-96 h-96 rounded-full bg-[#E11D2A] blur-3xl opacity-20 pointer-events-none" />
+        <div className="absolute -bottom-20 -left-20 w-96 h-96 rounded-full bg-[#F26B1F] blur-3xl opacity-20 pointer-events-none" />
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-20 grid lg:grid-cols-12 gap-10 items-center">
           <div className="lg:col-span-7">
             <Pill className="mb-4">🏆 Campus Ambassador Program • 2026</Pill>
             <h1 className="font-display text-5xl sm:text-6xl lg:text-7xl font-extrabold leading-[0.95] tracking-tight">
               Tera college.<br />
               Teri vibe.<br />
-              <span className="text-[#E11D2A]">Tera kamai.</span>
+              <span className="text-[#F26B1F]">Tera kamai.</span>
             </h1>
-            <p className="mt-6 text-lg text-[#4A4A4A] max-w-xl leading-relaxed">
+            <p className="mt-6 text-lg text-[#5A6378] max-w-xl leading-relaxed">
               Become a <b>Gajab Campus Ambassador</b> — share India's most fun bargain bazaar with your crew and pocket commissions on every order. No fees, no targets, full freedom.
             </p>
             <div className="mt-8 flex flex-wrap gap-3">
@@ -123,7 +123,7 @@ export default function ApplyPage() {
             <div className="mt-8 flex items-center gap-6 flex-wrap">
               <div className="flex -space-x-2">
                 {[1,2,3,4,5].map(i => (
-                  <img key={i} src={`https://i.pravatar.cc/64?img=${i+10}`} alt="" className="w-9 h-9 rounded-full border-2 border-white object-cover" />
+                  <img key={i} src={`https://i.pravatar.cc/64?img=${i+10}`} alt="" className="w-9 h-9 rounded-full border border-white/40 object-cover" />
                 ))}
               </div>
               <p className="text-sm font-bold">312+ students • 80+ colleges</p>
@@ -132,15 +132,15 @@ export default function ApplyPage() {
           <div className="lg:col-span-5 relative">
             <div className="gajab-card p-6 bg-white">
               <Pill className="mb-3" style={{ transform: "rotate(-3deg)" }}>YOUR EARNINGS PREVIEW</Pill>
-              <p className="font-display text-7xl font-extrabold leading-none">₹24,865<span className="text-2xl text-[#E11D2A]">/mo</span></p>
-              <p className="text-sm text-[#4A4A4A] mt-2">Avg earnings of a Top-10 Gajab Ambassador</p>
+              <p className="font-display text-7xl font-extrabold leading-none">₹24,865<span className="text-2xl text-[#F26B1F]">/mo</span></p>
+              <p className="text-sm text-[#5A6378] mt-2">Avg earnings of a Top-10 Gajab Ambassador</p>
               <div className="grid grid-cols-3 gap-3 mt-5">
-                <div className="rounded-xl border-2 border-black p-3 bg-[#FFF6DC]"><p className="text-xs font-extrabold uppercase opacity-70">Clicks</p><p className="font-display text-xl font-extrabold">2,847</p></div>
-                <div className="rounded-xl border-2 border-black p-3 bg-[#FFE3E5]"><p className="text-xs font-extrabold uppercase opacity-70">Orders</p><p className="font-display text-xl font-extrabold">184</p></div>
-                <div className="rounded-xl border-2 border-black p-3 bg-[#E6F8EF]"><p className="text-xs font-extrabold uppercase opacity-70">Revenue</p><p className="font-display text-xl font-extrabold">2.48L</p></div>
+                <div className="rounded-xl border border-[#EFEAE0] p-3 bg-[#FFF6DC]"><p className="text-xs font-extrabold uppercase opacity-70">Clicks</p><p className="font-display text-xl font-extrabold">2,847</p></div>
+                <div className="rounded-xl border border-[#EFEAE0] p-3 bg-[#FFE3E5]"><p className="text-xs font-extrabold uppercase opacity-70">Orders</p><p className="font-display text-xl font-extrabold">184</p></div>
+                <div className="rounded-xl border border-[#EFEAE0] p-3 bg-[#E6F8EF]"><p className="text-xs font-extrabold uppercase opacity-70">Revenue</p><p className="font-display text-xl font-extrabold">2.48L</p></div>
               </div>
             </div>
-            <div className="absolute -top-3 -left-3 gajab-sticker-red text-[10px] wiggle">🔥 Live numbers</div>
+            <div className="absolute -top-3 -left-3 gajab-sticker-orange text-[10px] wiggle">🔥 Live numbers</div>
           </div>
         </div>
       </section>
@@ -152,7 +152,7 @@ export default function ApplyPage() {
             <Pill>How it works</Pill>
             <h2 className="font-display text-4xl sm:text-5xl font-extrabold mt-3">3 steps to your first ₹.</h2>
           </div>
-          <p className="text-[#4A4A4A] max-w-sm">No interview drama. No paperwork. Just apply, get approved, and start sharing.</p>
+          <p className="text-[#5A6378] max-w-sm">No interview drama. No paperwork. Just apply, get approved, and start sharing.</p>
         </div>
         <div className="grid md:grid-cols-3 gap-5">
           <Step num="1" title="Apply via Campus" desc="Fill the 2-min form with your college details and socials. We'll review in 48 hrs." accent="bg-[#FFC93C]" />
@@ -189,23 +189,23 @@ export default function ApplyPage() {
         <div className="gajab-card p-6 sm:p-10">
           {submitted ? (
             <div className="text-center py-12">
-              <div className="w-20 h-20 mx-auto bg-[#FFC93C] rounded-full border-2 border-black grid place-items-center mb-4">
+              <div className="w-20 h-20 mx-auto bg-[#FFC93C] rounded-full border border-[#EFEAE0] grid place-items-center mb-4">
                 <CheckCircle2 className="w-10 h-10" strokeWidth={2.5} />
               </div>
               <h3 className="font-display text-4xl font-extrabold">Application In!</h3>
-              <p className="mt-3 text-[#4A4A4A] max-w-md mx-auto">We'll review your application within 48 hours. If approved, you'll get login details via WhatsApp & email.</p>
+              <p className="mt-3 text-[#5A6378] max-w-md mx-auto">We'll review your application within 48 hours. If approved, you'll get login details via WhatsApp & email.</p>
               <button onClick={() => nav("/login")} className="btn-primary mt-6" data-testid="apply-success-login-btn">Go to Login <ArrowRight className="w-4 h-4" /></button>
             </div>
           ) : (
             <>
               <Pill>Step {step} of 4</Pill>
               <h2 className="font-display text-3xl sm:text-4xl font-extrabold mt-3">Apply via Campus</h2>
-              <p className="text-[#4A4A4A] mt-2 mb-6">Takes ~2 minutes. We'll get back in 48 hours.</p>
+              <p className="text-[#5A6378] mt-2 mb-6">Takes ~2 minutes. We'll get back in 48 hours.</p>
 
               {/* Progress */}
               <div className="flex gap-1.5 mb-8">
                 {[1,2,3,4].map(i => (
-                  <div key={i} className={`h-2 flex-1 rounded-full border-2 border-black ${i <= step ? "bg-[#E11D2A]" : "bg-white"}`} />
+                  <div key={i} className={`h-2 flex-1 rounded-full border border-[#EFEAE0] ${i <= step ? "bg-[#F26B1F]" : "bg-white"}`} />
                 ))}
               </div>
 
@@ -268,9 +268,9 @@ export default function ApplyPage() {
                     <span className="text-xs font-bold uppercase tracking-wider">Why should we pick you?</span>
                     <textarea data-testid="apply-why" value={form.whyJoin} onChange={e=>upd("whyJoin",e.target.value)} rows={5} placeholder="Tell us what makes you the perfect Gajab ambassador for your campus..." className="input-gajab mt-1 py-3 h-auto resize-none" />
                   </label>
-                  <div className="rounded-xl bg-[#FFF6DC] border-2 border-black p-4 text-sm">
+                  <div className="rounded-xl bg-[#FFF6DC] border border-[#EFEAE0] p-4 text-sm">
                     <p className="font-bold">🎁 What you'll get if approved:</p>
-                    <ul className="mt-2 space-y-1 list-disc list-inside text-[#4A4A4A]">
+                    <ul className="mt-2 space-y-1 list-disc list-inside text-[#5A6378]">
                       <li>Unique referral link + promo codes</li>
                       <li>Up to 15% commission on every order</li>
                       <li>Welcome swag box delivered to campus</li>
@@ -307,7 +307,7 @@ export default function ApplyPage() {
       </section>
 
       {/* FOOTER */}
-      <footer className="bg-[#1A1A1A] text-white py-12 mt-12">
+      <footer className="bg-[#1B2D54] text-white py-12 mt-12">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid md:grid-cols-3 gap-8">
           <div>
             <Logo size="md" showTag={false} />

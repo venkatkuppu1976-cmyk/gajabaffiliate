@@ -8,7 +8,7 @@ export default function Payouts() {
       <div>
         <span className="gajab-sticker-yellow">💰 Your Money</span>
         <h1 className="font-display text-3xl sm:text-4xl font-extrabold mt-2">Payouts</h1>
-        <p className="text-[#4A4A4A] mt-1">Bi-monthly UPI/NEFT transfers. Minimum payout ₹500.</p>
+        <p className="text-[#5A6378] mt-1">Bi-monthly UPI/NEFT transfers. Minimum payout ₹500.</p>
       </div>
 
       <div className="grid sm:grid-cols-3 gap-4">
@@ -31,10 +31,10 @@ export default function Payouts() {
         <h3 className="font-display text-lg font-extrabold mb-3">Payout history</h3>
         <div className="space-y-2">
           {payouts.map(p => (
-            <div key={p.id} className="flex items-center justify-between gap-3 p-3 rounded-xl border-2 border-[#EAE6E1]" data-testid={`payout-${p.id}`}>
+            <div key={p.id} className="flex items-center justify-between gap-3 p-3 rounded-xl border border-[#EFEAE0]" data-testid={`payout-${p.id}`}>
               <div>
                 <p className="font-bold text-sm">{p.period}</p>
-                <p className="text-xs text-[#737373]">{p.id} • {p.date}</p>
+                <p className="text-xs text-[#5A6378]">{p.id} • {p.date}</p>
               </div>
               <div className="text-right">
                 <p className="font-display font-extrabold">₹{p.amount.toLocaleString()}</p>

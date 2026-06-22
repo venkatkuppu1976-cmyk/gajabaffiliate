@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Plus, Check, X, ExternalLink } from "lucide-react";
 import { toast } from "sonner";
 import { adminPendingTasks } from "@/data/mockData";
+import DateInputDDMMYYYY from "@/components/DateInputDDMMYYYY";
 
 export default function AdminTasks() {
   const [form, setForm] = useState({ title:"", desc:"", deadline:"", reward:"", target:"all" });
@@ -25,8 +26,10 @@ export default function AdminTasks() {
           <label className="block"><span className="text-xs font-bold uppercase tracking-wider">Title</span><input value={form.title} onChange={e=>setForm({...form, title:e.target.value})} className="input-gajab mt-1" placeholder="e.g. Insta Reel Campaign" data-testid="task-title" /></label>
           <label className="block"><span className="text-xs font-bold uppercase tracking-wider">Description</span><textarea value={form.desc} onChange={e=>setForm({...form, desc:e.target.value})} rows={4} className="input-gajab mt-1 py-3 h-auto resize-none" data-testid="task-desc" /></label>
           <div className="grid grid-cols-2 gap-3">
-            <label className="block"><span className="text-xs font-bold uppercase tracking-wider">Deadline</span><input type="date" value={form.deadline} onChange={e=>setForm({...form, deadline:e.target.value})} className="input-gajab mt-1" data-testid="task-deadline" /></label>
-            <label className="block"><span className="text-xs font-bold uppercase tracking-wider">Reward (₹)</span><input type="number" value={form.reward} onChange={e=>setForm({...form, reward:e.target.value})} className="input-gajab mt-1" placeholder="500" data-testid="task-reward" /></label>
+            <label className="block"><span className="text-xs font-bold uppercase tracking-wider text-[#5A6378]">Deadline (dd/mm/yyyy)</span>
+              <div className="mt-1"><DateInputDDMMYYYY value={form.deadline} onChange={v => setForm({...form, deadline: v})} testId="task-deadline" /></div>
+            </label>
+            <label className="block"><span className="text-xs font-bold uppercase tracking-wider text-[#5A6378]">Reward (₹)</span><input type="number" value={form.reward} onChange={e=>setForm({...form, reward:e.target.value})} className="input-gajab mt-1" placeholder="500" data-testid="task-reward" /></label>
           </div>
           <label className="block"><span className="text-xs font-bold uppercase tracking-wider">Assign to</span>
             <select value={form.target} onChange={e=>setForm({...form, target:e.target.value})} className="input-gajab mt-1" data-testid="task-target">
@@ -45,9 +48,9 @@ export default function AdminTasks() {
             <div key={t.id} className="gajab-card p-4" data-testid={`pending-task-${t.id}`}>
               <div className="flex items-start justify-between gap-3 flex-wrap">
                 <div className="min-w-0">
-                  <p className="text-[10px] font-extrabold uppercase tracking-wider text-[#737373]">{t.id} • {t.submittedOn}</p>
+                  <p className="text-[10px] font-extrabold uppercase tracking-wider text-[#5A6378]">{t.id} • {t.submittedOn}</p>
                   <p className="font-display font-extrabold mt-1">{t.task}</p>
-                  <p className="text-sm text-[#4A4A4A]"><b>{t.ambassador}</b> • {t.college}</p>
+                  <p className="text-sm text-[#5A6378]"><b>{t.ambassador}</b> • {t.college}</p>
                   <p className="text-sm mt-2 p-2 rounded-lg bg-[#FFF6DC] border border-[#FFC93C] inline-flex items-center gap-1"><ExternalLink className="w-3 h-3" />{t.proof}</p>
                 </div>
                 <div className="flex gap-2">

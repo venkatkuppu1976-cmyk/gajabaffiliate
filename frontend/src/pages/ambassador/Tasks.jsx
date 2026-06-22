@@ -23,12 +23,12 @@ export default function Tasks() {
       <div>
         <span className="gajab-sticker-yellow">Tasks Hub</span>
         <h1 className="font-display text-3xl sm:text-4xl font-extrabold mt-2">Earn extra ₹ with tasks.</h1>
-        <p className="text-[#4A4A4A] mt-1">Monthly missions from Gajab HQ. Complete & submit proof.</p>
+        <p className="text-[#5A6378] mt-1">Monthly missions from Gajab HQ. Complete & submit proof.</p>
       </div>
 
       <div className="flex gap-2 overflow-x-auto pb-1">
         {tabs.map(t => (
-          <button key={t} onClick={() => setActive(t)} className={`nav-tab whitespace-nowrap border-2 ${active===t ? "bg-[#1A1A1A] text-white border-black" : "bg-white text-[#1A1A1A] border-[#EAE6E1]"}`} data-testid={`tasks-tab-${t.toLowerCase().replace(/ /g,"-")}`}>
+          <button key={t} onClick={() => setActive(t)} className={`nav-tab whitespace-nowrap border ${active===t ? "bg-[#1B2D54] text-white border-[#1B2D54]" : "bg-white text-[#1B2D54] border-[#EFEAE0]"}`} data-testid={`tasks-tab-${t.toLowerCase().replace(/ /g,"-")}`}>
             {t} <span className="opacity-60">({tasks.filter(x=>x.status===t).length})</span>
           </button>
         ))}
@@ -46,19 +46,19 @@ export default function Tasks() {
             <div className="flex items-start justify-between gap-3 flex-wrap">
               <div className="min-w-0">
                 <div className="flex items-center gap-2 mb-1">
-                  <span className="text-[10px] font-extrabold uppercase tracking-wider text-[#737373]">{t.id}</span>
+                  <span className="text-[10px] font-extrabold uppercase tracking-wider text-[#5A6378]">{t.id}</span>
                   <span className="gajab-sticker-yellow text-[10px]">₹{t.reward}</span>
                 </div>
                 <h4 className="font-display text-lg sm:text-xl font-extrabold">{t.title}</h4>
-                <p className="text-sm text-[#4A4A4A] mt-1">{t.description}</p>
-                <p className="text-xs text-[#737373] mt-2"><Clock className="w-3 h-3 inline mr-1" />Deadline: <b className="text-[#1A1A1A]">{t.deadline}</b></p>
+                <p className="text-sm text-[#5A6378] mt-1">{t.description}</p>
+                <p className="text-xs text-[#5A6378] mt-2"><Clock className="w-3 h-3 inline mr-1" />Deadline: <b className="text-[#1B2D54]">{t.deadline}</b></p>
               </div>
               {active === "Pending" && (
                 <button onClick={() => setOpenId(openId === t.id ? null : t.id)} className="btn-primary" data-testid={`submit-task-${t.id}`}>
                   <Send className="w-4 h-4" /> Submit
                 </button>
               )}
-              {active === "Approved" && <span className="gajab-sticker bg-[#D1FAE5] text-[#065F46] border-2 border-[#065F46]">✓ Approved</span>}
+              {active === "Approved" && <span className="gajab-sticker bg-[#D1FAE5] text-[#065F46] border border-[#065F46]/40">✓ Approved</span>}
             </div>
             {openId === t.id && (
               <div className="mt-4 pt-4 border-t-2 border-dashed border-[#EAE6E1]">
@@ -73,7 +73,7 @@ export default function Tasks() {
               </div>
             )}
             {t.submission && active === "Under Review" && (
-              <div className="mt-3 p-3 rounded-xl bg-[#FEF3C7] border-2 border-[#92400E] text-xs">
+              <div className="mt-3 p-3 rounded-xl bg-[#FEF3C7] border border-[#92400E]/40 text-xs">
                 <b>Your submission:</b> {t.submission}
               </div>
             )}
