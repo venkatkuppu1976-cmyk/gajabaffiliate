@@ -1,0 +1,207 @@
+{
+  "project_info": {
+    "name": "Gajab Ambassador Affiliate Program",
+    "description": "A vibrant, mobile-first ambassador portal and desktop-first admin console for Gajab.com's student affiliate program.",
+    "theme": "light",
+    "archetype": "Archetype 6 (Vibrant Play)",
+    "design_philosophy": "Bold Indian commerce UI with vibrant promo energy, social sharing cues, gamified rewards, and mobile-first card-based discovery. Distinctly 'Gajab'—loud, rewarding, and deeply engaging."
+  },
+  "design_system": {
+    "typography": {
+      "rules": "Never use Inter or generic defaults for headings. Embrace character.",
+      "fonts": {
+        "headings": {
+          "family": "'Bricolage Grotesque', sans-serif",
+          "weights": ["700", "800"],
+          "usage": "H1, H2, H3, large stat numbers, and playful badges."
+        },
+        "body": {
+          "family": "'Manrope', sans-serif",
+          "weights": ["400", "500", "600", "700"],
+          "usage": "Paragraphs, labels, inputs, tabular data."
+        }
+      },
+      "scale": {
+        "h1": "text-4xl sm:text-5xl lg:text-6xl tracking-tight leading-none",
+        "h2": "text-2xl sm:text-3xl lg:text-4xl tracking-tight leading-tight",
+        "h3": "text-xl sm:text-2xl font-bold",
+        "h4": "text-lg sm:text-xl font-bold",
+        "body": "text-base leading-relaxed",
+        "small": "text-sm",
+        "overline": "text-xs font-bold uppercase tracking-[0.2em]"
+      }
+    },
+    "colors": {
+      "global_rules": "No generic tech blue or muted purples. High contrast, warm, energetic.",
+      "tokens": {
+        "primary": {
+          "DEFAULT": "#E11D2A",
+          "foreground": "#FFFFFF",
+          "hover": "#C81A25"
+        },
+        "accent": {
+          "DEFAULT": "#FFC93C",
+          "foreground": "#1A1A1A",
+          "hover": "#E6B536"
+        },
+        "background": {
+          "DEFAULT": "#FDFBF7",
+          "secondary": "#F3EFE9"
+        },
+        "surface": {
+          "DEFAULT": "#FFFFFF",
+          "card": "#FFFFFF"
+        },
+        "text": {
+          "primary": "#1A1A1A",
+          "secondary": "#4A4A4A",
+          "muted": "#737373"
+        },
+        "border": {
+          "DEFAULT": "#EAE6E1",
+          "strong": "#1A1A1A"
+        },
+        "status": {
+          "success": "#10B981",
+          "success_bg": "#D1FAE5",
+          "warning": "#F59E0B",
+          "warning_bg": "#FEF3C7",
+          "error": "#EF4444",
+          "error_bg": "#FEE2E2"
+        }
+      }
+    },
+    "spacing_and_layout": {
+      "strategy": "Generous spacing globally. Tight density only inside data grids.",
+      "mobile_first": true,
+      "grid_patterns": {
+        "bento": "grid-cols-1 md:grid-cols-4 lg:grid-cols-6 gap-4 or gap-6",
+        "stats": "grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4"
+      },
+      "containers": {
+        "padding": "p-4 sm:p-6 lg:p-8",
+        "radius": "rounded-2xl lg:rounded-3xl",
+        "inner_padding": "p-4 sm:p-6"
+      }
+    },
+    "surfaces_and_styles": {
+      "cards": "Solid #FFFFFF background, rounded-2xl, border-2 border-[#EAE6E1], shadow-[0_4px_0_0_rgba(234,230,225,1)] (neo-brutalist inspired tactile pop). Hover: translate-y-[-2px] shadow-[0_6px_0_0_rgba(234,230,225,1)].",
+      "badges": "Sticker style. rounded-full, high contrast bg/text (e.g., Yellow bg, Black text), rotate-[-2deg] or rotate-[2deg] for playful feel.",
+      "headers": "Crystal Glassmorphism over content, or solid white with a strong bottom border.",
+      "buttons": "Primary: Gajab Red bg, white text, font-bold, rounded-xl. Hover: scale 1.02. Active: scale 0.95."
+    },
+    "motion_and_interactions": {
+      "hover": "All interactive elements MUST have a visible hover state (color change + slight transform).",
+      "page_transitions": "Framer Motion: initial opacity-0 y-4, animate opacity-100 y-0, transition duration 0.3s.",
+      "gamification": "Bounce effects on point increments. Confetti or scaled animations when tasks are approved or levels gained."
+    },
+    "icons": {
+      "library": "lucide-react",
+      "style": "Stroke width 2.5 for a bolder, more playful appearance."
+    }
+  },
+  "component_guidelines": {
+    "shadcn_overrides": {
+      "button": "Increase border radius to rounded-xl. Add font-bricolage and font-bold.",
+      "card": "Override default Vercel look. Add thick borders (border-2) and offset shadows for tactile feel.",
+      "input": "Height h-12, rounded-xl, bg-white, border-2 focus-visible:ring-primary focus-visible:border-primary.",
+      "table": "Dense layout for admin. In ambassador view, avoid standard tables; use stacked mobile-friendly card lists instead."
+    },
+    "testing": "All interactive elements MUST include a data-testid attribute in kebab-case (e.g., data-testid='login-submit-button')."
+  },
+  "page_specifications": {
+    "public_apply_page": {
+      "path": "/apply",
+      "layout": "Marketing Landing. Free-flowing, visually loud, story-driven.",
+      "sections": [
+        "Hero: Headline 'Become a Gajab Campus Ambassador', Subtext, CTA 'Apply Now', Abstract vibrant background.",
+        "How it Works: 3-step bento grid with custom sticker icons.",
+        "Perks/Earnings: Gamified visualization of potential earnings (Coins/Cash).",
+        "Testimonials: Grid of student photos with quote cards.",
+        "Application Form: Multi-step wizard (Personal -> College -> Socials), styled playfully."
+      ]
+    },
+    "ambassador_auth": {
+      "path": "/login, /verify, /setup-password",
+      "layout": "Split screen desktop (Left: vibrant brand visual, Right: form). Mobile: Form centered with logo top.",
+      "features": "Phone/Email input, OTP 6-digit mock verification, forced first-time password setup."
+    },
+    "ambassador_dashboard": {
+      "path": "/dashboard, /tasks, /leaderboard, /referrals, /payouts",
+      "layout": "Mobile-first app wrapper. Bottom navigation bar on mobile (Home, Tasks, Leaderboard, Profile). Side nav on desktop.",
+      "key_elements": [
+        "Home: Hero Referral Link card with quick copy. 2x2 grid of key metrics. Sticky 'My Rank' pill at the bottom.",
+        "Tasks: Tabbed view (Pending, Review, Approved). Card-based layout with prominent 'Submit Proof' CTAs.",
+        "Leaderboard: Top 3 Podium visualization (1st, 2nd, 3rd) using 3D coin assets. List below it.",
+        "Referrals: Clean list of assigned promo codes, usage bars, and commission earned per code."
+      ]
+    },
+    "admin_console": {
+      "path": "/admin/*",
+      "layout": "Desktop-first dense dashboard. Persistent left sidebar.",
+      "key_elements": [
+        "Applicants: Data table with slide-out drawer for review. Highlight duplicate flags in red.",
+        "Directory: Powerful search/filter, KPI cards at top.",
+        "Tasks Manager: Split view. Left: Create Task form. Right: Queue of pending verifications with inline Approve/Reject.",
+        "Master Leaderboard: Dense data table.",
+        "Referrals Manager: Detailed tables for codes and utilization. Modals for creating new rules."
+      ]
+    }
+  },
+  "media_and_assets": {
+    "hero_and_abstract": [
+      {
+        "url": "https://images.unsplash.com/photo-1579546929518-9e396f3cc809?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjAzMzV8MHwxfHNlYXJjaHwyfHx2aWJyYW50JTIwYWJzdHJhY3QlMjBncmFkaWVudCUyMGNvbG9yZnVsfGVufDB8fHx8MTc4MjExNTgxMnww&ixlib=rb-4.1.0&q=85",
+        "description": "Vibrant blue and pink gradient illustration",
+        "usage": "Marketing page hero background, login screen visual side."
+      },
+      {
+        "url": "https://images.unsplash.com/photo-1550859492-d5da9d8e45f3?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjAzMzV8MHwxfHNlYXJjaHwzfHx2aWJyYW50JTIwYWJzdHJhY3QlMjBncmFkaWVudCUyMGNvbG9yZnVsfGVufDB8fHx8MTc4MjExNTgxMnww&ixlib=rb-4.1.0&q=85",
+        "description": "Rainbow colored abstract gradient",
+        "usage": "Banners, promotional cards, or level-up celebration backgrounds."
+      }
+    ],
+    "students_and_lifestyle": [
+      {
+        "url": "https://images.pexels.com/photos/7616700/pexels-photo-7616700.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
+        "description": "Group of diverse college students engaged in outdoor group study session",
+        "usage": "Marketing page 'Community' section, hero image overlay."
+      },
+      {
+        "url": "https://images.pexels.com/photos/37071199/pexels-photo-37071199.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
+        "description": "Two students capturing video content using a mobile stabilizer",
+        "usage": "Ambassador tasks showcase, 'Create Content' task visuals."
+      },
+      {
+        "url": "https://images.unsplash.com/photo-1669642455316-59cd3258ea55?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NTYxOTB8MHwxfHNlYXJjaHwyfHxpbmRpYW4lMjBzdHVkZW50JTIwbG9va2luZyUyMGF0JTIwc21hcnRwaG9uZXxlbnwwfHx8fDE3ODIxMTU3OTh8MA&ixlib=rb-4.1.0&q=85",
+        "description": "Indian student with a backpack looking at his phone",
+        "usage": "Testimonials, mobile app mockups."
+      }
+    ],
+    "gamification_elements": [
+      {
+        "url": "https://images.pexels.com/photos/12198525/pexels-photo-12198525.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
+        "description": "3D rendering of golden coins stacked with purple background",
+        "usage": "Leaderboard podiums, rewards section, payout balance headers."
+      },
+      {
+        "url": "https://images.pexels.com/photos/12198523/pexels-photo-12198523.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
+        "description": "3D render of stacked gold coins on blue background",
+        "usage": "Earnings milestones, 'How it Works' coin representation."
+      }
+    ]
+  },
+  "instructions_to_main_agent": [
+    "DO NOT build a generic SaaS dashboard. Inject the 'Indian Bazaar' energy—use stickers, overlapping badges, and vibrant colors.",
+    "Implement pure HTML/Tailwind for the marketing `/apply` page to allow for complete creative freedom (bento grids, asymmetric layouts).",
+    "Use Shadcn UI extensively for the Admin Console, but customize the spacing and borders to match the design system.",
+    "For the Ambassador Dashboard, strictly adopt a mobile-first approach. Use bottom navigation for small screens. Avoid complex data tables on mobile; use stacked cards instead.",
+    "Use Bricolage Grotesque for all headings. Import it via Google Fonts. Do NOT use Inter.",
+    "Ensure the Gajab Red (#E11D2A) is the primary CTA color, while Yellow (#FFC93C) is used for highlights and gamification elements.",
+    "Every interactive element MUST have a `data-testid` attribute (e.g., `data-testid='apply-submit-btn'`).",
+    "Integrate Framer Motion for micro-interactions: slight bounce on button clicks, smooth tab transitions, staggered entry for leaderboard items.",
+    "Replace generic avatars with the provided student imagery where applicable.",
+    "Mock all backend logic. Use state management or context to simulate the application flow, login, and task submission.",
+    "For the leaderboard, build a visually distinct top-3 podium using CSS grids and the provided 3D coin assets."
+  ]
+}
