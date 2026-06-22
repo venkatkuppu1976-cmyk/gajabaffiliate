@@ -13,7 +13,10 @@ const Stat = ({ icon: Icon, label, value, suffix, bg, accent }) => (
 );
 
 export default function Home() {
-  const copy = () => { navigator.clipboard.writeText(ambassador.affiliateLink); toast.success("Link copied!"); };
+  const copy = async () => {
+    try { await navigator.clipboard.writeText(ambassador.affiliateLink); toast.success("Link copied!"); }
+    catch { toast.error("Copy failed — please copy manually"); }
+  };
   return (
     <div className="space-y-5">
       {/* Header */}

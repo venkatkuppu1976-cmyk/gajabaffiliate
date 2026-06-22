@@ -4,7 +4,10 @@ import { toast } from "sonner";
 import { myReferralCodes } from "@/data/mockData";
 
 export default function Referrals() {
-  const copy = (c) => { navigator.clipboard.writeText(c); toast.success(`${c} copied!`); };
+  const copy = async (c) => {
+    try { await navigator.clipboard.writeText(c); toast.success(`${c} copied!`); }
+    catch { toast.error("Copy failed — please copy manually"); }
+  };
   return (
     <div className="space-y-5">
       <div>
