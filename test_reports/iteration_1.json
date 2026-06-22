@@ -1,0 +1,48 @@
+{
+  "summary": "Comprehensive frontend-only smoke test of Gajab Ambassador static demo. Tested / → /apply redirect, multi-step apply form (validation + submit), login → OTP → setup-password → dashboard auth funnel, ambassador dashboard (copy link, KPI cards, 7-day chart, rank card, recent orders), sidebar navigation (Tasks/Leaderboard/Referrals/Payouts/Profile), task submit-proof flow, leaderboard rank highlight, referrals copy-code, payouts list, profile save, admin /admin → /admin/applicants redirect, applicant search + drawer approve/reject, Directory KPI/table, Admin Tasks create + pending approve/reject, Master Leaderboard medal rows, Referral Codes new-code modal flow, Referral Utilization rows, Analytics 3 recharts. ALL flows worked end-to-end. One CRITICAL runtime error surfaced: Copy buttons in dashboard Home & Referrals throw an unhandled NotAllowedError from navigator.clipboard.writeText when the browser denies clipboard write — in dev mode this shows a full-page red-bar 'Uncaught runtime errors' overlay that blocks user interaction.",
+  "backend_issues": {
+    "critical": [],
+    "minor": []
+  },
+  "frontend_issues": {
+    "ui_bugs": [
+      {
+        "component": "AmbassadorHome (copy-link-btn) and Referrals (copy-code-*)",
+        "issue": "navigator.clipboard.writeText() is called fire-and-forget without await/.catch(). When clipboard write is denied by the browser (sandboxed iframe, no user gesture, insecure context) it raises an Uncaught (in promise) NotAllowedError. In React dev mode this surfaces as a full-screen red error overlay that blocks the entire page. The toast still says 'Link copied!' which is misleading because the copy actually failed.",
+        "selector": "[data-testid=\"copy-link-btn\"], [data-testid^=\"copy-code-\"]",
+        "priority": "HIGH"
+      }
+    ],
+    "integration_issues": [],
+    "design_issues": [
+      {
+        "screen": "Admin → Tasks (Create new task form)",
+        "issues": [
+          "Deadline field uses native HTML5 <input type=\"date\"> which renders the browser-default date picker (mm/dd/yyyy US format). Per design guidelines this should use the shadcn calendar component and India-friendly dd/mm/yyyy format. Same applies anywhere a date picker is shown."
+        ]
+      }
+    ]
+  },
+  "test_report_links": [],
+  "action_items": [
+    "Wrap navigator.clipboard.writeText calls in try/catch (or .then/.catch) in /app/frontend/src/pages/ambassador/Home.jsx (line 16) and /app/frontend/src/pages/ambassador/Referrals.jsx (line 7) so a denied clipboard write does not throw an unhandled promise rejection / crash the dev overlay. Suggested fix: `const copy = async () => { try { await navigator.clipboard.writeText(link); toast.success('Link copied!'); } catch { toast.error('Copy failed - please copy manually'); } };`",
+    "(Optional polish) Replace native date input on Admin Tasks Deadline with shadcn Calendar/date-picker, and present dates in dd/mm/yyyy for India."
+  ],
+  "critical_code_review_comments": [
+    "ApplyPage.jsx is ~336 lines and mixes nav, hero, how, perks, testimonials, multi-step form and FAQ in one file. Consider splitting into <ApplyHero/>, <ApplyForm/>, <Faq/> etc. for maintainability.",
+    "Static demo has no auth guard — /dashboard and /admin are reachable without going through login/OTP. Expected per spec ('all routes accessible without auth, since static') but worth noting for future backend integration.",
+    "Copy buttons use unhandled promises — see action item #1.",
+    "ApplyPage `<Pill>` component receives `style` prop (line 134) but the Pill implementation does not forward style — the rotate transform is silently dropped.",
+    "Sonner toast position is top-center; on the apply page some toasts can be obscured by the sticky header marquee at certain scroll positions — consider top-right or higher z-index.",
+    "Tasks page (ambassador) uses single `proof` state shared across all open task cards — opening multiple submission forms simultaneously would share input; minor UX edge case.",
+    "All sidebar testids follow kebab-case as promised, but the spec referenced `admin-nav-master-leaderboard` while the actual code generates `admin-nav-leaderboard` (label is just 'Leaderboard'). Matches code but mismatch vs. review-request testid hint — adjust either side for clarity."
+  ],
+  "updated_files": [],
+  "success_rate": {"backend": "N/A (no backend)", "frontend": "~95% (1 HIGH-severity unhandled clipboard error, 1 minor design nit)"},
+  "test_credentials": "None required — fully static / mocked. Demo OTP: 123456",
+  "seed_data_creation": "None - all data is mock via /app/frontend/src/data/mockData.js",
+  "retest_needed": true,
+  "main_agent_can_self_test": true,
+  "context_for_next_testing_agent": "Apply flow: name/phone/email required at step 1, college/city at step 2. Step 4 textarea has no required validation — submit fires immediately. Demo OTP is 123456 but ANY 6 digits pass (no actual check). After password setup, /dashboard is reached. /admin is publicly reachable; /admin/applicants has 7 rows, search filter works on name/college/city. Recharts renders 3 charts on /admin/analytics and 1 line chart on /dashboard. The clipboard copy bug only surfaces in browsers/contexts that deny clipboard.writeText (Playwright headless without permission grants, sandboxed iframes). To repro: open /dashboard, click Copy without granting clipboard permission, observe red error overlay. After fix, retest both copy buttons (dashboard home + referrals) under same conditions.",
+  "rca of the issue": "Root cause: navigator.clipboard.writeText returns a Promise that rejects (NotAllowedError) when the browser denies write permission (no user-gesture transient activation, insecure context, sandboxed iframe, or permission denied). The code calls it synchronously without await or .catch(), so the rejection bubbles up as an Unhandled Promise Rejection. React's dev-mode error overlay (CRA/react-error-overlay) catches unhandled rejections and renders a full-screen red 'Uncaught runtime errors' panel, effectively breaking the page. Reproduction: 1) Launch headless browser without clipboard permission, 2) Navigate /dashboard, 3) Click [data-testid='copy-link-btn'], 4) Observe NotAllowedError overlay covering content. Mitigation: wrap in try/catch with async/await OR chain .catch(() => toast.error(...)). Also consider a textarea+execCommand('copy') fallback for older/sandboxed environments. Fix is 2 lines per call site (Home.jsx line 16, Referrals.jsx line 7)."
+}
