@@ -3,8 +3,8 @@ import { Send, MessageCircle, Instagram, Copy } from "lucide-react";
 import { toast } from "sonner";
 import { ambassador } from "@/data/mockData";
 
-const PITCH = `Yo! 🔥 Found India's most fun bargain bazaar — *Gajab*.\nKaafi badiya deals, RC cars, gadgets, skincare combos sab kuch.\n\nUse my link for exclusive cashback 👇\n${ambassador.affiliateLink}`;
-const SHORT = `Bargain bazaar with crazy deals 🔥 use my link: ${ambassador.affiliateLink}`;
+const PITCH = `Hey! 🔥 Found India's most fun bargain marketplace — *Gajab*.\nTons of great deals — RC cars, gadgets, skincare combos, everything.\n\nUse my link for exclusive cashback 👇\n${ambassador.affiliateLink}`;
+const SHORT = `Bargain marketplace with crazy deals 🔥 use my link: ${ambassador.affiliateLink}`;
 
 export default function ShareRow({ compact = false }) {
   const copyAndToast = async (text, msg) => {

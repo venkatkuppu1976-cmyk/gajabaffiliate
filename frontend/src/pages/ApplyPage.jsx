@@ -109,12 +109,12 @@ export default function ApplyPage() {
           <div className="lg:col-span-7">
             <Pill className="mb-4">🏆 Campus Ambassador Program • 2026</Pill>
             <h1 className="font-display text-5xl sm:text-6xl lg:text-7xl font-extrabold leading-[0.95] tracking-tight">
-              Tera college.<br />
-              Teri vibe.<br />
-              <span className="text-[#F26B1F]">Tera kamai.</span>
+              Your college.<br />
+              Your vibe.<br />
+              <span className="text-[#F26B1F]">Your earnings.</span>
             </h1>
             <p className="mt-6 text-lg text-[#5A6378] max-w-xl leading-relaxed">
-              Become a <b>Gajab Campus Ambassador</b> — share India's most fun bargain bazaar with your crew and pocket commissions on every order. No fees, no targets, full freedom.
+              Become a <b>Gajab Campus Ambassador</b> — share India&apos;s most fun bargain marketplace with your crew and pocket commissions on every order. No fees, no targets, full freedom.
             </p>
             <div className="mt-8 flex flex-wrap gap-3">
               <a href="#apply" className="btn-primary" data-testid="hero-apply-btn">Apply via Campus <ArrowRight className="w-4 h-4" /></a>
@@ -311,7 +311,7 @@ export default function ApplyPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid md:grid-cols-3 gap-8">
           <div>
             <Logo size="md" showTag={false} variant="light" />
-            <p className="mt-4 text-sm opacity-70">India's most fun bargain bazaar. Now hiring on campus.</p>
+            <p className="mt-4 text-sm opacity-70">India&apos;s most fun bargain marketplace. Now hiring on campus.</p>
           </div>
           <div>
             <p className="font-display font-extrabold mb-3">Ambassador</p>

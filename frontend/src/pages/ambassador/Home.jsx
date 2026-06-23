@@ -21,7 +21,7 @@ export default function Home() {
       <div className="flex items-end justify-between gap-3 flex-wrap">
         <div>
           <span className="gajab-sticker-yellow">Hi {ambassador.name.split(" ")[0]} 👋</span>
-          <h1 className="font-display text-3xl sm:text-4xl font-extrabold mt-2">Aaj kya bechna hai?</h1>
+          <h1 className="font-display text-3xl sm:text-4xl font-extrabold mt-2">What&apos;s selling today?</h1>
           <p className="text-[#5A6378] mt-1">Here's how your hustle's looking this month.</p>
         </div>
       </div>

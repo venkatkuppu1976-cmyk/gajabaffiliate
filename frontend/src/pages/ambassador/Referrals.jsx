@@ -12,7 +12,7 @@ export default function Referrals() {
     <div className="space-y-5">
       <div>
         <span className="gajab-sticker-yellow">Your Codes</span>
-        <h1 className="font-display text-3xl sm:text-4xl font-extrabold mt-2">Promo codes ki dukaan.</h1>
+        <h1 className="font-display text-3xl sm:text-4xl font-extrabold mt-2">Your promo code stash.</h1>
         <p className="text-[#5A6378] mt-1">Discount codes assigned to you. Share & earn commission on every use.</p>
       </div>
 
