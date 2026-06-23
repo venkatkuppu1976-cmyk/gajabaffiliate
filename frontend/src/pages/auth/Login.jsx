@@ -20,20 +20,36 @@ export default function Login() {
     <div className="min-h-screen grid lg:grid-cols-2">
       {/* LEFT visual */}
       <div className="hidden lg:flex relative bg-[#F26B1F] text-white overflow-hidden">
-        <div className="absolute inset-0 opacity-20" style={{ backgroundImage: "radial-gradient(circle at 20% 20%, #FFC93C 0%, transparent 40%), radial-gradient(circle at 80% 70%, #FFC93C 0%, transparent 40%)" }} />
+        {/* Background student photo */}
+        <img
+          src="https://images.unsplash.com/photo-1531545514256-b1400bc00f31?w=1400&q=80&auto=format&fit=crop"
+          alt="Smiling college ambassador"
+          className="absolute inset-0 w-full h-full object-cover opacity-40 mix-blend-luminosity"
+        />
+        {/* Brand color wash */}
+        <div className="absolute inset-0 bg-gradient-to-br from-[#F26B1F]/85 via-[#F26B1F]/70 to-[#1B2D54]/80" />
+        <div className="absolute inset-0 opacity-30" style={{ backgroundImage: "radial-gradient(circle at 20% 20%, #FFC93C 0%, transparent 40%), radial-gradient(circle at 80% 70%, #FFC93C 0%, transparent 40%)" }} />
         <div className="relative p-12 flex flex-col justify-between w-full">
           <Logo size="lg" variant="light" />
           <div>
             <p className="gajab-sticker-yellow inline-block mb-4">🏆 Top earners</p>
             <h2 className="font-display text-5xl font-extrabold leading-none">Welcome back,<br />Gajab champ.</h2>
-            <p className="mt-4 text-white/80 max-w-md">Your dashboard's been waiting. New orders, leaderboard moves, and fresh tasks — all inside.</p>
+            <p className="mt-4 text-white/85 max-w-md">Your dashboard&apos;s been waiting. New orders, leaderboard moves, and fresh tasks — all inside.</p>
             <div className="mt-8 grid grid-cols-3 gap-3 max-w-md">
-              <div className="bg-white/10 border border-white/25 rounded-xl p-3 backdrop-blur"><p className="text-xs opacity-70">This month</p><p className="font-display text-2xl font-extrabold">₹24K</p></div>
-              <div className="bg-white/10 border border-white/25 rounded-xl p-3 backdrop-blur"><p className="text-xs opacity-70">Your rank</p><p className="font-display text-2xl font-extrabold">#7</p></div>
-              <div className="bg-white/10 border border-white/25 rounded-xl p-3 backdrop-blur"><p className="text-xs opacity-70">Orders</p><p className="font-display text-2xl font-extrabold">184</p></div>
+              <div className="bg-white/15 border border-white/25 rounded-xl p-3 backdrop-blur"><p className="text-xs opacity-80">This month</p><p className="font-display text-2xl font-extrabold">₹24K</p></div>
+              <div className="bg-white/15 border border-white/25 rounded-xl p-3 backdrop-blur"><p className="text-xs opacity-80">Your rank</p><p className="font-display text-2xl font-extrabold">#7</p></div>
+              <div className="bg-white/15 border border-white/25 rounded-xl p-3 backdrop-blur"><p className="text-xs opacity-80">Orders</p><p className="font-display text-2xl font-extrabold">184</p></div>
+            </div>
+            {/* Testimonial chip */}
+            <div className="mt-8 inline-flex items-center gap-3 bg-white/15 border border-white/25 rounded-2xl p-3 pr-5 backdrop-blur max-w-md">
+              <img src="https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=120&h=120&fit=crop" className="w-10 h-10 rounded-full object-cover ring-2 ring-white/60" alt="" />
+              <div>
+                <p className="text-sm font-bold">&quot;Made ₹68k last month sharing my link.&quot;</p>
+                <p className="text-[11px] opacity-80">— Aarav M., IIT Bombay · Rank #1</p>
+              </div>
             </div>
           </div>
-          <p className="text-sm opacity-60">© 2026 Gajab Bazaar</p>
+          <p className="text-sm opacity-70">© 2026 Gajab Bazaar</p>
         </div>
       </div>
       {/* RIGHT form */}

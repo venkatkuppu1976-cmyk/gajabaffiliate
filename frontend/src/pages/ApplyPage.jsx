@@ -130,17 +130,40 @@ export default function ApplyPage() {
             </div>
           </div>
           <div className="lg:col-span-5 relative">
-            <div className="gajab-card p-6 bg-white">
-              <Pill className="mb-3" style={{ transform: "rotate(-3deg)" }}>YOUR EARNINGS PREVIEW</Pill>
-              <p className="font-display text-7xl font-extrabold leading-none">₹24,865<span className="text-2xl text-[#F26B1F]">/mo</span></p>
-              <p className="text-sm text-[#5A6378] mt-2">Avg earnings of a Top-10 Gajab Ambassador</p>
-              <div className="grid grid-cols-3 gap-3 mt-5">
-                <div className="rounded-xl border border-[#EFEAE0] p-3 bg-[#FFF6DC]"><p className="text-xs font-extrabold uppercase opacity-70">Clicks</p><p className="font-display text-xl font-extrabold">2,847</p></div>
-                <div className="rounded-xl border border-[#EFEAE0] p-3 bg-[#FFE3E5]"><p className="text-xs font-extrabold uppercase opacity-70">Orders</p><p className="font-display text-xl font-extrabold">184</p></div>
-                <div className="rounded-xl border border-[#EFEAE0] p-3 bg-[#E6F8EF]"><p className="text-xs font-extrabold uppercase opacity-70">Revenue</p><p className="font-display text-xl font-extrabold">2.48L</p></div>
+            {/* Hero student visual */}
+            <div className="relative rounded-3xl overflow-hidden border border-[#EFEAE0] shadow-[0_12px_40px_rgba(27,45,84,0.18)] aspect-[5/6] sm:aspect-[6/7]">
+              <img
+                src="https://images.unsplash.com/photo-1523240795612-9a054b0db644?w=1200&q=80&auto=format&fit=crop"
+                alt="Happy college student ambassadors sharing Gajab deals"
+                className="absolute inset-0 w-full h-full object-cover"
+              />
+              {/* Color tint to match brand */}
+              <div className="absolute inset-0 bg-gradient-to-tr from-[#1B2D54]/40 via-transparent to-[#F26B1F]/25 mix-blend-multiply" />
+              {/* Top live strip */}
+              <div className="absolute left-4 right-4 top-4 rounded-2xl bg-white/95 backdrop-blur p-3 flex items-center gap-3 border border-white/60">
+                <div className="flex -space-x-2">
+                  <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=80&h=80&fit=crop" className="w-8 h-8 rounded-full border border-white object-cover" alt="" />
+                  <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=80&h=80&fit=crop" className="w-8 h-8 rounded-full border border-white object-cover" alt="" />
+                  <img src="https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=80&h=80&fit=crop" className="w-8 h-8 rounded-full border border-white object-cover" alt="" />
+                </div>
+                <div className="min-w-0">
+                  <p className="font-display text-sm leading-tight">Live · 312 ambassadors earning now</p>
+                  <p className="text-[10px] uppercase tracking-wider text-[#5A6378] font-bold">₹18.4L paid this quarter</p>
+                </div>
               </div>
             </div>
-            <div className="absolute -top-3 -left-3 gajab-sticker-orange text-[10px] wiggle">🔥 Live numbers</div>
+            {/* Floating earnings card */}
+            <div className="gajab-card p-4 bg-white absolute -bottom-8 left-4 sm:-left-8 max-w-[280px] w-[88%] sm:w-auto">
+              <Pill className="mb-2" style={{ transform: "rotate(-3deg)" }}>YOUR EARNINGS PREVIEW</Pill>
+              <p className="font-display text-4xl font-extrabold leading-none">₹24,865<span className="text-base text-[#F26B1F]">/mo</span></p>
+              <p className="text-[11px] text-[#5A6378] mt-1">Avg of a Top-10 Gajab Ambassador</p>
+              <div className="grid grid-cols-3 gap-1.5 mt-3">
+                <div className="rounded-lg border border-[#EFEAE0] p-1.5 bg-[#FFF6DC]"><p className="text-[9px] font-extrabold uppercase opacity-70">Clicks</p><p className="font-display text-sm font-extrabold">2,847</p></div>
+                <div className="rounded-lg border border-[#EFEAE0] p-1.5 bg-[#FFE9D9]"><p className="text-[9px] font-extrabold uppercase opacity-70">Orders</p><p className="font-display text-sm font-extrabold">184</p></div>
+                <div className="rounded-lg border border-[#EFEAE0] p-1.5 bg-[#E6F8EF]"><p className="text-[9px] font-extrabold uppercase opacity-70">Revenue</p><p className="font-display text-sm font-extrabold">2.48L</p></div>
+              </div>
+            </div>
+            <div className="absolute -top-3 -right-3 gajab-sticker-orange text-[10px] wiggle">🔥 Live earnings</div>
           </div>
         </div>
       </section>
