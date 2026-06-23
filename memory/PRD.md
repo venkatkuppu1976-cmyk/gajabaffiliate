@@ -1,34 +1,29 @@
 # Gajab Ambassador Affiliate Program — PRD
 
 ## Original Problem Statement
-Design the Student Affiliate / Campus Ambassador program for gajab.com (Indian bargain bazaar) as static pages. Two personas: Gajab Admins + College Students (Ambassadors). Include the "Apply via Campus" registration page. Use gajab.com's color theme and font family (vibrant red + yellow + Bricolage Grotesque display).
+Design Student Affiliate program for gajab.com (Indian bargain bazaar) — static React pages for Gajab Admins + College Student Ambassadors, including Apply via Campus form. Use gajab.com brand colors (orange + navy) and Poppins font.
 
-## User Personas
-- **College Ambassador (Student)**: mobile-first, gamified — tracks earnings, tasks, leaderboard rank, referral codes, payouts.
-- **Gajab Admin**: desktop-first console — reviews applications, manages ambassadors, creates tasks, manages referral codes, monitors analytics.
+## Iterations
+- **Iter 1 (initial MVP)**: 15 screens — Apply, Auth (3-step), Ambassador (6 pages), Admin (7 pages); vibrant Gajab bazaar energy, neo-brutalist look.
+- **Iter 2 (brand refresh)**: Switched to gajab.com palette — Orange #F26B1F primary, Navy #1B2D54 ink, Yellow #FFC93C accent; Poppins font everywhere; shield+grad-cap logo asset; soft 1px borders (removed 2px neo-brutalist); added new pages: Ambassador "My Links" (URL tracking), Ambassador "Performance Log" (order-level commission history), Admin "Affiliate URLs" (cross-ambassador URL roll-up); added dd/mm/yyyy date picker on Admin Tasks.
+- **Iter 3 (visibility fixes)**: Removed forced navy color on h1-h4 (was making text invisible on dark backgrounds); set Logo `variant="light"` on Login left orange panel, SetupPassword left navy panel, ApplyPage navy footer — all logo names + headings now visible on all dark sections.
 
-## Tech Architecture
-- React 19 (CRA + craco) + react-router-dom v7 + Tailwind + recharts + lucide-react + sonner toasts.
-- 100% static demo, no backend. All data in /app/frontend/src/data/mockData.js.
-- Brand tokens (in /app/frontend/src/index.css): Gajab Red #E11D2A, Warm Yellow #FFC93C, cream #FDFBF7, Bricolage Grotesque (display) + Manrope (body), neo-brutalist shadow-stroke styling.
+## Routes (current)
+- Public: `/`, `/apply`
+- Auth: `/login`, `/verify`, `/setup-password`
+- Ambassador: `/dashboard`, `/dashboard/urls`, `/dashboard/performance`, `/dashboard/tasks`, `/dashboard/leaderboard`, `/dashboard/referrals`, `/dashboard/payouts`, `/dashboard/profile`
+- Admin: `/admin/applicants`, `/admin/directory`, `/admin/affiliate-urls`, `/admin/tasks`, `/admin/leaderboard`, `/admin/referral-codes`, `/admin/referral-utilization`, `/admin/analytics`
 
-## What's Implemented (Dec 2026)
-- Public marketing + multi-step Apply via Campus form (4 steps) — /apply
-- Auth flow: Login (phone/email) → OTP → Force password setup — /login, /verify, /setup-password
-- Ambassador portal (mobile-first, bottom nav): Home, Tasks, Leaderboard, Referrals, Payouts, Profile — /dashboard/*
-- Admin console (desktop-first, dark sidebar): Applicants (with slide-out drawer, duplicate flags, approve/reject), Directory, Tasks (creator + verification queue), Master Leaderboard, Referral Codes (create modal), Referral Utilization, Analytics (3 charts) — /admin/*
-- Distinct vibrant Gajab "bazaar energy" design with sticker badges, marquee, neo-brutalist shadows, no AI-slop.
-- Clipboard copy hardened with try/catch (per testing-agent feedback iteration_1).
+## Tech
+- React 19 + CRA/craco + react-router-dom v7 + Tailwind + recharts + lucide-react + sonner.
+- 100% static. All mock data in `/app/frontend/src/data/mockData.js`.
+- Brand tokens in `/app/frontend/src/index.css`.
 
-## Backlog / Future
-- P1: Real FastAPI backend + MongoDB persistence + JWT/OTP integration
-- P1: Auth guards on /dashboard and /admin
-- P1: India-friendly date picker (dd/mm/yyyy) in Admin Task creator
-- P2: Email/WhatsApp delivery integration (SendGrid/Twilio) for credentials + payout receipts
-- P2: Split ApplyPage.jsx into smaller components
-- P2: Razorpay/UPI integration for actual ambassador payouts
-- P3: Public referral landing page (deep-linked via /r/:code)
+## Backlog
+- P1: Live FastAPI + MongoDB backend; real OTP/JWT (Twilio); auth guards on /dashboard + /admin
+- P2: Razorpay/UPI payouts; SendGrid/WhatsApp credential delivery; public `/r/:code` referral landing
+- P3: Real-time leaderboard via WebSockets; level/tier progression engine; fraud detection rules
 
 ## Demo Tips
-- Demo OTP: any 6 digits (123456 by convention)
-- All routes are publicly navigable in this static demo.
+- Demo OTP: any 6 digits (123456)
+- All routes publicly navigable in static demo (no auth guards).

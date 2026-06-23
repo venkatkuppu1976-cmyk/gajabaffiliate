@@ -22,7 +22,7 @@ export default function Login() {
       <div className="hidden lg:flex relative bg-[#F26B1F] text-white overflow-hidden">
         <div className="absolute inset-0 opacity-20" style={{ backgroundImage: "radial-gradient(circle at 20% 20%, #FFC93C 0%, transparent 40%), radial-gradient(circle at 80% 70%, #FFC93C 0%, transparent 40%)" }} />
         <div className="relative p-12 flex flex-col justify-between w-full">
-          <Logo size="lg" />
+          <Logo size="lg" variant="light" />
           <div>
             <p className="gajab-sticker-yellow inline-block mb-4">🏆 Top earners</p>
             <h2 className="font-display text-5xl font-extrabold leading-none">Welcome back,<br />Gajab champ.</h2>

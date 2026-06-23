@@ -310,7 +310,7 @@ export default function ApplyPage() {
       <footer className="bg-[#1B2D54] text-white py-12 mt-12">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid md:grid-cols-3 gap-8">
           <div>
-            <Logo size="md" showTag={false} />
+            <Logo size="md" showTag={false} variant="light" />
             <p className="mt-4 text-sm opacity-70">India's most fun bargain bazaar. Now hiring on campus.</p>
           </div>
           <div>

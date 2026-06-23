@@ -21,7 +21,7 @@ export default function SetupPassword() {
   return (
     <div className="min-h-screen grid lg:grid-cols-2">
       <div className="hidden lg:flex bg-[#1B2D54] text-white p-12 flex-col justify-between">
-        <Logo size="lg" showTag={false} />
+        <Logo size="lg" showTag={false} variant="light" />
         <div>
           <span className="gajab-sticker-yellow">Almost there</span>
           <h2 className="font-display text-5xl font-extrabold leading-none mt-4">Lock it in.</h2>
