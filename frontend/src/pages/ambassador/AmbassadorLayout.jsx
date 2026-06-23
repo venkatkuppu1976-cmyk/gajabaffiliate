@@ -1,6 +1,6 @@
 import React from "react";
 import { NavLink, Outlet, useNavigate } from "react-router-dom";
-import { Home, ListChecks, Trophy, Ticket, Wallet, User, LogOut, Menu, Link2, Activity } from "lucide-react";
+import { Home, ListChecks, Trophy, Ticket, Wallet, User, LogOut, Menu, Link2, Activity, Award } from "lucide-react";
 import Logo from "@/components/Logo";
 import { ambassador } from "@/data/mockData";
 
@@ -8,6 +8,7 @@ const nav = [
   { to: "/dashboard", icon: Home, label: "Home", end: true },
   { to: "/dashboard/urls", icon: Link2, label: "My Links" },
   { to: "/dashboard/performance", icon: Activity, label: "Performance" },
+  { to: "/dashboard/tier", icon: Award, label: "Tier" },
   { to: "/dashboard/tasks", icon: ListChecks, label: "Tasks" },
   { to: "/dashboard/leaderboard", icon: Trophy, label: "Leaderboard" },
   { to: "/dashboard/referrals", icon: Ticket, label: "Referrals" },

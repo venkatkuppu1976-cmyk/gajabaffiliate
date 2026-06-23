@@ -3,6 +3,8 @@ import { Copy, Share2, MousePointerClick, ShoppingBag, PackageCheck, TrendingUp,
 import { toast } from "sonner";
 import { LineChart, Line, XAxis, YAxis, ResponsiveContainer, Tooltip, CartesianGrid } from "recharts";
 import { ambassador, stats, trendData, recentOrders } from "@/data/mockData";
+import ShareRow from "@/components/ShareRow";
+import TierProgress from "@/components/TierProgress";
 
 const Stat = ({ icon: Icon, label, value, suffix, bg, accent }) => (
   <div className={`gajab-card p-4 ${bg}`}>
@@ -13,10 +15,6 @@ const Stat = ({ icon: Icon, label, value, suffix, bg, accent }) => (
 );
 
 export default function Home() {
-  const copy = async () => {
-    try { await navigator.clipboard.writeText(ambassador.affiliateLink); toast.success("Link copied!"); }
-    catch { toast.error("Copy failed — please copy manually"); }
-  };
   return (
     <div className="space-y-5">
       {/* Header */}
@@ -30,17 +28,20 @@ export default function Home() {
 
       {/* Affiliate link card */}
       <div className="gajab-card p-5 sm:p-6 bg-[#1B2D54] text-white">
-        <div className="flex items-center justify-between gap-3 flex-wrap">
-          <div>
+        <div className="flex items-start justify-between gap-3 flex-wrap">
+          <div className="min-w-0 flex-1">
             <p className="text-xs uppercase font-extrabold tracking-wider text-[#FFC93C]">Your magic link</p>
-            <p className="font-display text-xl sm:text-2xl font-extrabold mt-1 break-all">{ambassador.affiliateLink}</p>
-          </div>
-          <div className="flex gap-2">
-            <button onClick={copy} className="btn-accent" data-testid="copy-link-btn"><Copy className="w-4 h-4" /> Copy</button>
-            <button onClick={()=>toast.success("Share menu opened")} className="btn-ghost bg-white" data-testid="share-link-btn"><Share2 className="w-4 h-4" /></button>
+            <p className="font-display text-xl sm:text-2xl font-extrabold mt-1 break-all text-white">{ambassador.affiliateLink}</p>
           </div>
         </div>
+        <div className="mt-4 pt-4 border-t border-white/15">
+          <p className="text-[10px] uppercase font-bold tracking-wider text-white/60 mb-2">Share in one tap</p>
+          <ShareRow />
+        </div>
       </div>
+
+      {/* Tier progress */}
+      <TierProgress compact={true} />
 
       {/* Stats grid */}
       <div className="grid grid-cols-2 lg:grid-cols-5 gap-3 sm:gap-4">
