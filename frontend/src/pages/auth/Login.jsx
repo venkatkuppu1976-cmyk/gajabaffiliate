@@ -22,9 +22,9 @@ export default function Login() {
       <div className="hidden lg:flex relative bg-[#F26B1F] text-white overflow-hidden">
         {/* Background student photo */}
         <img
-          src="https://images.unsplash.com/photo-1531545514256-b1400bc00f31?w=1400&q=80&auto=format&fit=crop"
-          alt="Smiling college ambassador"
-          className="absolute inset-0 w-full h-full object-cover opacity-40 mix-blend-luminosity"
+          src="https://images.pexels.com/photos/15598638/pexels-photo-15598638.jpeg?auto=compress&cs=tinysrgb&w=1400"
+          alt="Indian college students working together"
+          className="absolute inset-0 w-full h-full object-cover opacity-45 mix-blend-luminosity"
         />
         {/* Brand color wash */}
         <div className="absolute inset-0 bg-gradient-to-br from-[#F26B1F]/85 via-[#F26B1F]/70 to-[#1B2D54]/80" />

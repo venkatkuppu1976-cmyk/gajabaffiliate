@@ -133,8 +133,8 @@ export default function ApplyPage() {
             {/* Hero student visual */}
             <div className="relative rounded-3xl overflow-hidden border border-[#EFEAE0] shadow-[0_12px_40px_rgba(27,45,84,0.18)] aspect-[5/6] sm:aspect-[6/7]">
               <img
-                src="https://images.unsplash.com/photo-1523240795612-9a054b0db644?w=1200&q=80&auto=format&fit=crop"
-                alt="Happy college student ambassadors sharing Gajab deals"
+                src="https://images.pexels.com/photos/4622108/pexels-photo-4622108.jpeg?auto=compress&cs=tinysrgb&w=1200"
+                alt="Indian college students collaborating on campus"
                 className="absolute inset-0 w-full h-full object-cover"
               />
               {/* Color tint to match brand */}
