@@ -4,7 +4,6 @@ import { Sparkles, Trophy, IndianRupee, Rocket, Megaphone, Users, CheckCircle2, 
 import { toast } from "sonner";
 import Logo from "@/components/Logo";
 import { colleges } from "@/data/mockData";
-
 const Pill = ({ children, className = "" }) => (
   <span className={`gajab-sticker-yellow ${className}`}>{children}</span>
 );
@@ -59,14 +58,17 @@ export default function ApplyPage() {
   const [step, setStep] = useState(1);
   const [submitted, setSubmitted] = useState(false);
   const [form, setForm] = useState({
-    name: "", phone: "", email: "", city: "", college: "", year: "", gender: "",
-    instagram: "", whatsappCommunity: "", followers: "", whyJoin: "", referredBy: "",
+    email: "", fullName: "", mobile: "", whatsapp: "",
+    college: "", collegeState: "", city: "", year: "",
+    instagram: "", linkedin: "",
+    clubInvolvement: "",
   });
   const upd = (k, v) => setForm(f => ({ ...f, [k]: v }));
 
   const next = () => {
-    if (step === 1 && (!form.name || !form.phone || !form.email)) { toast.error("Please fill name, phone & email"); return; }
-    if (step === 2 && (!form.college || !form.city)) { toast.error("Please fill college & city"); return; }
+    if (step === 1 && (!form.fullName || !form.email || !form.mobile || !form.whatsapp)) { toast.error("Please fill all required fields"); return; }
+    if (step === 2 && (!form.college || !form.collegeState || !form.city || !form.year)) { toast.error("Please fill all required college fields"); return; }
+    if (step === 3 && !form.instagram) { toast.error("Instagram profile link is required"); return; }
     setStep(s => Math.min(4, s + 1));
   };
   const back = () => setStep(s => Math.max(1, s - 1));
@@ -198,10 +200,10 @@ export default function ApplyPage() {
         </div>
         <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
           {[
-            { icon: "👑", title: "Founder LOR", desc: "Earn a personal Letter of Recommendation from Gajab founders. A career game-changer that opens doors to top opportunities.", img: "https://images.pexels.com/photos/4350084/pexels-photo-4350084.jpeg?auto=compress&cs=tinysrgb&w=600" },
-            { icon: "💼", title: "Internship Opportunity", desc: "Top performers earn official internship offers with Gajab. Real industry experience that sets you apart.", img: "https://images.pexels.com/photos/3184325/pexels-photo-3184325.jpeg?auto=compress&cs=tinysrgb&w=600" },
-            { icon: "📄", title: "Experience Certificate", desc: "Earn verified certificates at every milestone. Boost your resume, LinkedIn profile, and career story.", img: "https://images.pexels.com/photos/4498218/pexels-photo-4498218.jpeg?auto=compress&cs=tinysrgb&w=600" },
-            { icon: "📈", title: "Live Leaderboard", desc: "Monthly rewards for top performers. Track your rank in real-time, compete with ambassadors across India, and win every single month.", img: "https://images.pexels.com/photos/669610/pexels-photo-669610.jpeg?auto=compress&cs=tinysrgb&w=600" },
+            { icon: "👑", title: "Founder LOR", desc: "Earn a personal Letter of Recommendation from Gajab founders. A career game-changer that opens doors to top opportunities.", img: "https://gajab.com/img/campus/gajab-founder-lor.webp" },
+            { icon: "💼", title: "Internship Opportunity", desc: "Top performers earn official internship offers with Gajab. Real industry experience that sets you apart.", img: "https://gajab.com/img/campus/gajab-internship-opportunity.webp" },
+            { icon: "📄", title: "Experience Certificate", desc: "Earn verified certificates at every milestone. Boost your resume, LinkedIn profile, and career story.", img: "https://gajab.com/img/campus/gajab-experience-certificate.webp" },
+            { icon: "📈", title: "Live Leaderboard", desc: "Monthly rewards for top performers. Track your rank in real-time, compete with ambassadors across India, and win every single month.", img: "https://gajab.com/img/campus/gajab-live-leaderboard.webp" },
           ].map((c, i) => (
             <div key={i} className="gajab-card overflow-hidden">
               <div className="relative aspect-video">
@@ -228,11 +230,11 @@ export default function ApplyPage() {
         </div>
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3">
           {[
-            { rank: "#1", title: "Smartphone or Laptop", img: "https://images.pexels.com/photos/1334597/pexels-photo-1334597.jpeg?auto=compress&cs=tinysrgb&w=600", featured: true },
-            { rank: "#2", title: "Tablet", img: "https://images.pexels.com/photos/1334602/pexels-photo-1334602.jpeg?auto=compress&cs=tinysrgb&w=600" },
-            { rank: "#3", title: "Smartwatch", img: "https://images.pexels.com/photos/393047/pexels-photo-393047.jpeg?auto=compress&cs=tinysrgb&w=600" },
-            { rank: "#4", title: "Earbuds", img: "https://images.pexels.com/photos/3780681/pexels-photo-3780681.jpeg?auto=compress&cs=tinysrgb&w=600" },
-            { rank: "#5-10", title: "Gajab Welcome Kit", img: "https://images.pexels.com/photos/6373305/pexels-photo-6373305.jpeg?auto=compress&cs=tinysrgb&w=600" },
+            { rank: "#1", title: "Smartphone or Laptop", img: "https://gajab.com/img/campus/gajab-prize-smartphone-laptop.webp", featured: true },
+            { rank: "#2", title: "Tablet", img: "https://gajab.com/img/campus/gajab-prize-tablet.webp" },
+            { rank: "#3", title: "Smartwatch", img: "https://gajab.com/img/campus/gajab-prize-smartwatch.webp" },
+            { rank: "#4", title: "Earbuds", img: "https://gajab.com/img/campus/gajab-prize-earbuds.webp" },
+            { rank: "#5-10", title: "Gajab Welcome Kit", img: "https://gajab.com/img/campus/gajab-welcome-kit.webp" },
           ].map((p, i) => (
             <div key={i} className={`gajab-card overflow-hidden relative ${p.featured ? "ring-2 ring-[#F26B1F]" : ""}`}>
               <div className="relative aspect-square">
@@ -275,16 +277,11 @@ export default function ApplyPage() {
               {step === 1 && (
                 <div className="space-y-4">
                   <h3 className="font-display text-xl font-extrabold">👋 Tell us about you</h3>
+                  <label className="block"><span className="text-xs font-bold uppercase tracking-wider">Full Name <span className="text-[#F26B1F]">*</span></span><input data-testid="apply-fullname" value={form.fullName} onChange={e=>upd("fullName",e.target.value)} placeholder="Your full name" className="input-gajab mt-1" /></label>
+                  <label className="block"><span className="text-xs font-bold uppercase tracking-wider">Email <span className="text-[#F26B1F]">*</span></span><input type="email" data-testid="apply-email" value={form.email} onChange={e=>upd("email",e.target.value)} placeholder="you@college.edu" className="input-gajab mt-1" /></label>
                   <div className="grid sm:grid-cols-2 gap-4">
-                    <label className="block"><span className="text-xs font-bold uppercase tracking-wider">Full name</span><input data-testid="apply-name" value={form.name} onChange={e=>upd("name",e.target.value)} placeholder="Riya Sharma" className="input-gajab mt-1" /></label>
-                    <label className="block"><span className="text-xs font-bold uppercase tracking-wider">Phone</span><input data-testid="apply-phone" value={form.phone} onChange={e=>upd("phone",e.target.value)} placeholder="+91 98765 43210" className="input-gajab mt-1" /></label>
-                  </div>
-                  <label className="block"><span className="text-xs font-bold uppercase tracking-wider">Email</span><input data-testid="apply-email" value={form.email} onChange={e=>upd("email",e.target.value)} placeholder="riya@du.ac.in" className="input-gajab mt-1" /></label>
-                  <div className="grid sm:grid-cols-2 gap-4">
-                    <label className="block"><span className="text-xs font-bold uppercase tracking-wider">Gender</span>
-                      <select data-testid="apply-gender" value={form.gender} onChange={e=>upd("gender",e.target.value)} className="input-gajab mt-1"><option value="">Select</option><option>Female</option><option>Male</option><option>Other</option><option>Prefer not to say</option></select>
-                    </label>
-                    <label className="block"><span className="text-xs font-bold uppercase tracking-wider">City</span><input data-testid="apply-city" value={form.city} onChange={e=>upd("city",e.target.value)} placeholder="Delhi" className="input-gajab mt-1" /></label>
+                    <label className="block"><span className="text-xs font-bold uppercase tracking-wider">Mobile Number <span className="text-[#F26B1F]">*</span></span><input data-testid="apply-mobile" value={form.mobile} onChange={e=>upd("mobile",e.target.value)} placeholder="+91 98765 43210" className="input-gajab mt-1" /></label>
+                    <label className="block"><span className="text-xs font-bold uppercase tracking-wider flex items-center gap-1"><MessageCircle className="w-3.5 h-3.5" /> WhatsApp Number <span className="text-[#F26B1F]">*</span></span><input data-testid="apply-whatsapp" value={form.whatsapp} onChange={e=>upd("whatsapp",e.target.value)} placeholder="+91 98765 43210" className="input-gajab mt-1" /></label>
                   </div>
                 </div>
               )}
@@ -292,52 +289,70 @@ export default function ApplyPage() {
               {step === 2 && (
                 <div className="space-y-4">
                   <h3 className="font-display text-xl font-extrabold">🎓 Your college</h3>
-                  <label className="block"><span className="text-xs font-bold uppercase tracking-wider">College</span>
-                    <select data-testid="apply-college" value={form.college} onChange={e=>upd("college",e.target.value)} className="input-gajab mt-1">
-                      <option value="">Select your college</option>
-                      {colleges.map(c => <option key={c}>{c}</option>)}
-                      <option>Other</option>
-                    </select>
-                  </label>
+                  <label className="block"><span className="text-xs font-bold uppercase tracking-wider">College / University Name <span className="text-[#F26B1F]">*</span></span><input data-testid="apply-college" value={form.college} onChange={e=>upd("college",e.target.value)} placeholder="e.g. Delhi University" className="input-gajab mt-1" /></label>
+                  <div className="block">
+                    <span className="text-xs font-bold uppercase tracking-wider">Where is your college located? <span className="text-[#F26B1F]">*</span></span>
+                    <div className="mt-2 grid grid-cols-3 gap-2" data-testid="apply-college-state">
+                      {["Maharashtra", "Gujarat", "Other"].map(s => (
+                        <button key={s} type="button" onClick={()=>upd("collegeState", s)} className={`p-3 rounded-xl border text-sm font-bold transition-all ${form.collegeState===s ? "border-[#F26B1F] bg-[#FFE9D9] text-[#C9450C]" : "border-[#EFEAE0] bg-white text-[#5A6378] hover:border-[#F26B1F]/40"}`}>
+                          <span className={`inline-block w-3.5 h-3.5 rounded-full border-2 mr-1.5 align-middle ${form.collegeState===s ? "border-[#F26B1F] bg-[#F26B1F]" : "border-[#D1D5DB]"}`} />{s}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
                   <div className="grid sm:grid-cols-2 gap-4">
-                    <label className="block"><span className="text-xs font-bold uppercase tracking-wider">Year of study</span>
-                      <select data-testid="apply-year" value={form.year} onChange={e=>upd("year",e.target.value)} className="input-gajab mt-1"><option value="">Select</option><option>1st year</option><option>2nd year</option><option>3rd year</option><option>4th year</option><option>Masters</option></select>
+                    <label className="block"><span className="text-xs font-bold uppercase tracking-wider">City <span className="text-[#F26B1F]">*</span></span><input data-testid="apply-city" value={form.city} onChange={e=>upd("city",e.target.value)} placeholder="e.g. Mumbai" className="input-gajab mt-1" /></label>
+                    <label className="block"><span className="text-xs font-bold uppercase tracking-wider">Current Year of Study <span className="text-[#F26B1F]">*</span></span>
+                      <select data-testid="apply-year" value={form.year} onChange={e=>upd("year",e.target.value)} className="input-gajab mt-1"><option value="">Select</option><option>1st Year</option><option>2nd Year</option><option>3rd Year</option><option>Final Year</option><option>Post Graduate</option><option>Other</option></select>
                     </label>
-                    <label className="block"><span className="text-xs font-bold uppercase tracking-wider">Referred by (optional)</span><input data-testid="apply-referred" value={form.referredBy} onChange={e=>upd("referredBy",e.target.value)} placeholder="Ambassador code" className="input-gajab mt-1" /></label>
                   </div>
                 </div>
               )}
 
               {step === 3 && (
                 <div className="space-y-4">
-                  <h3 className="font-display text-xl font-extrabold">📣 Your reach</h3>
+                  <h3 className="font-display text-xl font-extrabold">📣 Your online presence</h3>
                   <label className="block">
-                    <span className="text-xs font-bold uppercase tracking-wider flex items-center gap-2"><Instagram className="w-4 h-4" /> Instagram handle</span>
-                    <input data-testid="apply-instagram" value={form.instagram} onChange={e=>upd("instagram",e.target.value)} placeholder="@riyaa" className="input-gajab mt-1" />
+                    <span className="text-xs font-bold uppercase tracking-wider flex items-center gap-2"><Instagram className="w-4 h-4" /> Instagram Profile Link <span className="text-[#F26B1F]">*</span></span>
+                    <input data-testid="apply-instagram" value={form.instagram} onChange={e=>upd("instagram",e.target.value)} placeholder="https://instagram.com/yourhandle" className="input-gajab mt-1" />
                   </label>
-                  <div className="grid sm:grid-cols-2 gap-4">
-                    <label className="block"><span className="text-xs font-bold uppercase tracking-wider">Followers (approx)</span>
-                      <select data-testid="apply-followers" value={form.followers} onChange={e=>upd("followers",e.target.value)} className="input-gajab mt-1"><option value="">Select</option><option>&lt; 500</option><option>500 - 2K</option><option>2K - 10K</option><option>10K - 50K</option><option>50K+</option></select>
-                    </label>
-                    <label className="block"><span className="text-xs font-bold uppercase tracking-wider flex items-center gap-2"><MessageCircle className="w-4 h-4" /> WhatsApp community size</span><input data-testid="apply-whatsapp" value={form.whatsappCommunity} onChange={e=>upd("whatsappCommunity",e.target.value)} placeholder="e.g. 250" className="input-gajab mt-1" /></label>
-                  </div>
+                  <label className="block">
+                    <span className="text-xs font-bold uppercase tracking-wider">LinkedIn Profile Link <span className="text-[#5A6378]">(optional)</span></span>
+                    <input data-testid="apply-linkedin" value={form.linkedin} onChange={e=>upd("linkedin",e.target.value)} placeholder="https://linkedin.com/in/yourhandle" className="input-gajab mt-1" />
+                  </label>
                 </div>
               )}
 
               {step === 4 && (
                 <div className="space-y-4">
-                  <h3 className="font-display text-xl font-extrabold">✨ Last thing</h3>
-                  <label className="block">
-                    <span className="text-xs font-bold uppercase tracking-wider">Why should we pick you?</span>
-                    <textarea data-testid="apply-why" value={form.whyJoin} onChange={e=>upd("whyJoin",e.target.value)} rows={5} placeholder="Tell us what makes you the perfect Gajab ambassador for your campus..." className="input-gajab mt-1 py-3 h-auto resize-none" />
-                  </label>
-                  <div className="rounded-xl bg-[#FFF6DC] border border-[#EFEAE0] p-4 text-sm">
-                    <p className="font-bold">🎁 What you'll get if approved:</p>
+                  <h3 className="font-display text-xl font-extrabold">✨ Your campus involvement</h3>
+                  <div className="block">
+                    <span className="text-xs font-bold uppercase tracking-wider">Are you part of any college club, committee, or student body?</span>
+                    <div className="mt-2 space-y-2" data-testid="apply-club">
+                      {[
+                        "Yes — I hold a leadership position",
+                        "Yes — I'm an active member",
+                        "No, but I attend events regularly",
+                        "No",
+                      ].map(opt => (
+                        <button key={opt} type="button" onClick={()=>upd("clubInvolvement", opt)} className={`w-full text-left p-3 rounded-xl border text-sm font-bold flex items-center gap-2.5 transition-all ${form.clubInvolvement===opt ? "border-[#F26B1F] bg-[#FFE9D9] text-[#C9450C]" : "border-[#EFEAE0] bg-white text-[#5A6378] hover:border-[#F26B1F]/40"}`}>
+                          <span className={`inline-block w-4 h-4 rounded-full border-2 ${form.clubInvolvement===opt ? "border-[#F26B1F] bg-[#F26B1F] ring-2 ring-[#F26B1F]/20" : "border-[#D1D5DB]"}`} />
+                          {opt}
+                        </button>
+                      ))}
+                    </div>
+                    {form.clubInvolvement && (
+                      <button type="button" onClick={()=>upd("clubInvolvement", "")} className="text-xs font-bold text-[#5A6378] underline mt-2">Clear selection</button>
+                    )}
+                  </div>
+                  <div className="rounded-xl bg-[#FFE9D9] border border-[#F26B1F]/30 p-4 text-sm">
+                    <p className="font-bold text-[#C9450C]">🎁 What you&apos;ll get if approved:</p>
                     <ul className="mt-2 space-y-1 list-disc list-inside text-[#5A6378]">
-                      <li>Unique referral link + promo codes</li>
-                      <li>Up to 15% commission on every order</li>
+                      <li>Unique affiliate link + promo codes</li>
+                      <li>Up to 7.5% commission on every order</li>
                       <li>Welcome swag box delivered to campus</li>
                       <li>Access to private Gajab Ambassador community</li>
+                      <li>Quarterly mega prizes + yearly international trip</li>
                     </ul>
                   </div>
                 </div>
