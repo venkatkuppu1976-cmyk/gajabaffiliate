@@ -43,6 +43,13 @@ export default function Home() {
       {/* Tier progress */}
       <TierProgress compact={true} />
 
+      {/* Quick filters */}
+      <div className="flex items-center gap-2 flex-wrap">
+        <span className="text-xs font-bold uppercase tracking-wider text-[#5A6378]">Quick view:</span>
+        <span className="gajab-sticker bg-[#E6F8EF] text-[#065F46] border border-[#10B981]/40">🆕 12 new users onboarded · 7d</span>
+        <span className="gajab-sticker bg-[#FFE9D9] text-[#C9450C] border border-[#F26B1F]/40">📦 18 orders · today</span>
+      </div>
+
       {/* Stats grid */}
       <div className="grid grid-cols-2 lg:grid-cols-5 gap-3 sm:gap-4">
         <Stat icon={MousePointerClick} label="Clicks" value={stats.totalClicks.toLocaleString()} bg="bg-white" />

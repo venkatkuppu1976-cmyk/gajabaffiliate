@@ -12,22 +12,26 @@ import AmbassadorLayout from "@/pages/ambassador/AmbassadorLayout";
 import AmbHome from "@/pages/ambassador/Home";
 import AmbTasks from "@/pages/ambassador/Tasks";
 import AmbLeaderboard from "@/pages/ambassador/Leaderboard";
-import AmbReferrals from "@/pages/ambassador/Referrals";
 import AmbPayouts from "@/pages/ambassador/Payouts";
 import AmbProfile from "@/pages/ambassador/Profile";
 import AmbAffiliateUrls from "@/pages/ambassador/AffiliateUrls";
 import AmbPerformance from "@/pages/ambassador/Performance";
 import AmbTier from "@/pages/ambassador/Tier";
+import AmbInbox from "@/pages/ambassador/Inbox";
+import AmbAnnouncements from "@/pages/ambassador/Announcements";
+import AmbSupport from "@/pages/ambassador/Support";
+import AmbAccountSettings from "@/pages/ambassador/AccountSettings";
 
 import AdminLayout from "@/pages/admin/AdminLayout";
 import AdminApplicants from "@/pages/admin/Applicants";
 import AdminDirectory from "@/pages/admin/Directory";
 import AdminTasks from "@/pages/admin/Tasks";
 import AdminLeaderboard from "@/pages/admin/MasterLeaderboard";
-import AdminReferralCodes from "@/pages/admin/ReferralCodes";
 import AdminReferralUtilization from "@/pages/admin/ReferralUtilization";
 import AdminAnalytics from "@/pages/admin/Analytics";
 import AdminAffiliateUrls from "@/pages/admin/AffiliateUrls";
+import AdminAnnouncements from "@/pages/admin/Announcements";
+import AdminSupport from "@/pages/admin/Support";
 
 function App() {
   return (
@@ -49,9 +53,12 @@ function App() {
             <Route path="tier" element={<AmbTier />} />
             <Route path="tasks" element={<AmbTasks />} />
             <Route path="leaderboard" element={<AmbLeaderboard />} />
-            <Route path="referrals" element={<AmbReferrals />} />
             <Route path="payouts" element={<AmbPayouts />} />
+            <Route path="inbox" element={<AmbInbox />} />
+            <Route path="announcements" element={<AmbAnnouncements />} />
             <Route path="profile" element={<AmbProfile />} />
+            <Route path="support" element={<AmbSupport />} />
+            <Route path="settings" element={<AmbAccountSettings />} />
           </Route>
 
           <Route path="/admin" element={<AdminLayout />}>
@@ -61,9 +68,10 @@ function App() {
             <Route path="affiliate-urls" element={<AdminAffiliateUrls />} />
             <Route path="tasks" element={<AdminTasks />} />
             <Route path="leaderboard" element={<AdminLeaderboard />} />
-            <Route path="referral-codes" element={<AdminReferralCodes />} />
-            <Route path="referral-utilization" element={<AdminReferralUtilization />} />
+            <Route path="utilization" element={<AdminReferralUtilization />} />
             <Route path="analytics" element={<AdminAnalytics />} />
+            <Route path="announcements" element={<AdminAnnouncements />} />
+            <Route path="support" element={<AdminSupport />} />
           </Route>
         </Routes>
       </BrowserRouter>

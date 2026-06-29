@@ -168,42 +168,82 @@ export default function ApplyPage() {
         </div>
       </section>
 
-      {/* HOW */}
-      <section id="how" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-        <div className="flex items-end justify-between flex-wrap gap-4 mb-8">
-          <div>
-            <Pill>How it works</Pill>
-            <h2 className="font-display text-4xl sm:text-5xl font-extrabold mt-3">3 steps to your first ₹.</h2>
+      {/* PERKS HIGHLIGHTS — 3 hero stat cards */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+        <div className="grid md:grid-cols-3 gap-4">
+          <div className="gajab-card p-8 text-center">
+            <p className="text-4xl mb-2">✈️</p>
+            <p className="font-display text-3xl text-[#F26B1F]">International</p>
+            <p className="text-sm text-[#5A6378] mt-1">Trip Experience</p>
           </div>
-          <p className="text-[#5A6378] max-w-sm">No interview drama. No paperwork. Just apply, get approved, and start sharing.</p>
-        </div>
-        <div className="grid md:grid-cols-3 gap-5">
-          <Step num="1" title="Apply via Campus" desc="Fill the 2-min form with your college details and socials. We'll review in 48 hrs." accent="bg-[#FFC93C]" />
-          <Step num="2" title="Get your link" desc="Approved? You'll get a unique referral link + promo codes via WhatsApp & email." accent="bg-[#FFE3E5]" />
-          <Step num="3" title="Share & earn" desc="Drop your link in hostel groups, college WhatsApp, Insta stories. Earn on every order." accent="bg-[#E6F8EF]" />
-        </div>
-      </section>
-
-      {/* PERKS */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-        <Pill>What you get</Pill>
-        <h2 className="font-display text-4xl sm:text-5xl font-extrabold mt-3 mb-8">Perks that hit different.</h2>
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-          <Perk icon={IndianRupee} title="Commission" value="Up to 15%" bg="bg-[#FFF6DC]" />
-          <Perk icon={Trophy} title="Monthly bonus" value="₹2K-10K" bg="bg-[#FFE3E5]" />
-          <Perk icon={Rocket} title="Goodies" value="Swag box" bg="bg-[#E6F8EF]" />
-          <Perk icon={Users} title="Community" value="312+ peers" bg="bg-[#E8E4FB]" />
+          <div className="gajab-card p-8 text-center">
+            <p className="text-4xl mb-2">🏆</p>
+            <p className="font-display text-3xl text-[#F26B1F]">Mega Rewards</p>
+            <p className="text-sm text-[#5A6378] mt-1">Quarterly & Yearly</p>
+          </div>
+          <div className="gajab-card p-8 text-center">
+            <p className="text-4xl mb-2">📊</p>
+            <p className="font-display text-3xl text-[#F26B1F]">7.5%</p>
+            <p className="text-sm text-[#5A6378] mt-1">Commission Per Order</p>
+          </div>
         </div>
       </section>
 
-      {/* TESTIMONIALS */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-        <Pill>Real ambassadors. Real ₹.</Pill>
-        <h2 className="font-display text-4xl sm:text-5xl font-extrabold mt-3 mb-8">Don't take our word for it.</h2>
-        <div className="grid md:grid-cols-3 gap-5">
-          <Testimonial name="Aarav Mehta" college="IIT Bombay" quote="Made ₹68k last month just by sharing my link on hostel groups. Gajab is unreal." img="https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=120&h=120&fit=crop" />
-          <Testimonial name="Sneha Iyer" college="VIT Vellore" quote="The leaderboard is addictive. Crossed ₹50k earning rank-2 nationally this sem." img="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=120&h=120&fit=crop" />
-          <Testimonial name="Karan Singh" college="DTU Delhi" quote="Payouts are super fast. Got my first ₹3k within a week of joining." img="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=120&h=120&fit=crop" />
+      {/* LEAD EARN GET RECOGNIZED */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14">
+        <div className="text-center max-w-3xl mx-auto mb-10">
+          <span className="gajab-sticker-orange">🎖️ Your Career Story Starts Here</span>
+          <h2 className="font-display text-4xl sm:text-5xl font-extrabold mt-4">Lead. Earn. Get Recognized.</h2>
+          <p className="text-[#5A6378] mt-3">Build a resume that gets you hired anywhere — certifications, founder LOR, and real industry experience, including regular visits to Gajab&apos;s offices.</p>
+        </div>
+        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          {[
+            { icon: "👑", title: "Founder LOR", desc: "Earn a personal Letter of Recommendation from Gajab founders. A career game-changer that opens doors to top opportunities.", img: "https://images.pexels.com/photos/4350084/pexels-photo-4350084.jpeg?auto=compress&cs=tinysrgb&w=600" },
+            { icon: "💼", title: "Internship Opportunity", desc: "Top performers earn official internship offers with Gajab. Real industry experience that sets you apart.", img: "https://images.pexels.com/photos/3184325/pexels-photo-3184325.jpeg?auto=compress&cs=tinysrgb&w=600" },
+            { icon: "📄", title: "Experience Certificate", desc: "Earn verified certificates at every milestone. Boost your resume, LinkedIn profile, and career story.", img: "https://images.pexels.com/photos/4498218/pexels-photo-4498218.jpeg?auto=compress&cs=tinysrgb&w=600" },
+            { icon: "📈", title: "Live Leaderboard", desc: "Monthly rewards for top performers. Track your rank in real-time, compete with ambassadors across India, and win every single month.", img: "https://images.pexels.com/photos/669610/pexels-photo-669610.jpeg?auto=compress&cs=tinysrgb&w=600" },
+          ].map((c, i) => (
+            <div key={i} className="gajab-card overflow-hidden">
+              <div className="relative aspect-video">
+                <img src={c.img} alt={c.title} className="absolute inset-0 w-full h-full object-cover" />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#F26B1F]/80 via-[#F26B1F]/40 to-transparent" />
+                <span className="absolute top-3 left-3 gajab-sticker bg-white/95 text-[#1B2D54] text-[10px]">🔒 Only On Completion</span>
+                <div className="absolute bottom-3 left-3 w-10 h-10 bg-white rounded-xl grid place-items-center text-xl shadow">{c.icon}</div>
+              </div>
+              <div className="p-5">
+                <h4 className="font-display text-lg">{c.title}</h4>
+                <p className="text-sm text-[#5A6378] mt-1.5 leading-relaxed">{c.desc}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* WIN BIG EVERY QUARTER */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14">
+        <div className="text-center max-w-3xl mx-auto mb-10">
+          <span className="gajab-sticker-orange">🏆 Quarterly Prizes</span>
+          <h2 className="font-display text-4xl sm:text-5xl font-extrabold mt-4">Win Big. Every Quarter.</h2>
+          <p className="text-[#5A6378] mt-3">The top 10 leaders win epic prizes every 3 months.</p>
+        </div>
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3">
+          {[
+            { rank: "#1", title: "Smartphone or Laptop", img: "https://images.pexels.com/photos/1334597/pexels-photo-1334597.jpeg?auto=compress&cs=tinysrgb&w=600", featured: true },
+            { rank: "#2", title: "Tablet", img: "https://images.pexels.com/photos/1334602/pexels-photo-1334602.jpeg?auto=compress&cs=tinysrgb&w=600" },
+            { rank: "#3", title: "Smartwatch", img: "https://images.pexels.com/photos/393047/pexels-photo-393047.jpeg?auto=compress&cs=tinysrgb&w=600" },
+            { rank: "#4", title: "Earbuds", img: "https://images.pexels.com/photos/3780681/pexels-photo-3780681.jpeg?auto=compress&cs=tinysrgb&w=600" },
+            { rank: "#5-10", title: "Gajab Welcome Kit", img: "https://images.pexels.com/photos/6373305/pexels-photo-6373305.jpeg?auto=compress&cs=tinysrgb&w=600" },
+          ].map((p, i) => (
+            <div key={i} className={`gajab-card overflow-hidden relative ${p.featured ? "ring-2 ring-[#F26B1F]" : ""}`}>
+              <div className="relative aspect-square">
+                <img src={p.img} alt={p.title} className="absolute inset-0 w-full h-full object-cover" />
+                <span className={`absolute top-3 left-3 gajab-sticker text-[10px] ${p.featured ? "bg-[#F26B1F] text-white" : "bg-[#1B2D54] text-white"}`}>{p.rank}</span>
+              </div>
+              <div className="p-3 text-center">
+                <p className="font-display text-sm leading-tight">{p.title}</p>
+              </div>
+            </div>
+          ))}
         </div>
       </section>
 

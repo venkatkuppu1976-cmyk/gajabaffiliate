@@ -1,32 +1,24 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { ArrowRight, Phone, Mail } from "lucide-react";
+import { ArrowRight, Phone } from "lucide-react";
 import { toast } from "sonner";
 import Logo from "@/components/Logo";
 
 export default function Login() {
   const nav = useNavigate();
-  const [mode, setMode] = useState("phone");
   const [val, setVal] = useState("");
 
   const submit = (e) => {
     e.preventDefault();
-    if (!val) { toast.error("Enter your phone or email"); return; }
-    toast.success("OTP sent! (demo: use 123456)");
+    if (!val) { toast.error("Enter your phone number"); return; }
+    toast.success("OTP sent to your phone (demo: 123456)");
     nav("/verify");
   };
 
   return (
     <div className="min-h-screen grid lg:grid-cols-2">
-      {/* LEFT visual */}
       <div className="hidden lg:flex relative bg-[#F26B1F] text-white overflow-hidden">
-        {/* Background student photo */}
-        <img
-          src="https://images.pexels.com/photos/15598638/pexels-photo-15598638.jpeg?auto=compress&cs=tinysrgb&w=1400"
-          alt="Indian college students working together"
-          className="absolute inset-0 w-full h-full object-cover opacity-45 mix-blend-luminosity"
-        />
-        {/* Brand color wash */}
+        <img src="https://images.pexels.com/photos/15598638/pexels-photo-15598638.jpeg?auto=compress&cs=tinysrgb&w=1400" alt="Indian college students working together" className="absolute inset-0 w-full h-full object-cover opacity-45 mix-blend-luminosity" />
         <div className="absolute inset-0 bg-gradient-to-br from-[#F26B1F]/85 via-[#F26B1F]/70 to-[#1B2D54]/80" />
         <div className="absolute inset-0 opacity-30" style={{ backgroundImage: "radial-gradient(circle at 20% 20%, #FFC93C 0%, transparent 40%), radial-gradient(circle at 80% 70%, #FFC93C 0%, transparent 40%)" }} />
         <div className="relative p-12 flex flex-col justify-between w-full">
@@ -40,37 +32,28 @@ export default function Login() {
               <div className="bg-white/15 border border-white/25 rounded-xl p-3 backdrop-blur"><p className="text-xs opacity-80">Your rank</p><p className="font-display text-2xl font-extrabold">#7</p></div>
               <div className="bg-white/15 border border-white/25 rounded-xl p-3 backdrop-blur"><p className="text-xs opacity-80">Orders</p><p className="font-display text-2xl font-extrabold">184</p></div>
             </div>
-            {/* Testimonial chip */}
             <div className="mt-8 inline-flex items-center gap-3 bg-white/15 border border-white/25 rounded-2xl p-3 pr-5 backdrop-blur max-w-md">
               <img src="https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=120&h=120&fit=crop" className="w-10 h-10 rounded-full object-cover ring-2 ring-white/60" alt="" />
-              <div>
-                <p className="text-sm font-bold">&quot;Made ₹68k last month sharing my link.&quot;</p>
-                <p className="text-[11px] opacity-80">— Aarav M., IIT Bombay · Rank #1</p>
-              </div>
+              <div><p className="text-sm font-bold">&quot;Made ₹68k last month sharing my link.&quot;</p><p className="text-[11px] opacity-80">— Aarav M., IIT Bombay · Rank #1</p></div>
             </div>
           </div>
           <p className="text-sm opacity-70">© 2026 Gajab Bazaar</p>
         </div>
       </div>
-      {/* RIGHT form */}
       <div className="flex items-center justify-center p-6 sm:p-12 bg-[#FFF7EE]">
         <div className="w-full max-w-md">
           <div className="lg:hidden mb-8"><Logo size="md" /></div>
           <span className="gajab-sticker-yellow">Ambassador Login</span>
           <h1 className="font-display text-4xl sm:text-5xl font-extrabold mt-4">Login to your<br />Gajab profile.</h1>
-          <p className="text-[#5A6378] mt-3">Enter your phone or email — we'll send you a one-time code.</p>
+          <p className="text-[#5A6378] mt-3">Enter your phone number — we&apos;ll send you a one-time code.</p>
 
-          <div className="mt-8 flex gap-2 p-1 bg-white border border-[#EFEAE0] rounded-xl w-fit">
-            <button onClick={() => setMode("phone")} className={`px-4 py-2 rounded-lg font-bold text-sm ${mode==="phone" ? "bg-[#1B2D54] text-white" : ""}`} data-testid="login-mode-phone"><Phone className="w-4 h-4 inline mr-1" />Phone</button>
-            <button onClick={() => setMode("email")} className={`px-4 py-2 rounded-lg font-bold text-sm ${mode==="email" ? "bg-[#1B2D54] text-white" : ""}`} data-testid="login-mode-email"><Mail className="w-4 h-4 inline mr-1" />Email</button>
-          </div>
-
-          <form onSubmit={submit} className="mt-6 space-y-4">
+          <form onSubmit={submit} className="mt-8 space-y-4">
             <label className="block">
-              <span className="text-xs font-bold uppercase tracking-wider">{mode === "phone" ? "Phone number" : "Email address"}</span>
-              <input data-testid="login-input" value={val} onChange={e=>setVal(e.target.value)} type={mode === "phone" ? "tel" : "email"} placeholder={mode === "phone" ? "+91 98765 43210" : "you@college.edu"} className="input-gajab mt-1" />
+              <span className="text-xs font-bold uppercase tracking-wider text-[#5A6378] flex items-center gap-1.5"><Phone className="w-3.5 h-3.5" /> Phone number</span>
+              <input data-testid="login-input" value={val} onChange={e=>setVal(e.target.value)} type="tel" placeholder="+91 98765 43210" className="input-gajab mt-1" />
             </label>
             <button type="submit" className="btn-primary w-full" data-testid="login-submit-btn">Send OTP <ArrowRight className="w-4 h-4" /></button>
+            <p className="text-[11px] text-[#5A6378] text-center">By continuing you agree to Gajab&apos;s Terms & Privacy Policy.</p>
           </form>
 
           <p className="mt-6 text-sm text-[#5A6378]">Not an ambassador yet? <Link to="/apply" className="font-bold text-[#F26B1F] underline" data-testid="login-apply-link">Apply via Campus →</Link></p>

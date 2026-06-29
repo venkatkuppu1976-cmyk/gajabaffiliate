@@ -1,6 +1,6 @@
 import React from "react";
 import { NavLink, Outlet, useNavigate } from "react-router-dom";
-import { UserCheck, Users, ListChecks, Trophy, Ticket, BarChart3, Activity, LogOut, Link2 } from "lucide-react";
+import { UserCheck, Users, ListChecks, Trophy, BarChart3, Activity, LogOut, Link2, Megaphone, HeadphonesIcon } from "lucide-react";
 import Logo from "@/components/Logo";
 
 const nav = [
@@ -9,8 +9,9 @@ const nav = [
   { to: "/admin/affiliate-urls", icon: Link2, label: "Affiliate URLs" },
   { to: "/admin/tasks", icon: ListChecks, label: "Tasks" },
   { to: "/admin/leaderboard", icon: Trophy, label: "Leaderboard" },
-  { to: "/admin/referral-codes", icon: Ticket, label: "Referral Codes" },
-  { to: "/admin/referral-utilization", icon: Activity, label: "Utilization" },
+  { to: "/admin/utilization", icon: Activity, label: "Utilization" },
+  { to: "/admin/announcements", icon: Megaphone, label: "Announcements" },
+  { to: "/admin/support", icon: HeadphonesIcon, label: "Support" },
   { to: "/admin/analytics", icon: BarChart3, label: "Analytics" },
 ];
 
