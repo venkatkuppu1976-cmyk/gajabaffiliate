@@ -59,7 +59,7 @@ export default function ApplyPage() {
   const [submitted, setSubmitted] = useState(false);
   const [form, setForm] = useState({
     email: "", fullName: "", mobile: "", whatsapp: "",
-    college: "", collegeState: "", city: "", year: "",
+    college: "", collegeState: "", collegeStateOther: "", city: "", year: "",
     instagram: "", linkedin: "",
     clubInvolvement: "",
   });
@@ -236,13 +236,14 @@ export default function ApplyPage() {
             { rank: "#4", title: "Earbuds", img: "https://gajab.com/img/campus/gajab-prize-earbuds.webp" },
             { rank: "#5-10", title: "Gajab Welcome Kit", img: "https://gajab.com/img/campus/gajab-welcome-kit.webp" },
           ].map((p, i) => (
-            <div key={i} className={`gajab-card overflow-hidden relative ${p.featured ? "ring-2 ring-[#F26B1F]" : ""}`}>
-              <div className="relative aspect-square">
-                <img src={p.img} alt={p.title} className="absolute inset-0 w-full h-full object-cover" />
-                <span className={`absolute top-3 left-3 gajab-sticker text-[10px] ${p.featured ? "bg-[#F26B1F] text-white" : "bg-[#1B2D54] text-white"}`}>{p.rank}</span>
+            <div key={i} className="gajab-card overflow-hidden group cursor-pointer hover:-translate-y-1 hover:shadow-[0_20px_40px_rgba(242,107,31,0.25)] hover:border-[#F26B1F] transition-all duration-300">
+              <div className="relative aspect-square overflow-hidden">
+                <img src={p.img} alt={p.title} className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#1B2D54]/0 to-[#1B2D54]/0 group-hover:from-[#F26B1F]/40 group-hover:to-transparent transition-all duration-300" />
+                <span className={`absolute top-3 left-3 gajab-sticker text-[10px] transition-all ${p.featured ? "bg-[#F26B1F] text-white" : "bg-[#1B2D54] text-white group-hover:bg-[#F26B1F]"}`}>{p.rank}</span>
               </div>
               <div className="p-3 text-center">
-                <p className="font-display text-sm leading-tight">{p.title}</p>
+                <p className="font-display text-sm leading-tight group-hover:text-[#F26B1F] transition-colors">{p.title}</p>
               </div>
             </div>
           ))}
@@ -276,6 +277,25 @@ export default function ApplyPage() {
 
               {step === 1 && (
                 <div className="space-y-4">
+                  {/* Form Intro Content from Google Form */}
+                  <div className="rounded-2xl bg-gradient-to-br from-[#FFE9D9] to-[#FFF1C2] border border-[#F26B1F]/30 p-5 mb-4">
+                    <h3 className="font-display text-2xl font-extrabold leading-tight text-[#1B2D54]">Gajab ka Campus Ambassador — <span className="text-[#F26B1F]">Lead. Earn. Get Recognized.</span></h3>
+                    <div className="mt-4 space-y-3 text-sm text-[#1B2D54] leading-relaxed">
+                      <p>You&apos;re not applying for a job. You&apos;re stepping into a leadership role at one of India&apos;s most exciting e-commerce startups.</p>
+                      <p>As a Gajab Ka Campus Ambassador, you&apos;ll build the brand on your campus, earn commission on every order <b>(no upper cap)</b>, and grow into a <b>City Head</b> managing operations across your city.</p>
+                      <p>Before you apply, we strongly recommend downloading the Gajab app and exploring it. It&apos;ll give you a clear understanding of the product you&apos;ll be representing on your campus.</p>
+                      <p>👉 Download the app: <a href="https://gajab.go.link/bfR8p" target="_blank" rel="noreferrer" className="text-[#F26B1F] font-bold underline">https://gajab.go.link/bfR8p</a></p>
+                    </div>
+                    <div className="mt-4 pt-4 border-t border-[#F26B1F]/20">
+                      <p className="font-bold text-[#1B2D54] text-sm mb-2">Please note:</p>
+                      <ul className="space-y-1.5 text-sm text-[#1B2D54]">
+                        <li>⏱️ This form takes just 10–15 minutes. Be honest — we&apos;re looking for drive, not perfection.</li>
+                        <li>🔒 Limited seats per city. Applications are reviewed on a rolling basis.</li>
+                        <li>📩 Shortlisted candidates will be contacted within 5 business days.</li>
+                      </ul>
+                    </div>
+                  </div>
+
                   <h3 className="font-display text-xl font-extrabold">👋 Tell us about you</h3>
                   <label className="block"><span className="text-xs font-bold uppercase tracking-wider">Full Name <span className="text-[#F26B1F]">*</span></span><input data-testid="apply-fullname" value={form.fullName} onChange={e=>upd("fullName",e.target.value)} placeholder="Your full name" className="input-gajab mt-1" /></label>
                   <label className="block"><span className="text-xs font-bold uppercase tracking-wider">Email <span className="text-[#F26B1F]">*</span></span><input type="email" data-testid="apply-email" value={form.email} onChange={e=>upd("email",e.target.value)} placeholder="you@college.edu" className="input-gajab mt-1" /></label>
@@ -299,6 +319,16 @@ export default function ApplyPage() {
                         </button>
                       ))}
                     </div>
+                    {form.collegeState === "Other" && (
+                      <input
+                        type="text"
+                        value={form.collegeStateOther}
+                        onChange={e=>upd("collegeStateOther", e.target.value)}
+                        placeholder="Enter state name (e.g. Karnataka)"
+                        className="input-gajab mt-2"
+                        data-testid="apply-college-state-other"
+                      />
+                    )}
                   </div>
                   <div className="grid sm:grid-cols-2 gap-4">
                     <label className="block"><span className="text-xs font-bold uppercase tracking-wider">City <span className="text-[#F26B1F]">*</span></span><input data-testid="apply-city" value={form.city} onChange={e=>upd("city",e.target.value)} placeholder="e.g. Mumbai" className="input-gajab mt-1" /></label>

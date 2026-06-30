@@ -32,8 +32,9 @@ export default function AmbassadorLayout() {
       <aside className="hidden lg:flex flex-col w-64 bg-white border-r border-[#EFEAE0] p-5 sticky top-0 h-screen overflow-y-auto">
         <Logo size="md" />
         <div className="mt-6 mb-4 flex items-center gap-3 p-3 rounded-xl border border-[#EFEAE0] bg-[#FFF7EE]">
+          <button onClick={()=>setMenu(true)} className="w-9 h-9 grid place-items-center rounded-lg border border-[#EFEAE0] bg-white hover:bg-[#FFE9D9] hover:border-[#F26B1F] transition-all flex-shrink-0" data-testid="amb-hamburger-desktop" title="Open menu"><Menu className="w-4 h-4 text-[#1B2D54]" /></button>
           <img src={ambassador.avatar} alt="" className="w-10 h-10 rounded-full object-cover" />
-          <div><p className="font-display font-extrabold text-sm leading-tight">{ambassador.name}</p><p className="text-xs text-[#5A6378]">Rank #{ambassador.rank} • {ambassador.tier}</p></div>
+          <div className="min-w-0"><p className="font-display font-extrabold text-sm leading-tight truncate">{ambassador.name}</p><p className="text-xs text-[#5A6378]">Rank #{ambassador.rank} • {ambassador.tier}</p></div>
         </div>
         <nav className="space-y-1 flex-1">
           {mainNav.map(n => (
@@ -44,15 +45,15 @@ export default function AmbassadorLayout() {
             </NavLink>
           ))}
         </nav>
-        <button onClick={()=>setMenu(true)} className="flex items-center gap-3 px-3 py-2.5 rounded-xl font-bold text-sm text-[#1B2D54] hover:bg-[#FFF7EE] border-t border-[#EFEAE0] mt-2 pt-3" data-testid="amb-hamburger-desktop">
-          <Menu className="w-5 h-5" /> Menu
-        </button>
       </aside>
 
       <main className="flex-1 min-w-0 pb-24 lg:pb-8">
         <div className="lg:hidden sticky top-0 z-30 bg-[#FFF7EE]/90 backdrop-blur border-b border-[#EFEAE0] px-4 h-14 flex items-center justify-between">
-          <Logo size="sm" showTag={false} />
-          <button onClick={()=>setMenu(true)} className="w-10 h-10 grid place-items-center rounded-xl border border-[#EFEAE0] bg-white" data-testid="amb-hamburger"><Menu className="w-5 h-5" /></button>
+          <div className="flex items-center gap-2">
+            <button onClick={()=>setMenu(true)} className="w-10 h-10 grid place-items-center rounded-xl border border-[#EFEAE0] bg-white hover:bg-[#FFE9D9] hover:border-[#F26B1F] transition-all" data-testid="amb-hamburger" title="Open menu"><Menu className="w-5 h-5" /></button>
+            <Logo size="sm" showTag={false} />
+          </div>
+          <img src={ambassador.avatar} alt="" className="w-9 h-9 rounded-full object-cover" />
         </div>
         <div className="p-4 sm:p-6 lg:p-8 max-w-6xl mx-auto"><Outlet /></div>
         <nav className="lg:hidden fixed bottom-0 left-0 right-0 z-30 bg-white border-t border-[#EFEAE0] grid grid-cols-5">
