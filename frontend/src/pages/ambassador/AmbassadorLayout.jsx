@@ -90,10 +90,10 @@ export default function AmbassadorLayout() {
             <div className="px-4 pt-4 pb-2">
               <p className="text-xs font-bold text-[#5A6378] mb-2">My Tier</p>
               <div className="rounded-2xl p-4 text-white relative overflow-hidden" style={{ background: `linear-gradient(135deg, ${tier.color}, ${tier.color}dd)` }}>
-                <div className="absolute top-2 right-2 text-3xl opacity-50">{tier.icon}</div>
-                <p className="text-[10px] font-bold uppercase tracking-wider opacity-80">{tier.name.toUpperCase()} TIER</p>
-                <p className="font-display text-2xl mt-1 leading-tight">{tier.commission} commission <span className="opacity-70 text-base">| Rank #{ambassador.rank}</span></p>
-                <div className="flex items-center gap-1.5 mt-2"><span className="w-2 h-2 rounded-full bg-[#FFC93C]" /><p className="text-xs font-bold text-[#FFC93C]">Current tier</p></div>
+                <div className="absolute top-3 right-3 w-12 h-12 grid place-items-center bg-white rounded-full text-2xl shadow-[0_2px_8px_rgba(0,0,0,0.15)]">{tier.icon}</div>
+                <p className="text-[10px] font-bold uppercase tracking-wider text-white">{tier.name.toUpperCase()} TIER</p>
+                <p className="font-display text-2xl mt-1 leading-tight pr-14">{tier.commission} commission <span className="opacity-90 text-base">| Rank #{ambassador.rank}</span></p>
+                <div className="inline-flex items-center gap-1.5 mt-2 px-2 py-0.5 rounded-full bg-white/95"><span className="w-2 h-2 rounded-full bg-[#F26B1F]" /><p className="text-xs font-extrabold" style={{ color: tier.color }}>Current tier</p></div>
               </div>
             </div>
 
