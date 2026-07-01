@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { NavLink, Outlet, useNavigate } from "react-router-dom";
-import { Home, ListChecks, Trophy, Wallet, User, LogOut, Link2, Activity, Award, Bell, Mail, HelpCircle, Settings, Menu, X } from "lucide-react";
+import { Home, ListChecks, Trophy, Wallet, User, LogOut, Activity, Award, Bell, Mail, HelpCircle, Settings, Menu, X } from "lucide-react";
 import Logo from "@/components/Logo";
 import { ambassador, inboxMessages, tiers } from "@/data/mockData";
 import { VersionToggle } from "@/hooks/useVersion";
@@ -8,7 +8,6 @@ import { VersionToggle } from "@/hooks/useVersion";
 const mainNav = [
   { to: "/dashboard", icon: Home, label: "Home", end: true },
   { to: "/dashboard/inbox", icon: Mail, label: "Inbox" },
-  { to: "/dashboard/urls", icon: Link2, label: "My Links" },
   { to: "/dashboard/performance", icon: Activity, label: "Performance" },
   { to: "/dashboard/tier", icon: Award, label: "Tier" },
   { to: "/dashboard/tasks", icon: ListChecks, label: "Tasks" },

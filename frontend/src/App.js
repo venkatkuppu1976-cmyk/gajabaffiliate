@@ -15,7 +15,6 @@ import AmbTasks from "@/pages/ambassador/Tasks";
 import AmbLeaderboard from "@/pages/ambassador/Leaderboard";
 import AmbPayouts from "@/pages/ambassador/Payouts";
 import AmbProfile from "@/pages/ambassador/Profile";
-import AmbAffiliateUrls from "@/pages/ambassador/AffiliateUrls";
 import AmbPerformance from "@/pages/ambassador/Performance";
 import AmbTier from "@/pages/ambassador/Tier";
 import AmbInbox from "@/pages/ambassador/Inbox";
@@ -50,7 +49,6 @@ function App() {
 
           <Route path="/dashboard" element={<AmbassadorLayout />}>
             <Route index element={<AmbHome />} />
-            <Route path="urls" element={<AmbAffiliateUrls />} />
             <Route path="performance" element={<AmbPerformance />} />
             <Route path="tier" element={<AmbTier />} />
             <Route path="tasks" element={<AmbTasks />} />

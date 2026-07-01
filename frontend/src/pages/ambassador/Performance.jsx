@@ -1,11 +1,21 @@
 import React, { useState } from "react";
-import { Download, Search, Filter } from "lucide-react";
+import { Download, Search, Filter, MousePointerClick, Users, ShoppingBag, IndianRupee, TrendingUp, Wallet } from "lucide-react";
 import { toast } from "sonner";
-import { commissionHistory } from "@/data/mockData";
+import { commissionHistory, affiliateUrls } from "@/data/mockData";
 import { useVersion } from "@/hooks/useVersion";
 
 const buyerNames = ["Rahul K.", "Anita P.", "Deepak S.", "Neha R.", "Aman T.", "Priya J.", "Kiran M.", "Sanjay B.", "Rohan D.", "Meera S."];
 const maskPhone = (p) => p.slice(0, 4) + " ***** " + p.slice(-2);
+
+const KpiCard = ({ icon: Icon, label, value, iconBg, iconColor, testId }) => (
+  <div className="gajab-card p-5 bg-white flex flex-col" data-testid={testId}>
+    <div className={`w-11 h-11 rounded-full grid place-items-center mb-4 ${iconBg}`}>
+      <Icon className={`w-5 h-5 ${iconColor}`} strokeWidth={2.5} />
+    </div>
+    <p className="text-[10px] font-bold uppercase tracking-wider text-[#5A6378]">{label}</p>
+    <p className="font-display text-3xl sm:text-4xl font-extrabold text-[#1B2D54] mt-1">{value}</p>
+  </div>
+);
 
 const statusBadge = (s) => {
   if (s === "Confirmed") return "bg-[#D1FAE5] text-[#065F46] border-[#10B981]/40";
@@ -36,6 +46,9 @@ export default function Performance() {
     paid: a.paid + (o.payoutStatus === "Paid" ? o.commission : 0),
   }), { orders: 0, value: 0, commission: 0, paid: 0 });
 
+  // High-level rollup across all links (clicks + signups)
+  const aggr = affiliateUrls.reduce((a, u) => ({ clicks: a.clicks + u.clicks, signups: a.signups + u.signups }), { clicks: 0, signups: 0 });
+
   return (
     <div className="space-y-5">
       <div>
@@ -44,12 +57,14 @@ export default function Performance() {
         <p className="text-[#5A6378] mt-1">Every order, every commission. Your full earnings trail.</p>
       </div>
 
-      {/* Summary */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
-        <div className="gajab-card p-4"><p className="text-[10px] font-bold uppercase tracking-wider text-[#5A6378]">Orders shown</p><p className="font-display text-3xl mt-0.5">{totals.orders}</p></div>
-        <div className="gajab-card p-4"><p className="text-[10px] font-bold uppercase tracking-wider text-[#5A6378]">Order value</p><p className="font-display text-3xl mt-0.5">₹{totals.value.toLocaleString()}</p></div>
-        <div className="gajab-card p-4 bg-[#FFE9D9]"><p className="text-[10px] font-bold uppercase tracking-wider text-[#5A6378]">Total commission</p><p className="font-display text-3xl mt-0.5 text-[#C9450C]">₹{totals.commission.toLocaleString()}</p></div>
-        <div className="gajab-card p-4 bg-[#FFF1C2]"><p className="text-[10px] font-bold uppercase tracking-wider text-[#5A6378]">Paid out</p><p className="font-display text-3xl mt-0.5">₹{totals.paid.toLocaleString()}</p></div>
+      {/* Summary — 6 KPI cards */}
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3 sm:gap-4">
+        <KpiCard icon={MousePointerClick} label="Clicks" value={aggr.clicks.toLocaleString()} iconBg="bg-[#FFF1C2]" iconColor="text-[#92400E]" testId="kpi-clicks" />
+        <KpiCard icon={Users} label="Signups" value={aggr.signups} iconBg="bg-[#E0E7FF]" iconColor="text-[#3730A3]" testId="kpi-signups" />
+        <KpiCard icon={ShoppingBag} label="Orders" value={totals.orders} iconBg="bg-[#D1FAE5]" iconColor="text-[#065F46]" testId="kpi-orders" />
+        <KpiCard icon={TrendingUp} label="Order Value" value={`₹${(totals.value/1000).toFixed(1)}K`} iconBg="bg-[#FCE4F0]" iconColor="text-[#9D174D]" testId="kpi-order-value" />
+        <KpiCard icon={IndianRupee} label="Commission" value={`₹${(totals.commission/1000).toFixed(1)}K`} iconBg="bg-[#FFE9D9]" iconColor="text-[#C9450C]" testId="kpi-commission" />
+        <KpiCard icon={Wallet} label="Paid Out" value={`₹${(totals.paid/1000).toFixed(1)}K`} iconBg="bg-[#E8E4FB]" iconColor="text-[#5B21B6]" testId="kpi-paidout" />
       </div>
 
       {/* Filter row */}
