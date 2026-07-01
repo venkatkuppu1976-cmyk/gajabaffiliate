@@ -1,13 +1,34 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
 
 const KEY = "gajab_version";
-const VersionContext = createContext({ v: "v1", isV2: false, toggle: () => {} });
+const DEFAULT = "v2";
+const VersionContext = createContext({ v: DEFAULT, isV2: true, toggle: () => {} });
 
 export function VersionProvider({ children }) {
-  const [v, setV] = useState(() => localStorage.getItem(KEY) || "v1");
+  // Always start on V2 (the new default). We don't persist across reloads because
+  // the requirement is: V2 is default everywhere; V1 is only a temporary preview.
+  const [v, setV] = useState(() => {
+    localStorage.setItem(KEY, DEFAULT);
+    return DEFAULT;
+  });
   useEffect(() => { localStorage.setItem(KEY, v); }, [v]);
   const value = { v, isV2: v === "v2", toggle: () => setV(x => (x === "v1" ? "v2" : "v1")) };
-  return <VersionContext.Provider value={value}>{children}</VersionContext.Provider>;
+  return (
+    <VersionContext.Provider value={value}>
+      <RouteResetToV2 setV={setV} />
+      {children}
+    </VersionContext.Provider>
+  );
+}
+
+// On every route change, snap back to V2. This lets users click V1 to preview the
+// old design on the current page only — the moment they navigate anywhere else,
+// they're back on V2.
+function RouteResetToV2({ setV }) {
+  const loc = useLocation();
+  useEffect(() => { setV(DEFAULT); }, [loc.pathname, setV]);
+  return null;
 }
 
 export function useVersion() {

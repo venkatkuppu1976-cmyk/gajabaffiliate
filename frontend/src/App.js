@@ -37,8 +37,8 @@ import AdminSupport from "@/pages/admin/Support";
 function App() {
   return (
     <div className="App">
-      <VersionProvider>
-        <BrowserRouter>
+      <BrowserRouter>
+        <VersionProvider>
           <Toaster position="top-center" richColors />
           <Routes>
           <Route path="/" element={<Navigate to="/apply" replace />} />
@@ -76,8 +76,8 @@ function App() {
             <Route path="support" element={<AdminSupport />} />
           </Route>
         </Routes>
-        </BrowserRouter>
-      </VersionProvider>
+        </VersionProvider>
+      </BrowserRouter>
     </div>
   );
 }
