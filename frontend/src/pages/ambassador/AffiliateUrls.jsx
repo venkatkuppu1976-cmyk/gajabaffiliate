@@ -3,6 +3,7 @@ import { Copy, Link as LinkIcon, MousePointerClick, Users, ShoppingBag, IndianRu
 import { toast } from "sonner";
 import { BarChart, Bar, XAxis, YAxis, ResponsiveContainer, Tooltip, CartesianGrid } from "recharts";
 import { affiliateUrls } from "@/data/mockData";
+import { useVersion } from "@/hooks/useVersion";
 
 const channelColor = {
   "All": "bg-[#FFF1C2] text-[#92400E] border-[#FFC93C]/60",
@@ -21,10 +22,14 @@ const Stat = ({ icon: Icon, label, value, sub, accent }) => (
 );
 
 export default function AffiliateUrls() {
+  const { isV2 } = useVersion();
   const [open, setOpen] = useState(false);
   const [form, setForm] = useState({ label: "", channel: "Instagram", campaign: "" });
 
-  const totals = affiliateUrls.reduce((a, u) => ({
+  // In V2, restrict to a single master link only
+  const urls = isV2 ? affiliateUrls.slice(0, 1) : affiliateUrls;
+
+  const totals = urls.reduce((a, u) => ({
     clicks: a.clicks + u.clicks, signups: a.signups + u.signups, orders: a.orders + u.orders,
     revenue: a.revenue + u.revenue, commission: a.commission + u.commission,
   }), { clicks: 0, signups: 0, orders: 0, revenue: 0, commission: 0 });
