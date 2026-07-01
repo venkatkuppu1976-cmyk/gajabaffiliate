@@ -1,8 +1,9 @@
 import React, { useState } from "react";
-import { Plus, Edit, Trash2, X, Percent, Calendar } from "lucide-react";
+import { Plus, Edit, Trash2, X, Percent, Calendar, Search } from "lucide-react";
 import { toast } from "sonner";
 import { referralUtilization, commissionOverrides } from "@/data/mockData";
 import DateInputDDMMYYYY from "@/components/DateInputDDMMYYYY";
+import { useVersion } from "@/hooks/useVersion";
 
 const overrideStatusClr = {
   "Active": "bg-[#D1FAE5] text-[#065F46] border-[#065F46]/40",
@@ -11,8 +12,13 @@ const overrideStatusClr = {
 };
 
 export default function Utilization() {
+  const { isV2 } = useVersion();
   const [open, setOpen] = useState(false);
+  const [uq, setUq] = useState("");
+  const [ufilter, setUfilter] = useState("All codes");
   const [form, setForm] = useState({ label: "", appliesTo: "All ambassadors", overridePct: "", startDate: "", endDate: "" });
+  const filteredUtil = referralUtilization.filter(u => !isV2 || (u.code + u.orderId + u.customerId).toLowerCase().includes(uq.toLowerCase())).filter(u => !isV2 || ufilter === "All codes" || u.code === ufilter);
+  const codeOptions = ["All codes", ...new Set(referralUtilization.map(u=>u.code))];
 
   const save = (e) => {
     e.preventDefault();
@@ -62,14 +68,16 @@ export default function Utilization() {
 
       {/* ORDER UTILIZATION */}
       <div className="gajab-card p-0 overflow-hidden">
-        <div className="p-5 pb-3"><h3 className="font-display text-xl">Order utilization log</h3><p className="text-xs text-[#5A6378]">Every order placed via a referral URL.</p></div>
+        <div className="p-5 pb-3 flex flex-wrap justify-between items-center gap-3"><div><h3 className="font-display text-xl">Order utilization log</h3><p className="text-xs text-[#5A6378]">Every order placed via a referral URL.</p></div>
+          {isV2 && (<div className="flex gap-2 flex-wrap"><div className="relative"><Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#5A6378]" /><input value={uq} onChange={e=>setUq(e.target.value)} placeholder="Search code, order, customer..." className="input-gajab pl-10 h-10 w-64" data-testid="util-search" /></div><select value={ufilter} onChange={e=>setUfilter(e.target.value)} className="input-gajab h-10 w-40" data-testid="util-filter">{codeOptions.map(c=><option key={c}>{c}</option>)}</select></div>)}
+        </div>
         <div className="overflow-x-auto">
           <table className="w-full text-sm">
             <thead className="bg-[#FFF7EE] border-b border-[#EFEAE0]"><tr className="text-left text-[10px] font-extrabold uppercase tracking-wider text-[#5A6378]">
               <th className="p-3">Code</th><th className="p-3">Order ID</th><th className="p-3">Customer</th><th className="p-3 text-right">Order Value</th><th className="p-3">Used at</th><th className="p-3 text-right">Discount</th><th className="p-3 text-right">Commission %</th><th className="p-3 text-right">Commission ₹</th>
             </tr></thead>
             <tbody>
-              {referralUtilization.map((u, i) => (
+              {filteredUtil.map((u, i) => (
                 <tr key={i} className="border-b border-[#F0EBE2] hover:bg-[#FFF7EE]" data-testid={`util-row-${u.orderId}`}>
                   <td className="p-3"><span className="font-display">{u.code}</span></td>
                   <td className="p-3 font-mono text-xs">{u.orderId}</td>

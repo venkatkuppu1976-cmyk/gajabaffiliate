@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { BarChart, Bar, XAxis, YAxis, ResponsiveContainer, Tooltip, CartesianGrid, PieChart, Pie, Cell, Legend } from "recharts";
 import { Filter } from "lucide-react";
 import { adminKpis, trendData, states, cities } from "@/data/mockData";
+import { useVersion } from "@/hooks/useVersion";
 
 const convData = [{ name: "With Referral", value: adminKpis.conversionWithRef }, { name: "Without Referral", value: adminKpis.conversionWithoutRef }];
 const COLORS = ["#F26B1F", "#FFC93C"];
@@ -11,6 +12,7 @@ const Kpi = ({ label, value, sub, bg }) => (
 );
 
 export default function Analytics() {
+  const { isV2 } = useVersion();
   const [frequency, setFrequency] = useState("Weekly");
   const [stateF, setStateF] = useState("All States");
   const [cityF, setCityF] = useState("All Cities");
@@ -25,7 +27,13 @@ export default function Analytics() {
 
       <div className="gajab-card p-4 grid lg:grid-cols-4 gap-3">
         <div className="flex flex-col"><span className="text-[10px] font-bold uppercase tracking-wider text-[#5A6378] mb-1 flex items-center gap-1"><Filter className="w-3 h-3" /> Frequency</span>
-          <select value={frequency} onChange={e=>setFrequency(e.target.value)} className="input-gajab h-10" data-testid="analytics-frequency"><option>Daily</option><option>Weekly</option><option>Monthly</option><option>Quarterly</option><option>Yearly</option></select>
+          <select value={frequency} onChange={e=>setFrequency(e.target.value)} className="input-gajab h-10" data-testid="analytics-frequency"><option>Daily</option><option>Weekly</option><option>Monthly</option><option>Quarterly</option><option>Yearly</option>{isV2 && <option>Custom Date</option>}</select>
+          {isV2 && frequency === "Custom Date" && (
+            <div className="mt-2 grid grid-cols-2 gap-2">
+              <input type="date" className="input-gajab h-9 text-xs" data-testid="analytics-custom-from" />
+              <input type="date" className="input-gajab h-9 text-xs" data-testid="analytics-custom-to" />
+            </div>
+          )}
         </div>
         <div className="flex flex-col"><span className="text-[10px] font-bold uppercase tracking-wider text-[#5A6378] mb-1">State</span><select value={stateF} onChange={e=>setStateF(e.target.value)} className="input-gajab h-10" data-testid="analytics-state">{states.map(s=><option key={s}>{s}</option>)}</select></div>
         <div className="flex flex-col"><span className="text-[10px] font-bold uppercase tracking-wider text-[#5A6378] mb-1">City</span><select value={cityF} onChange={e=>setCityF(e.target.value)} className="input-gajab h-10" data-testid="analytics-city">{cities.map(c=><option key={c}>{c}</option>)}</select></div>

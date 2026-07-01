@@ -5,6 +5,10 @@ import { LineChart, Line, XAxis, YAxis, ResponsiveContainer, Tooltip, CartesianG
 import { ambassador, stats, trendData, recentOrders } from "@/data/mockData";
 import ShareRow from "@/components/ShareRow";
 import TierProgress from "@/components/TierProgress";
+import { useVersion } from "@/hooks/useVersion";
+
+const maskPhone = (p) => p.slice(0, 4) + " ***** " + p.slice(-2);
+const buyers = ["Rahul K.", "Anita P.", "Deepak S.", "Neha R.", "Aman T."];
 
 const Stat = ({ icon: Icon, label, value, suffix, bg, accent }) => (
   <div className={`gajab-card p-4 ${bg}`}>
@@ -15,6 +19,7 @@ const Stat = ({ icon: Icon, label, value, suffix, bg, accent }) => (
 );
 
 export default function Home() {
+  const { isV2 } = useVersion();
   return (
     <div className="space-y-5">
       {/* Header */}
@@ -46,9 +51,27 @@ export default function Home() {
       {/* Quick filters */}
       <div className="flex items-center gap-2 flex-wrap">
         <span className="text-xs font-bold uppercase tracking-wider text-[#5A6378]">Quick view:</span>
+        {isV2 && <span className="gajab-sticker bg-[#E0E7FF] text-[#3730A3] border border-[#6366F1]/40">👥 {stats.totalClicks.toLocaleString()} total users</span>}
         <span className="gajab-sticker bg-[#E6F8EF] text-[#065F46] border border-[#10B981]/40">🆕 12 new users onboarded · 7d</span>
         <span className="gajab-sticker bg-[#FFE9D9] text-[#C9450C] border border-[#F26B1F]/40">📦 18 orders · today</span>
       </div>
+
+      {isV2 && (
+        <div className="grid grid-cols-2 lg:grid-cols-5 gap-3">
+          {[
+            { label: "Registered · No order", value: 84, bg: "bg-[#E0E7FF]", tx: "text-[#3730A3]" },
+            { label: "Order placed", value: 32, bg: "bg-[#FEF3C7]", tx: "text-[#92400E]" },
+            { label: "Completed", value: 152, bg: "bg-[#D1FAE5]", tx: "text-[#065F46]" },
+            { label: "Cancelled", value: 24, bg: "bg-[#FEE2E2]", tx: "text-[#991B1B]" },
+            { label: "Returned", value: 8, bg: "bg-[#F3EFE9]", tx: "text-[#5A6378]" },
+          ].map(s => (
+            <div key={s.label} className={`gajab-card p-3 ${s.bg}`} data-testid={`status-${s.label.split(" ")[0].toLowerCase()}`}>
+              <p className={`text-[10px] font-bold uppercase tracking-wider ${s.tx}`}>{s.label}</p>
+              <p className="font-display text-2xl mt-0.5">{s.value}</p>
+            </div>
+          ))}
+        </div>
+      )}
 
       {/* Stats grid */}
       <div className="grid grid-cols-2 lg:grid-cols-5 gap-3 sm:gap-4">
@@ -92,13 +115,17 @@ export default function Home() {
 
       {/* Recent orders */}
       <div className="gajab-card p-5">
-        <h3 className="font-display text-lg font-extrabold mb-3">Recent orders</h3>
+        <h3 className="font-display text-lg font-extrabold mb-3">{isV2 ? "New orders" : "Recent orders"}</h3>
         <div className="space-y-2">
-          {recentOrders.map(o => (
+          {recentOrders.map((o, i) => (
             <div key={o.id} className="flex items-center justify-between gap-3 p-3 rounded-xl border border-[#EFEAE0] hover:border-[#EFEAE0] transition-all" data-testid={`order-${o.id}`}>
               <div className="min-w-0">
                 <p className="font-bold text-sm truncate">{o.product}</p>
-                <p className="text-xs text-[#5A6378]">{o.id} • {o.date}</p>
+                {isV2 ? (
+                  <p className="text-xs text-[#5A6378]">Order <b className="text-[#1B2D54]">{o.id}</b> • Buyer: <b className="text-[#1B2D54]">{buyers[i % buyers.length]}</b> · <span className="font-mono">{maskPhone("+91 98765 43210")}</span></p>
+                ) : (
+                  <p className="text-xs text-[#5A6378]">{o.id} • {o.date}</p>
+                )}
               </div>
               <div className="text-right">
                 <p className="font-display font-extrabold">₹{o.commission}</p>

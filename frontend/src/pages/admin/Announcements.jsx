@@ -2,10 +2,12 @@ import React, { useState } from "react";
 import { Plus, Edit, Trash2, X, Bell, Send } from "lucide-react";
 import { toast } from "sonner";
 import { announcements } from "@/data/mockData";
+import { useVersion } from "@/hooks/useVersion";
 
 const priorityClr = { High: "bg-[#FEE2E2] text-[#991B1B]", Medium: "bg-[#FEF3C7] text-[#92400E]", Low: "bg-[#E0E7FF] text-[#3730A3]" };
 
 export default function AdminAnnouncements() {
+  const { isV2 } = useVersion();
   const [open, setOpen] = useState(false);
   const [editing, setEditing] = useState(null);
   const [form, setForm] = useState({ title: "", body: "", audience: "All Ambassadors", priority: "Medium" });
@@ -46,7 +48,7 @@ export default function AdminAnnouncements() {
                 <div className="mt-3 flex flex-wrap gap-3 text-xs text-[#5A6378]">
                   <span>📣 Audience: <b className="text-[#1B2D54]">{a.audience}</b></span>
                   <span>🕒 Sent: <b className="text-[#1B2D54]">{a.sentOn}</b></span>
-                  <span>👁️ Read: <b className="text-[#1B2D54]">{a.reads}/{a.total}</b></span>
+                  {!isV2 && <span>👁️ Read: <b className="text-[#1B2D54]">{a.reads}/{a.total}</b></span>}
                 </div>
               </div>
               <div className="flex gap-1">

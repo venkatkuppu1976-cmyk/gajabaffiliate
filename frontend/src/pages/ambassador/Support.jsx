@@ -1,9 +1,10 @@
 import React from "react";
 import { Mail, Phone, MessageCircle, Clock } from "lucide-react";
 import { pocList, ambassador } from "@/data/mockData";
+import { useVersion } from "@/hooks/useVersion";
 
 export default function Support() {
-  // Show all POCs (in real flow we'd show ones tagged to this ambassador first)
+  const { isV2 } = useVersion();
   const myPocs = pocList.filter(p => p.linkedAffiliates.includes(ambassador.name));
   const others = pocList.filter(p => !p.linkedAffiliates.includes(ambassador.name));
   return (
@@ -20,8 +21,9 @@ export default function Support() {
         </div>
       )}
       <div>
-        <p className="text-xs font-bold uppercase tracking-wider text-[#5A6378] mb-2">Other regional & speciality POCs</p>
-        <div className="grid sm:grid-cols-2 gap-4">{others.map(p => <PocCard key={p.id} p={p} />)}</div>
+        <p className="text-xs font-bold uppercase tracking-wider text-[#5A6378] mb-2">{isV2 ? "Contact your Gajab team" : "Other regional & speciality POCs"}</p>
+        <div className="grid sm:grid-cols-2 gap-4">{(isV2 ? [] : others).map(p => <PocCard key={p.id} p={p} />)}</div>
+        {isV2 && myPocs.length === 0 && <p className="text-sm text-[#5A6378]">No POC assigned yet. Please contact <a href="mailto:support@gajab.com" className="text-[#F26B1F] font-bold underline">support@gajab.com</a> for help.</p>}
       </div>
     </div>
   );

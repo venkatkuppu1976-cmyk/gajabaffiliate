@@ -2,8 +2,10 @@ import React, { useState } from "react";
 import { Plus, Edit, Trash2, X, ArrowLeft, Mail, Phone, MessageCircle, UserPlus, UserMinus, Search } from "lucide-react";
 import { toast } from "sonner";
 import { pocList, leaderboard } from "@/data/mockData";
+import { useVersion } from "@/hooks/useVersion";
 
 export default function AdminSupport() {
+  const { isV2 } = useVersion();
   const [open, setOpen] = useState(false);
   const [editing, setEditing] = useState(null);
   const [detail, setDetail] = useState(null);
@@ -25,7 +27,7 @@ export default function AdminSupport() {
   };
 
   if (detail) {
-    const candidates = leaderboard.filter(a => a.name.toLowerCase().includes(mapQuery.toLowerCase()));
+    const candidates = leaderboard.filter(a => a.name.toLowerCase().includes(mapQuery.toLowerCase())).filter(a => !isV2 || !linkedSet.has(a.name));
     return (
       <div className="space-y-5">
         <button onClick={()=>setDetail(null)} className="btn-ghost text-sm"><ArrowLeft className="w-4 h-4" /> Back to all POCs</button>

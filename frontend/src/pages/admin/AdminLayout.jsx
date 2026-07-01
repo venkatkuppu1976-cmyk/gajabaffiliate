@@ -2,6 +2,7 @@ import React from "react";
 import { NavLink, Outlet, useNavigate } from "react-router-dom";
 import { UserCheck, Users, ListChecks, Trophy, BarChart3, Activity, LogOut, Link2, Megaphone, HeadphonesIcon } from "lucide-react";
 import Logo from "@/components/Logo";
+import { VersionToggle } from "@/hooks/useVersion";
 
 const nav = [
   { to: "/admin/applicants", icon: UserCheck, label: "Applicants" },
@@ -21,7 +22,7 @@ export default function AdminLayout() {
     <div className="min-h-screen bg-[#FFF7EE] flex">
       <aside className="w-64 bg-[#1B2D54] text-white p-5 sticky top-0 h-screen hidden md:flex flex-col">
         <Logo size="md" showTag={false} variant="light" />
-        <span className="gajab-sticker-orange mt-3 self-start">ADMIN CONSOLE</span>
+        <div className="mt-3 flex items-center gap-2"><span className="gajab-sticker-orange">ADMIN CONSOLE</span><VersionToggle /></div>
         <nav className="space-y-1 mt-6 flex-1">
           {nav.map(n => (
             <NavLink key={n.to} to={n.to} data-testid={`admin-nav-${n.label.toLowerCase().replace(/ /g,"-")}`}
@@ -37,7 +38,7 @@ export default function AdminLayout() {
       <main className="flex-1 min-w-0">
         <div className="md:hidden p-4 bg-[#1B2D54] text-white flex items-center justify-between">
           <Logo size="sm" showTag={false} variant="light" />
-          <span className="gajab-sticker-orange">ADMIN</span>
+          <div className="flex items-center gap-2"><VersionToggle /><span className="gajab-sticker-orange">ADMIN</span></div>
         </div>
         <div className="md:hidden p-2 bg-white border-b border-[#EFEAE0] overflow-x-auto">
           <div className="flex gap-2">

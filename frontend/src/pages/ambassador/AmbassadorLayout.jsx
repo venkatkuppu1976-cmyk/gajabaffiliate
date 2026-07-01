@@ -3,6 +3,7 @@ import { NavLink, Outlet, useNavigate } from "react-router-dom";
 import { Home, ListChecks, Trophy, Wallet, User, LogOut, Link2, Activity, Award, Bell, Mail, HelpCircle, Settings, Menu, X } from "lucide-react";
 import Logo from "@/components/Logo";
 import { ambassador, inboxMessages, tiers } from "@/data/mockData";
+import { VersionToggle } from "@/hooks/useVersion";
 
 const mainNav = [
   { to: "/dashboard", icon: Home, label: "Home", end: true },
@@ -49,6 +50,7 @@ export default function AmbassadorLayout() {
           <div className="lg:hidden"><Logo size="sm" showTag={false} /></div>
           <div className="hidden lg:block" />
           <div className="flex items-center gap-2">
+            <VersionToggle />
             <button onClick={()=>setMenu(true)} className="flex items-center gap-2.5 pl-1 pr-2 py-1 rounded-full border border-[#EFEAE0] bg-white hover:border-[#F26B1F] hover:bg-[#FFF7EE] transition-all max-w-[300px]" data-testid="amb-profile-card">
               <img src={ambassador.avatar} alt="" className="w-8 h-8 rounded-full object-cover ring-2 ring-[#F26B1F]/30 flex-shrink-0" />
               <div className="text-left min-w-0 hidden sm:block">

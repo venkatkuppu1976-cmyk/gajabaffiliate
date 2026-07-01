@@ -2,6 +2,10 @@ import React, { useState } from "react";
 import { Download, Search, Filter } from "lucide-react";
 import { toast } from "sonner";
 import { commissionHistory } from "@/data/mockData";
+import { useVersion } from "@/hooks/useVersion";
+
+const buyerNames = ["Rahul K.", "Anita P.", "Deepak S.", "Neha R.", "Aman T.", "Priya J.", "Kiran M.", "Sanjay B.", "Rohan D.", "Meera S."];
+const maskPhone = (p) => p.slice(0, 4) + " ***** " + p.slice(-2);
 
 const statusBadge = (s) => {
   if (s === "Confirmed") return "bg-[#D1FAE5] text-[#065F46] border-[#10B981]/40";
@@ -19,6 +23,7 @@ const payoutBadge = (s) => {
 };
 
 export default function Performance() {
+  const { isV2 } = useVersion();
   const [q, setQ] = useState("");
   const [filter, setFilter] = useState("All");
 
@@ -67,17 +72,18 @@ export default function Performance() {
           <table className="w-full text-sm">
             <thead className="bg-[#FFF7EE] border-b border-[#EFEAE0]">
               <tr className="text-left text-[10px] font-bold uppercase tracking-wider text-[#5A6378]">
-                <th className="p-3">Order ID</th><th className="p-3">Date</th><th className="p-3">Product</th><th className="p-3">Category</th><th className="p-3">Via Link</th><th className="p-3 text-right">Order ₹</th><th className="p-3 text-right">Comm %</th><th className="p-3 text-right">Comm ₹</th><th className="p-3">Order</th><th className="p-3">Payout</th>
+                <th className="p-3">Order ID</th><th className="p-3">Date</th><th className="p-3">Product</th>{isV2 && <th className="p-3 text-right">Qty</th>}<th className="p-3">Category</th><th className="p-3">{isV2 ? "Buyer" : "Via Link"}</th><th className="p-3 text-right">Order ₹</th><th className="p-3 text-right">Comm %</th><th className="p-3 text-right">Comm ₹</th><th className="p-3">Order</th><th className="p-3">Payout</th>
               </tr>
             </thead>
             <tbody>
-              {filtered.map(o => (
+              {filtered.map((o, idx) => (
                 <tr key={o.id} className="border-b border-[#F0EBE2] hover:bg-[#FFF7EE]" data-testid={`perf-row-${o.id}`}>
                   <td className="p-3 font-mono text-xs">{o.id}</td>
                   <td className="p-3 text-xs">{o.date}</td>
                   <td className="p-3 font-bold">{o.product}</td>
+                  {isV2 && <td className="p-3 text-right font-bold">{(idx % 3) + 1}</td>}
                   <td className="p-3 text-xs text-[#5A6378]">{o.category}</td>
-                  <td className="p-3 text-xs">{o.urlLabel}</td>
+                  <td className="p-3 text-xs">{isV2 ? (<div><p className="font-bold text-[#1B2D54]">{buyerNames[idx % buyerNames.length]}</p><p className="font-mono text-[10px] text-[#5A6378]">{maskPhone("+91 98765 43210")}</p></div>) : o.urlLabel}</td>
                   <td className="p-3 text-right">₹{o.orderValue.toLocaleString()}</td>
                   <td className="p-3 text-right">{o.commissionPct}%</td>
                   <td className="p-3 text-right font-display text-[#F26B1F]">₹{o.commission}</td>

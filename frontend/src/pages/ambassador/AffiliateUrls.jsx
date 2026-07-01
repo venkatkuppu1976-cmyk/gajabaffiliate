@@ -42,22 +42,22 @@ export default function AffiliateUrls() {
     setOpen(false);
   };
 
-  const chartData = affiliateUrls.map(u => ({ name: u.label.length > 12 ? u.label.slice(0,10)+"…" : u.label, clicks: u.clicks, revenue: u.revenue }));
+  const chartData = urls.map(u => ({ name: u.label.length > 12 ? u.label.slice(0,10)+"…" : u.label, clicks: u.clicks, revenue: u.revenue }));
 
   return (
     <div className="space-y-5">
       <div className="flex items-end justify-between flex-wrap gap-3">
         <div>
           <span className="gajab-sticker-yellow">URL Tracking</span>
-          <h1 className="font-display text-3xl sm:text-4xl mt-2">Your affiliate links</h1>
-          <p className="text-[#5A6378] mt-1">Track every link you share. Create campaign URLs to know what's working.</p>
+          <h1 className="font-display text-3xl sm:text-4xl mt-2">{isV2 ? "Your affiliate link" : "Your affiliate links"}</h1>
+          <p className="text-[#5A6378] mt-1">{isV2 ? "Your unique master link. All performance rolls up to this single URL." : "Track every link you share. Create campaign URLs to know what's working."}</p>
         </div>
-        <button onClick={()=>setOpen(true)} className="btn-primary" data-testid="create-url-btn"><Plus className="w-4 h-4" /> New Link</button>
+        {!isV2 && <button onClick={()=>setOpen(true)} className="btn-primary" data-testid="create-url-btn"><Plus className="w-4 h-4" /> New Link</button>}
       </div>
 
       {/* Totals */}
       <div className="grid grid-cols-2 lg:grid-cols-5 gap-3 sm:gap-4">
-        <Stat icon={LinkIcon} label="Active URLs" value={affiliateUrls.length} accent="bg-[#FFE9D9] text-[#C9450C]" />
+        <Stat icon={LinkIcon} label={isV2 ? "Active URL" : "Active URLs"} value={urls.length} accent="bg-[#FFE9D9] text-[#C9450C]" />
         <Stat icon={MousePointerClick} label="Total Clicks" value={totals.clicks.toLocaleString()} accent="bg-[#FFF1C2] text-[#92400E]" />
         <Stat icon={Users} label="Signups" value={totals.signups} accent="bg-[#E0E7FF] text-[#3730A3]" />
         <Stat icon={ShoppingBag} label="Orders" value={totals.orders} accent="bg-[#D1FAE5] text-[#065F46]" />
@@ -94,7 +94,7 @@ export default function AffiliateUrls() {
               </tr>
             </thead>
             <tbody>
-              {affiliateUrls.map(u => (
+              {urls.map(u => (
                 <tr key={u.id} className="border-b border-[#F0EBE2] hover:bg-[#FFF7EE]" data-testid={`url-row-${u.id}`}>
                   <td className="p-3"><p className="font-bold text-[#1B2D54]">{u.label}</p><p className="text-[10px] text-[#5A6378]">{u.campaign}</p></td>
                   <td className="p-3 max-w-xs"><div className="flex items-center gap-1.5 text-xs text-[#5A6378] truncate"><ExternalLink className="w-3 h-3 flex-shrink-0" /><span className="truncate">{u.url}</span></div></td>

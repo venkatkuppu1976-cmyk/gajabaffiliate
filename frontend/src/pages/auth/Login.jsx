@@ -3,16 +3,26 @@ import { Link, useNavigate } from "react-router-dom";
 import { ArrowRight, Phone } from "lucide-react";
 import { toast } from "sonner";
 import Logo from "@/components/Logo";
+import { useVersion } from "@/hooks/useVersion";
 
 export default function Login() {
   const nav = useNavigate();
+  const { isV2 } = useVersion();
   const [val, setVal] = useState("");
+  const [otpSent, setOtpSent] = useState(false);
+  const [otp, setOtp] = useState("");
 
-  const submit = (e) => {
+  const sendOtp = (e) => {
     e.preventDefault();
     if (!val) { toast.error("Enter your phone number"); return; }
-    toast.success("OTP sent to your phone (demo: 123456)");
-    nav("/verify");
+    if (isV2) { setOtpSent(true); toast.success("OTP sent (demo: 123456)"); }
+    else { toast.success("OTP sent to your phone (demo: 123456)"); nav("/verify"); }
+  };
+  const verifyOtp = (e) => {
+    e.preventDefault();
+    if (otp.length !== 6) { toast.error("Enter all 6 digits"); return; }
+    toast.success("Verified!");
+    nav("/setup-password");
   };
 
   return (
@@ -47,12 +57,21 @@ export default function Login() {
           <h1 className="font-display text-4xl sm:text-5xl font-extrabold mt-4">Login to your<br />Gajab profile.</h1>
           <p className="text-[#5A6378] mt-3">Enter your phone number — we&apos;ll send you a one-time code.</p>
 
-          <form onSubmit={submit} className="mt-8 space-y-4">
+          <form onSubmit={otpSent ? verifyOtp : sendOtp} className="mt-8 space-y-4">
             <label className="block">
               <span className="text-xs font-bold uppercase tracking-wider text-[#5A6378] flex items-center gap-1.5"><Phone className="w-3.5 h-3.5" /> Phone number</span>
-              <input data-testid="login-input" value={val} onChange={e=>setVal(e.target.value)} type="tel" placeholder="+91 98765 43210" className="input-gajab mt-1" />
+              <input data-testid="login-input" value={val} onChange={e=>setVal(e.target.value)} type="tel" placeholder="+91 98765 43210" disabled={otpSent} className="input-gajab mt-1 disabled:opacity-70" />
             </label>
-            <button type="submit" className="btn-primary w-full" data-testid="login-submit-btn">Send OTP <ArrowRight className="w-4 h-4" /></button>
+            {isV2 && otpSent && (
+              <label className="block">
+                <span className="text-xs font-bold uppercase tracking-wider text-[#5A6378]">Enter 6-digit OTP (demo: 123456)</span>
+                <input data-testid="login-otp" value={otp} onChange={e=>setOtp(e.target.value.replace(/\D/g,"").slice(0,6))} maxLength={6} inputMode="numeric" placeholder="••••••" className="input-gajab mt-1 tracking-[0.5em] text-center font-display text-2xl" />
+                <button type="button" onClick={()=>{setOtpSent(false); setOtp("");}} className="text-xs font-bold text-[#F26B1F] underline mt-2">Change number</button>
+              </label>
+            )}
+            <button type="submit" className="btn-primary w-full" data-testid="login-submit-btn">
+              {isV2 && otpSent ? "Verify OTP" : "Send OTP"} <ArrowRight className="w-4 h-4" />
+            </button>
             <p className="text-[11px] text-[#5A6378] text-center">By continuing you agree to Gajab&apos;s Terms & Privacy Policy.</p>
           </form>
 

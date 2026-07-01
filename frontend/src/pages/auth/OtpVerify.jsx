@@ -26,7 +26,7 @@ export default function OtpVerify() {
         <Logo size="lg" />
         <div>
           <h2 className="font-display text-5xl font-extrabold leading-none">One last check.</h2>
-          <p className="mt-4 max-w-md">We sent a 6-digit code to your phone/email. Pop it in and you're in.</p>
+          <p className="text-[#4A4A4A] mt-3">We sent a 6-digit code to your phone. Pop it in and you&apos;re in.</p>
         </div>
         <p className="text-sm opacity-60">© 2026 Gajab Bazaar</p>
       </div>
