@@ -1,11 +1,17 @@
-import { useEffect, useState } from "react";
+import React, { createContext, useContext, useEffect, useState } from "react";
 
 const KEY = "gajab_version";
+const VersionContext = createContext({ v: "v1", isV2: false, toggle: () => {} });
 
-export function useVersion() {
+export function VersionProvider({ children }) {
   const [v, setV] = useState(() => localStorage.getItem(KEY) || "v1");
   useEffect(() => { localStorage.setItem(KEY, v); }, [v]);
-  return { v, isV2: v === "v2", toggle: () => setV(x => x === "v1" ? "v2" : "v1") };
+  const value = { v, isV2: v === "v2", toggle: () => setV(x => (x === "v1" ? "v2" : "v1")) };
+  return <VersionContext.Provider value={value}>{children}</VersionContext.Provider>;
+}
+
+export function useVersion() {
+  return useContext(VersionContext);
 }
 
 export function VersionToggle({ className = "" }) {

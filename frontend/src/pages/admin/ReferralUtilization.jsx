@@ -16,8 +16,11 @@ export default function Utilization() {
   const [open, setOpen] = useState(false);
   const [uq, setUq] = useState("");
   const [ufilter, setUfilter] = useState("All codes");
+  const [oq, setOq] = useState("");
+  const [ostatus, setOstatus] = useState("All statuses");
   const [form, setForm] = useState({ label: "", appliesTo: "All ambassadors", overridePct: "", startDate: "", endDate: "" });
   const filteredUtil = referralUtilization.filter(u => !isV2 || (u.code + u.orderId + u.customerId).toLowerCase().includes(uq.toLowerCase())).filter(u => !isV2 || ufilter === "All codes" || u.code === ufilter);
+  const filteredOverrides = commissionOverrides.filter(o => !isV2 || (o.id + o.label + o.appliesTo).toLowerCase().includes(oq.toLowerCase())).filter(o => !isV2 || ostatus === "All statuses" || o.status === ostatus);
   const codeOptions = ["All codes", ...new Set(referralUtilization.map(u=>u.code))];
 
   const save = (e) => {
@@ -40,7 +43,10 @@ export default function Utilization() {
       <div className="gajab-card p-5">
         <div className="flex items-center justify-between flex-wrap gap-3 mb-3">
           <div><h3 className="font-display text-xl flex items-center gap-2"><Percent className="w-5 h-5 text-[#F26B1F]" /> Commission overrides</h3><p className="text-xs text-[#5A6378]">Boost commission for specific campaigns & periods. Overrides apply automatically to qualifying orders.</p></div>
-          <button onClick={()=>setOpen(true)} className="btn-primary text-sm" data-testid="new-override-btn"><Plus className="w-4 h-4" /> New Override</button>
+          <div className="flex flex-wrap items-center gap-2">
+            {isV2 && (<><div className="relative"><Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#5A6378]" /><input value={oq} onChange={e=>setOq(e.target.value)} placeholder="Search campaign, ID..." className="input-gajab pl-10 h-10 w-56" data-testid="override-search" /></div><select value={ostatus} onChange={e=>setOstatus(e.target.value)} className="input-gajab h-10 w-40" data-testid="override-filter"><option>All statuses</option><option>Active</option><option>Scheduled</option><option>Expired</option></select></>)}
+            <button onClick={()=>setOpen(true)} className="btn-primary text-sm" data-testid="new-override-btn"><Plus className="w-4 h-4" /> New Override</button>
+          </div>
         </div>
         <div className="overflow-x-auto">
           <table className="w-full text-sm">
@@ -48,7 +54,7 @@ export default function Utilization() {
               <th className="p-3">ID</th><th className="p-3">Campaign</th><th className="p-3">Applies to</th><th className="p-3 text-right">Original %</th><th className="p-3 text-right">Override %</th><th className="p-3">Start</th><th className="p-3">End</th><th className="p-3">Status</th><th className="p-3"></th>
             </tr></thead>
             <tbody>
-              {commissionOverrides.map(o => (
+              {filteredOverrides.map(o => (
                 <tr key={o.id} className="border-b border-[#F0EBE2]" data-testid={`override-${o.id}`}>
                   <td className="p-3 font-mono text-xs">{o.id}</td>
                   <td className="p-3 font-bold">{o.label}</td>

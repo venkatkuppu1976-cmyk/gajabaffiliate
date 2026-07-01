@@ -11,6 +11,11 @@ Design Student Affiliate program for gajab.com (Indian bargain bazaar) — stati
   - **Share-to-WhatsApp + Insta Story + Telegram** deep buttons on Ambassador Home (`ShareRow` component), each with pre-filled Hindi-flavored pitch.
   - **Tier / Level progression engine** — 4 tiers (Bronze 8%, Silver 10%, Gold 12%, Platinum 15%) with auto-progress based on lifetime revenue. New `/dashboard/tier` dedicated page (full breakdown w/ unlocked/current/locked states), embedded `TierProgress` card on Ambassador Home, tier badge on Profile.
   - Live-OTP via Twilio: **skipped** (out of scope for static demo).
+- **Iter 5 (Feb 2026)**: V1 / V2 A/B toggle
+  - **VersionProvider Context** in `/app/frontend/src/hooks/useVersion.jsx` (Feb 2026 — replaced broken useState hook that caused V1/V2 to look identical).
+  - **V2 Admin**: Leaderboard filters (name, state, city, duration); Utilization + Commission Overrides search/filter; Announcements read-count hidden; Support Map-new-affiliates panel filters out already-linked; Analytics adds "Custom Date" frequency option with date pickers.
+  - **V2 Ambassador**: Login merged phone+OTP on one screen; Settings hides Preferences (language/timezone) + 2FA; Support shows only mapped POCs; Home shows Total Users KPI + 5-stage order status breakdown (Registered / Order Placed / Completed / Cancelled / Returned) + new-orders include Order ID, Buyer name, masked phone; My Links restricted to single master link; Performance shows Buyer + masked phone + Qty column (instead of Via Link).
+  - **Bug fix**: My Links page was crashing due to undefined `isV2` and `urls` refs — fixed by importing `useVersion` and defining `urls` conditionally.
 
 ## Routes (current)
 - Public: `/`, `/apply`

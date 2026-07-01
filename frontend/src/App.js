@@ -2,6 +2,7 @@ import React from "react";
 import "@/App.css";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { Toaster } from "sonner";
+import { VersionProvider } from "@/hooks/useVersion";
 
 import ApplyPage from "@/pages/ApplyPage";
 import Login from "@/pages/auth/Login";
@@ -36,9 +37,10 @@ import AdminSupport from "@/pages/admin/Support";
 function App() {
   return (
     <div className="App">
-      <BrowserRouter>
-        <Toaster position="top-center" richColors />
-        <Routes>
+      <VersionProvider>
+        <BrowserRouter>
+          <Toaster position="top-center" richColors />
+          <Routes>
           <Route path="/" element={<Navigate to="/apply" replace />} />
           <Route path="/apply" element={<ApplyPage />} />
 
@@ -74,7 +76,8 @@ function App() {
             <Route path="support" element={<AdminSupport />} />
           </Route>
         </Routes>
-      </BrowserRouter>
+        </BrowserRouter>
+      </VersionProvider>
     </div>
   );
 }
