@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import { Search, Users, ShoppingBag, TrendingUp, Upload, Download, Plus, MessageSquare, X, ExternalLink } from "lucide-react";
+import { Search, Users, ShoppingBag, TrendingUp, Upload, Download, Plus, MessageSquare, X, ExternalLink, ArrowLeft, Trophy, ListChecks, IndianRupee, Award } from "lucide-react";
 import { toast } from "sonner";
-import { leaderboard, adminKpis, states, cities, ambassador } from "@/data/mockData";
+import { leaderboard, adminKpis, states, cities } from "@/data/mockData";
 
 const Kpi = ({ icon: Icon, label, value, bg }) => (
   <div className={`gajab-card p-5 ${bg}`}><Icon className="w-6 h-6 mb-2" strokeWidth={2.5} /><p className="text-xs uppercase font-extrabold tracking-wider opacity-70">{label}</p><p className="font-display text-3xl mt-1">{value}</p></div>
@@ -16,6 +16,7 @@ export default function Directory() {
   const [levelF, setLevelF] = useState("All");
   const [open, setOpen] = useState(false);
   const [msgOpen, setMsgOpen] = useState(null);
+  const [detail, setDetail] = useState(null);
   const [msg, setMsg] = useState("");
   const [form, setForm] = useState({ name: "", phone: "", email: "", college: "", year: "", city: "", state: "", instagram: "", followers: "", whyJoin: "" });
 
@@ -27,6 +28,98 @@ export default function Directory() {
 
   const save = (e) => { e.preventDefault(); if (!form.name) { toast.error("Name required"); return; } toast.success(`${form.name} added as Approved affiliate. Welcome email sent.`); setOpen(false); };
   const sendMsg = (e) => { e.preventDefault(); if (!msg.trim()) { toast.error("Message required"); return; } toast.success(`Message sent to ${msgOpen.name}`); setMsgOpen(null); setMsg(""); };
+
+  // ==================== DETAILED PROFILE VIEW ====================
+  if (detail) {
+    const tier = tierFor(detail.revenue);
+    // Derive lightweight stats
+    const commRate = tier === "Platinum" ? 15 : tier === "Gold" ? 12 : tier === "Silver" ? 10 : 8;
+    const commissionEarned = Math.round(detail.revenue * commRate / 100);
+    const mockTasks = [
+      { id: "T-01", title: "Post Insta Story about Diwali sale", status: "Approved" },
+      { id: "T-02", title: "Share Ambassador link on LinkedIn", status: "Approved" },
+      { id: "T-03", title: "Organize campus product demo", status: "Under Review" },
+      { id: "T-04", title: "Refer 5 new users this week", status: "Pending" },
+    ];
+    const mockOrders = [
+      { id: "GJ-8891", product: "Sneha Beauty Kit", value: 1899, comm: Math.round(1899*commRate/100), status: "Delivered" },
+      { id: "GJ-8890", product: "Wireless Earbuds", value: 1499, comm: Math.round(1499*commRate/100), status: "Delivered" },
+      { id: "GJ-8889", product: "Notebook Bundle", value: 599, comm: Math.round(599*commRate/100), status: "Delivered" },
+      { id: "GJ-8888", product: "Hair Care Combo", value: 899, comm: Math.round(899*commRate/100), status: "Cancelled" },
+    ];
+    return (
+      <div className="space-y-5">
+        <button onClick={()=>setDetail(null)} className="btn-ghost text-sm" data-testid="dir-back-btn"><ArrowLeft className="w-4 h-4" /> Back to directory</button>
+
+        {/* Header card */}
+        <div className="gajab-card p-6 flex items-center gap-4 flex-wrap">
+          <img src={detail.avatar} alt="" className="w-24 h-24 rounded-2xl object-cover" />
+          <div className="flex-1 min-w-0">
+            <div className="flex items-center gap-2 flex-wrap">
+              <span className="gajab-sticker-yellow">#{detail.rank}</span>
+              <span className="gajab-sticker bg-[#FFF1C2] text-[#92400E] border border-[#FFC93C]/60">{tier} Tier</span>
+              <span className="gajab-sticker-orange">{commRate}% commission</span>
+            </div>
+            <h1 className="font-display text-3xl mt-2">{detail.name}</h1>
+            <p className="text-[#5A6378]">{detail.college} · {detail.city}, {detail.state}</p>
+          </div>
+          <div className="flex gap-2 flex-wrap">
+            <button onClick={()=>setMsgOpen(detail)} className="btn-ghost text-sm" data-testid="dir-detail-msg"><MessageSquare className="w-4 h-4" /> Message</button>
+            <a href={`https://gajab.com/r/${detail.name.split(" ")[0].toUpperCase()}`} target="_blank" rel="noreferrer" className="btn-primary text-sm"><ExternalLink className="w-4 h-4" /> Affiliate link</a>
+          </div>
+        </div>
+
+        {/* Stat KPIs */}
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3" data-testid="dir-detail-kpis">
+          <div className="gajab-card p-4 bg-white"><div className="w-10 h-10 rounded-full grid place-items-center bg-[#FFE9D9]"><ShoppingBag className="w-5 h-5 text-[#C9450C]" strokeWidth={2.5} /></div><p className="text-[10px] font-bold uppercase tracking-wider text-[#5A6378] mt-3">Orders</p><p className="font-display text-3xl">{detail.orders}</p></div>
+          <div className="gajab-card p-4 bg-white"><div className="w-10 h-10 rounded-full grid place-items-center bg-[#D1FAE5]"><TrendingUp className="w-5 h-5 text-[#065F46]" strokeWidth={2.5} /></div><p className="text-[10px] font-bold uppercase tracking-wider text-[#5A6378] mt-3">Revenue Generated</p><p className="font-display text-3xl">₹{(detail.revenue/1000).toFixed(0)}K</p></div>
+          <div className="gajab-card p-4 bg-white"><div className="w-10 h-10 rounded-full grid place-items-center bg-[#E8E4FB]"><IndianRupee className="w-5 h-5 text-[#5B21B6]" strokeWidth={2.5} /></div><p className="text-[10px] font-bold uppercase tracking-wider text-[#5A6378] mt-3">Commission</p><p className="font-display text-3xl">₹{(commissionEarned/1000).toFixed(1)}K</p></div>
+          <div className="gajab-card p-4 bg-white"><div className="w-10 h-10 rounded-full grid place-items-center bg-[#FFF1C2]"><Trophy className="w-5 h-5 text-[#92400E]" strokeWidth={2.5} /></div><p className="text-[10px] font-bold uppercase tracking-wider text-[#5A6378] mt-3">Leaderboard rank</p><p className="font-display text-3xl">#{detail.rank}</p></div>
+        </div>
+
+        <div className="grid lg:grid-cols-2 gap-4">
+          {/* Tasks */}
+          <div className="gajab-card p-5">
+            <h3 className="font-display text-lg mb-3 flex items-center gap-2"><ListChecks className="w-5 h-5 text-[#F26B1F]" /> Recent tasks</h3>
+            <div className="space-y-2">
+              {mockTasks.map(t => (
+                <div key={t.id} className="flex items-center justify-between p-3 rounded-xl border border-[#EFEAE0]">
+                  <div><p className="text-[10px] font-bold uppercase tracking-wider text-[#5A6378]">{t.id}</p><p className="font-bold text-sm">{t.title}</p></div>
+                  <span className={`gajab-sticker border text-[10px] ${t.status==="Approved"?"bg-[#D1FAE5] text-[#065F46] border-[#065F46]/40":t.status==="Under Review"?"bg-[#FEF3C7] text-[#92400E] border-[#92400E]/40":"bg-[#FEF3C7] text-[#92400E] border-[#92400E]/40"}`}>{t.status}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+          {/* Orders */}
+          <div className="gajab-card p-5">
+            <h3 className="font-display text-lg mb-3 flex items-center gap-2"><ShoppingBag className="w-5 h-5 text-[#F26B1F]" /> Recent orders</h3>
+            <div className="space-y-2">
+              {mockOrders.map(o => (
+                <div key={o.id} className="flex items-center justify-between p-3 rounded-xl border border-[#EFEAE0]">
+                  <div><p className="text-[10px] font-mono text-[#5A6378]">{o.id}</p><p className="font-bold text-sm">{o.product}</p></div>
+                  <div className="text-right">
+                    <p className="font-display text-sm">₹{o.value.toLocaleString()}</p>
+                    <p className="text-[10px] text-[#F26B1F] font-bold">+ ₹{o.comm}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {/* Achievements & rewards */}
+        <div className="gajab-card p-5">
+          <h3 className="font-display text-lg mb-3 flex items-center gap-2"><Award className="w-5 h-5 text-[#F26B1F]" /> Achievements</h3>
+          <div className="grid sm:grid-cols-3 gap-3">
+            <div className="p-3 rounded-xl border border-[#EFEAE0]"><p className="font-bold text-sm">🎁 Welcome Kit</p><p className="text-xs text-[#5A6378]">Received Feb 2026</p></div>
+            <div className="p-3 rounded-xl border border-[#EFEAE0]"><p className="font-bold text-sm">📜 {tier} Certificate</p><p className="text-xs text-[#5A6378]">Unlocked at {commRate}% tier</p></div>
+            <div className="p-3 rounded-xl border border-[#EFEAE0]"><p className="font-bold text-sm">🏆 Top 10 rank</p><p className="text-xs text-[#5A6378]">Current position #{detail.rank}</p></div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+  // ================================================================
 
   return (
     <div className="space-y-5">
@@ -67,17 +160,17 @@ export default function Directory() {
               {filtered.map(r => {
                 const tier = tierFor(r.revenue);
                 return (
-                  <tr key={r.rank} className="border-b border-[#F0EBE2] hover:bg-[#FFF7EE]" data-testid={`directory-row-${r.rank}`}>
+                  <tr key={r.rank} onClick={()=>setDetail(r)} className="border-b border-[#F0EBE2] hover:bg-[#FFF7EE] cursor-pointer" data-testid={`directory-row-${r.rank}`}>
                     <td className="p-3 font-display">#{r.rank}</td>
                     <td className="p-3"><div className="flex items-center gap-2"><img src={r.avatar} alt="" className="w-8 h-8 rounded-full object-cover" /><p className="font-bold">{r.name}</p></div></td>
                     <td className="p-3">{r.college}</td>
                     <td className="p-3">{r.city}</td>
                     <td className="p-3 text-xs">{r.state}</td>
                     <td className="p-3"><span className="gajab-sticker bg-[#FFF1C2] text-[#92400E] border border-[#FFC93C]/60">{tier}</span></td>
-                    <td className="p-3 max-w-[180px]"><a href="#" onClick={e=>{e.preventDefault(); toast.success("Affiliate link opened");}} className="flex items-center gap-1 text-xs text-[#F26B1F] truncate hover:underline"><ExternalLink className="w-3 h-3 flex-shrink-0" />gajab.com/r/{r.name.split(" ")[0].toUpperCase()}</a></td>
+                    <td className="p-3 max-w-[180px]"><a href="#" onClick={e=>{e.preventDefault(); e.stopPropagation(); toast.success("Affiliate link opened");}} className="flex items-center gap-1 text-xs text-[#F26B1F] truncate hover:underline"><ExternalLink className="w-3 h-3 flex-shrink-0" />gajab.com/r/{r.name.split(" ")[0].toUpperCase()}</a></td>
                     <td className="p-3 text-right font-bold">{r.orders}</td>
                     <td className="p-3 text-right font-display">₹{(r.revenue/1000).toFixed(0)}K</td>
-                    <td className="p-3"><button onClick={()=>setMsgOpen(r)} className="text-xs font-bold text-[#F26B1F] hover:bg-[#FFE9D9] px-2 py-1 rounded-lg flex items-center gap-1" data-testid={`msg-${r.rank}`}><MessageSquare className="w-3 h-3" /> Message</button></td>
+                    <td className="p-3" onClick={e=>e.stopPropagation()}><button onClick={()=>setMsgOpen(r)} className="text-xs font-bold text-[#F26B1F] hover:bg-[#FFE9D9] px-2 py-1 rounded-lg flex items-center gap-1" data-testid={`msg-${r.rank}`}><MessageSquare className="w-3 h-3" /> Message</button></td>
                   </tr>
                 );
               })}

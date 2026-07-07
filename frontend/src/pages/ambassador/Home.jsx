@@ -1,5 +1,5 @@
-import React from "react";
-import { Copy, Share2, MousePointerClick, ShoppingBag, PackageCheck, TrendingUp, IndianRupee, Sparkles } from "lucide-react";
+import React, { useState } from "react";
+import { Copy, Share2, MousePointerClick, ShoppingBag, PackageCheck, TrendingUp, IndianRupee, Sparkles, Repeat, UserPlus, XOctagon, PackageX, Filter } from "lucide-react";
 import { toast } from "sonner";
 import { LineChart, Line, XAxis, YAxis, ResponsiveContainer, Tooltip, CartesianGrid } from "recharts";
 import { ambassador, stats, trendData, recentOrders } from "@/data/mockData";
@@ -20,6 +20,7 @@ const Stat = ({ icon: Icon, label, value, suffix, bg, accent }) => (
 
 export default function Home() {
   const { isV2 } = useVersion();
+  const [period, setPeriod] = useState("Monthly");
   return (
     <div className="space-y-5">
       {/* Header */}
@@ -29,7 +30,21 @@ export default function Home() {
           <h1 className="font-display text-3xl sm:text-4xl font-extrabold mt-2">What&apos;s selling today?</h1>
           <p className="text-[#5A6378] mt-1">Here's how your hustle's looking this month.</p>
         </div>
+        {/* Period filter */}
+        <div className="flex items-center gap-1 p-1 bg-white border border-[#EFEAE0] rounded-xl" data-testid="home-period-filter">
+          <Filter className="w-3.5 h-3.5 ml-2 text-[#5A6378]" />
+          {["Weekly", "Monthly", "Custom"].map(p => (
+            <button key={p} onClick={()=>setPeriod(p)} className={`nav-tab text-xs ${period===p ? "bg-[#F26B1F] text-white" : "text-[#5A6378] hover:bg-[#FFF7EE]"}`} data-testid={`period-${p.toLowerCase()}`}>{p}</button>
+          ))}
+        </div>
       </div>
+      {period === "Custom" && (
+        <div className="flex items-center gap-2 flex-wrap" data-testid="home-custom-dates">
+          <input type="date" className="input-gajab w-auto h-9 text-xs" />
+          <span className="text-xs font-bold text-[#5A6378]">→</span>
+          <input type="date" className="input-gajab w-auto h-9 text-xs" />
+        </div>
+      )}
 
       {/* Affiliate link card */}
       <div className="gajab-card p-5 sm:p-6 bg-[#1B2D54] text-white">
@@ -57,11 +72,12 @@ export default function Home() {
       </div>
 
       {isV2 && (
-        <div className="grid grid-cols-2 lg:grid-cols-5 gap-3">
+        <div className="grid grid-cols-2 lg:grid-cols-6 gap-3">
           {[
             { label: "Registered · No order", value: 84, bg: "bg-[#E0E7FF]", tx: "text-[#3730A3]" },
             { label: "Order placed", value: 32, bg: "bg-[#FEF3C7]", tx: "text-[#92400E]" },
             { label: "Completed", value: 152, bg: "bg-[#D1FAE5]", tx: "text-[#065F46]" },
+            { label: "Repeat orders", value: 41, bg: "bg-[#FFE9D9]", tx: "text-[#C9450C]" },
             { label: "Cancelled", value: 24, bg: "bg-[#FEE2E2]", tx: "text-[#991B1B]" },
             { label: "Returned", value: 8, bg: "bg-[#F3EFE9]", tx: "text-[#5A6378]" },
           ].map(s => (
@@ -135,6 +151,52 @@ export default function Home() {
           ))}
         </div>
       </div>
+
+      {/* Customers onboarded (V2) */}
+      {isV2 && (
+        <div className="gajab-card p-5" data-testid="customers-onboarded">
+          <div className="flex items-center justify-between mb-3">
+            <h3 className="font-display text-lg font-extrabold flex items-center gap-2"><UserPlus className="w-5 h-5 text-[#F26B1F]" /> Customers onboarded</h3>
+            <span className="gajab-sticker-orange text-[10px]">12 · Last 7 days</span>
+          </div>
+          <div className="grid sm:grid-cols-2 gap-2">
+            {["Rahul K.", "Anita P.", "Deepak S.", "Neha R.", "Aman T.", "Priya J."].map((n, i) => (
+              <div key={n} className="flex items-center justify-between p-3 rounded-xl border border-[#EFEAE0] hover:border-[#F26B1F]/40 transition-all" data-testid={`cust-${i}`}>
+                <div className="min-w-0">
+                  <p className="font-bold text-sm text-[#1B2D54]">{n}</p>
+                  <p className="text-[11px] font-mono text-[#5A6378]">+91 98765 4** ***</p>
+                </div>
+                <span className={`gajab-sticker text-[10px] ${i%3===0 ? "bg-[#D1FAE5] text-[#065F46]" : i%3===1 ? "bg-[#FEF3C7] text-[#92400E]" : "bg-[#E0E7FF] text-[#3730A3]"} border border-current/30`}>{i%3===0 ? "Placed order" : i%3===1 ? "Registered" : "Repeat customer"}</span>
+              </div>
+            ))}
+          </div>
+          <p className="text-[11px] text-[#5A6378] mt-3 flex items-center gap-1"><Sparkles className="w-3 h-3" /> Contact details are masked for privacy — full data available with admin only.</p>
+        </div>
+      )}
+
+      {/* Order buckets breakdown (V2) */}
+      {isV2 && (
+        <div className="grid sm:grid-cols-3 gap-3" data-testid="order-buckets">
+          <div className="gajab-card p-4 bg-[#D1FAE5] border-[#10B981]/30" data-testid="bucket-completed">
+            <PackageCheck className="w-5 h-5 text-[#065F46]" strokeWidth={2.5} />
+            <p className="text-[10px] font-bold uppercase tracking-wider text-[#065F46] mt-2">Completed orders</p>
+            <p className="font-display text-3xl text-[#065F46] mt-0.5">152</p>
+            <p className="text-[11px] text-[#065F46]/80 mt-1">Delivered & confirmed</p>
+          </div>
+          <div className="gajab-card p-4 bg-[#FEE2E2] border-[#EF4444]/30" data-testid="bucket-cancelled">
+            <XOctagon className="w-5 h-5 text-[#991B1B]" strokeWidth={2.5} />
+            <p className="text-[10px] font-bold uppercase tracking-wider text-[#991B1B] mt-2">Cancelled</p>
+            <p className="font-display text-3xl text-[#991B1B] mt-0.5">24</p>
+            <p className="text-[11px] text-[#991B1B]/80 mt-1">Auto-reversed commission</p>
+          </div>
+          <div className="gajab-card p-4 bg-[#F3EFE9] border-[#EFEAE0]" data-testid="bucket-returned">
+            <PackageX className="w-5 h-5 text-[#5A6378]" strokeWidth={2.5} />
+            <p className="text-[10px] font-bold uppercase tracking-wider text-[#5A6378] mt-2">Returned</p>
+            <p className="font-display text-3xl text-[#5A6378] mt-0.5">8</p>
+            <p className="text-[11px] text-[#5A6378]/80 mt-1">Refunded to customer</p>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

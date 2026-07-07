@@ -10,7 +10,7 @@ const nav = [
   { to: "/admin/affiliate-urls", icon: Link2, label: "Affiliate URLs" },
   { to: "/admin/tasks", icon: ListChecks, label: "Tasks" },
   { to: "/admin/leaderboard", icon: Trophy, label: "Leaderboard" },
-  { to: "/admin/utilization", icon: Activity, label: "Utilization" },
+  { to: "/admin/utilization", icon: Activity, label: "Commissions" },
   { to: "/admin/announcements", icon: Megaphone, label: "Announcements" },
   { to: "/admin/support", icon: HeadphonesIcon, label: "Support" },
   { to: "/admin/analytics", icon: BarChart3, label: "Analytics" },

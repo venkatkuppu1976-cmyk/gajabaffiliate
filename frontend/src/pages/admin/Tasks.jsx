@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Plus, Check, X, ExternalLink, Search, Filter, ArrowLeft, RotateCw } from "lucide-react";
+import { Plus, Check, X, ExternalLink, Search, Filter, ArrowLeft, RotateCw, Bell, AlertTriangle } from "lucide-react";
 import { toast } from "sonner";
 import { adminTasks, taskAssignees, adminPendingTasks } from "@/data/mockData";
 import DateInputDDMMYYYY from "@/components/DateInputDDMMYYYY";
@@ -17,6 +17,8 @@ export default function AdminTasks() {
   const [open, setOpen] = useState(false);
   const [q, setQ] = useState("");
   const [filter, setFilter] = useState("All");
+  const [rejecting, setRejecting] = useState(null); // { pendingId, ambassador } waiting for rejection reason
+  const [rejectReason, setRejectReason] = useState("");
   const [form, setForm] = useState({ title:"", desc:"", deadline:"", reward:"", target:"all" });
 
   const filtered = adminTasks
@@ -24,6 +26,12 @@ export default function AdminTasks() {
     .filter(t => (t.title + t.description + t.id).toLowerCase().includes(q.toLowerCase()));
 
   const create = (e) => { e.preventDefault(); if (!form.title || !form.desc) { toast.error("Title & description required"); return; } toast.success("Task created & assigned!"); setOpen(false); setForm({ title:"", desc:"", deadline:"", reward:"", target:"all" }); };
+  const sendReminder = () => toast.success("Reminder sent via WhatsApp + Inbox to all ambassadors with pending / overdue tasks");
+  const confirmReject = () => {
+    if (!rejectReason.trim()) { toast.error("Rejection reason is required"); return; }
+    toast.error(`${rejecting.ambassador}'s submission rejected · reason logged`);
+    setRejecting(null); setRejectReason("");
+  };
 
   if (detail) {
     const assignees = taskAssignees[detail.id] || [];
@@ -54,7 +62,7 @@ export default function AdminTasks() {
                 <div className="flex items-center gap-2">
                   <span className={`gajab-sticker border ${statusClr[a.status]}`}>{a.status}</span>
                   {a.status === "Resubmitted" && <button onClick={()=>toast.success(`Resubmission from ${a.ambassador} approved`)} className="btn-primary text-xs h-8 px-3" data-testid={`approve-resub-${i}`}><Check className="w-3 h-3" /> Approve Resubmission</button>}
-                  {a.status === "Under Review" && (<><button onClick={()=>toast.success(`Approved ${a.ambassador}`)} className="btn-primary text-xs h-8 px-3"><Check className="w-3 h-3" /></button><button onClick={()=>toast.error(`Rejected ${a.ambassador}`)} className="btn-ghost text-xs h-8 px-3 border-[#991B1B] text-[#991B1B]"><X className="w-3 h-3" /></button></>)}
+                  {a.status === "Under Review" && (<><button onClick={()=>toast.success(`Approved ${a.ambassador}`)} className="btn-primary text-xs h-8 px-3"><Check className="w-3 h-3" /></button><button onClick={()=>setRejecting({ pendingId: a.ambassador, ambassador: a.ambassador })} className="btn-ghost text-xs h-8 px-3 border-[#991B1B] text-[#991B1B]"><X className="w-3 h-3" /></button></>)}
                 </div>
               </div>
             ))}
@@ -72,7 +80,10 @@ export default function AdminTasks() {
           <h1 className="font-display text-3xl sm:text-4xl mt-2">Task library & verifications</h1>
           <p className="text-[#5A6378] mt-1">{filtered.length} of {adminTasks.length} tasks · {adminPendingTasks.length} pending verifications</p>
         </div>
-        <button onClick={()=>setOpen(true)} className="btn-primary" data-testid="create-task-btn"><Plus className="w-4 h-4" /> New Task</button>
+        <div className="flex gap-2 flex-wrap">
+          <button onClick={sendReminder} className="btn-ghost text-sm" data-testid="tasks-reminder-btn"><Bell className="w-4 h-4" /> Send Reminder</button>
+          <button onClick={()=>setOpen(true)} className="btn-primary" data-testid="create-task-btn"><Plus className="w-4 h-4" /> New Task</button>
+        </div>
       </div>
 
       <div className="gajab-card p-4 grid lg:grid-cols-3 gap-3">
@@ -107,13 +118,29 @@ export default function AdminTasks() {
                 <p className="text-xs mt-1 flex items-center gap-1 text-[#F26B1F]"><ExternalLink className="w-3 h-3" />{t.proof}</p>
               </div>
               <div className="flex gap-2">
-                <button onClick={()=>toast.error(`${t.ambassador}'s submission rejected`)} className="btn-ghost border-[#991B1B] text-[#991B1B] text-xs h-9"><X className="w-3 h-3" /></button>
-                <button onClick={()=>toast.success(`${t.ambassador}'s submission approved!`)} className="btn-primary text-xs h-9"><Check className="w-3 h-3" /> Approve</button>
+                <button onClick={()=>setRejecting({ pendingId: t.id, ambassador: t.ambassador })} className="btn-ghost border-[#991B1B] text-[#991B1B] text-xs h-9" data-testid={`reject-${t.id}`}><X className="w-3 h-3" /></button>
+                <button onClick={()=>toast.success(`${t.ambassador}'s submission approved!`)} className="btn-primary text-xs h-9" data-testid={`approve-${t.id}`}><Check className="w-3 h-3" /> Approve</button>
               </div>
             </div>
           ))}
         </div>
       </div>
+
+      {rejecting && (
+        <div className="fixed inset-0 z-50 grid place-items-center bg-[#1B2D54]/40 p-4" data-testid="reject-modal">
+          <div className="gajab-card p-6 bg-white w-full max-w-md space-y-3">
+            <div className="flex items-center gap-2 text-[#991B1B]"><AlertTriangle className="w-5 h-5" /><h3 className="font-display text-xl">Reject submission</h3></div>
+            <p className="text-sm text-[#5A6378]">Rejecting <b className="text-[#1B2D54]">{rejecting.ambassador}</b>'s submission. Please provide a clear reason — it&apos;s shown to the ambassador.</p>
+            <label className="block"><span className="text-xs font-bold uppercase tracking-wider text-[#5A6378]">Rejection reason <span className="text-[#991B1B]">*</span></span>
+              <textarea value={rejectReason} onChange={e=>setRejectReason(e.target.value)} rows={4} placeholder="e.g. Proof link doesn't match the task requirement. Please repost on your public feed and resubmit." className="input-gajab mt-1 py-3 h-auto resize-none" data-testid="reject-reason-input" autoFocus />
+            </label>
+            <div className="flex gap-2 justify-end">
+              <button onClick={()=>{setRejecting(null); setRejectReason("");}} className="btn-ghost">Cancel</button>
+              <button onClick={confirmReject} className="btn-primary bg-[#991B1B] hover:bg-[#7F1D1D] shadow-[0_4px_12px_rgba(153,27,27,0.30)]" data-testid="reject-confirm-btn"><X className="w-4 h-4" /> Reject with reason</button>
+            </div>
+          </div>
+        </div>
+      )}
 
       {open && (
         <div className="fixed inset-0 z-50 grid place-items-center bg-[#1B2D54]/40 p-4">

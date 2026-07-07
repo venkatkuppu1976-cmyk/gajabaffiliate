@@ -18,7 +18,6 @@ export default function Applicants() {
   const [cityFilter, setCityFilter] = useState("All Cities");
   const [duration, setDuration] = useState("All time");
   const [comments, setComments] = useState("");
-  const [commission, setCommission] = useState(10);
 
   const filtered = applicants
     .filter(a => statusFilter === "All" || a.status === statusFilter)
@@ -26,11 +25,11 @@ export default function Applicants() {
     .filter(a => cityFilter === "All Cities" || a.city === cityFilter)
     .filter(a => (a.name+a.college+a.city+a.email+a.state).toLowerCase().includes(q.toLowerCase()));
 
-  const open = (a) => { setSel(a); setComments(a.comments || ""); setCommission(a.commissionPct || 10); };
+  const open = (a) => { setSel(a); setComments(a.comments || ""); };
   const act = (kind) => {
     if (kind === "reject" && !comments.trim()) { toast.error("Rejection reason required"); return; }
     if (kind === "partial" && !comments.trim()) { toast.error("Partial approval comment required"); return; }
-    toast.success(`${sel.name} ${kind === "approve" ? `approved at ${commission}% commission` : kind === "reject" ? "rejected with reason logged" : "partially approved · custom comment saved"}`);
+    toast.success(`${sel.name} ${kind === "approve" ? "approved at 5% starting commission · credentials sent" : kind === "reject" ? "rejected with reason logged" : "partially approved · custom comment saved"}`);
     setSel(null);
   };
 
@@ -60,7 +59,7 @@ export default function Applicants() {
         <div className="overflow-x-auto">
           <table className="w-full text-sm">
             <thead className="bg-[#FFF7EE] border-b border-[#EFEAE0]"><tr className="text-left text-[10px] font-extrabold uppercase tracking-wider text-[#5A6378]">
-              <th className="p-3">ID</th><th className="p-3">Name</th><th className="p-3">Phone</th><th className="p-3">College</th><th className="p-3">City</th><th className="p-3">State</th><th className="p-3 text-right">Comm %</th><th className="p-3">Applied</th><th className="p-3">Status</th><th className="p-3">Actions</th>
+              <th className="p-3">ID</th><th className="p-3">Name</th><th className="p-3">Phone</th><th className="p-3">College</th><th className="p-3">City</th><th className="p-3">State</th><th className="p-3">Applied</th><th className="p-3">Status</th><th className="p-3">Actions</th>
             </tr></thead>
             <tbody>
               {filtered.map(a => (
@@ -71,7 +70,6 @@ export default function Applicants() {
                   <td className="p-3">{a.college}</td>
                   <td className="p-3">{a.city}</td>
                   <td className="p-3 text-xs">{a.state}</td>
-                  <td className="p-3 text-right">{a.commissionPct ? `${a.commissionPct}%` : "—"}</td>
                   <td className="p-3 text-xs">{a.appliedOn}</td>
                   <td className="p-3"><span className={`gajab-sticker border ${statusClr[a.status]}`}>{a.status}</span></td>
                   <td className="p-3" onClick={e=>e.stopPropagation()}><button onClick={()=>toast.success(`Task assigned to ${a.name}`)} className="text-xs font-bold text-[#F26B1F] hover:bg-[#FFE9D9] px-2 py-1 rounded-lg flex items-center gap-1" data-testid={`assign-task-${a.id}`}><ListChecks className="w-3 h-3" /> Task</button></td>
@@ -93,14 +91,17 @@ export default function Applicants() {
               <p><b>Status:</b> <span className={`gajab-sticker border ${statusClr[sel.status]}`}>{sel.status}</span></p>
               <p><b>Email:</b> {sel.email}</p><p><b>Phone:</b> {sel.phone}</p><p><b>College:</b> {sel.college}</p><p><b>City:</b> {sel.city}, {sel.state}</p><p><b>Applied:</b> {sel.appliedOn}</p>
             </div>
-            <label className="block mt-5"><span className="text-xs font-bold uppercase tracking-wider text-[#5A6378]">Commission % (if approving)</span>
-              <input type="number" value={commission} onChange={e=>setCommission(e.target.value)} className="input-gajab mt-1" min={0} max={20} data-testid="applicant-commission" />
+            <label className="block mt-5"><span className="text-xs font-bold uppercase tracking-wider text-[#5A6378]">Starting commission</span>
+              <div className="mt-1 p-3 rounded-xl bg-[#FFF1C2] border border-[#FFC93C]/60 flex items-center gap-2" data-testid="applicant-fixed-commission">
+                <span className="font-display text-2xl text-[#92400E]">5%</span>
+                <span className="text-[11px] text-[#92400E]/80">All new ambassadors start at 5% — auto-upgrades to 7.5% after 24 confirmed orders.</span>
+              </div>
             </label>
             <label className="block mt-3"><span className="text-xs font-bold uppercase tracking-wider text-[#5A6378]">Comments / rejection reason / partial approval note</span>
               <textarea value={comments} onChange={e=>setComments(e.target.value)} rows={4} placeholder="Required for Reject / Partial Approval..." className="input-gajab mt-1 py-3 h-auto resize-none" data-testid="applicant-notes" />
             </label>
             <div className="mt-5 grid grid-cols-1 gap-2">
-              <button onClick={()=>act("approve")} className="btn-primary" data-testid="applicant-approve"><Check className="w-4 h-4" /> Approve at {commission}% & send credentials</button>
+              <button onClick={()=>act("approve")} className="btn-primary" data-testid="applicant-approve"><Check className="w-4 h-4" /> Approve at 5% & send credentials</button>
               <button onClick={()=>act("partial")} className="btn-accent" data-testid="applicant-partial"><Check className="w-4 h-4" /> Partially Approve (with note)</button>
               <button onClick={()=>act("reject")} className="btn-ghost border-[#991B1B] text-[#991B1B]" data-testid="applicant-reject"><X className="w-4 h-4" /> Reject (with reason)</button>
             </div>

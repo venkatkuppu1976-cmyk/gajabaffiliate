@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Plus, Edit, Trash2, X, Percent, Calendar, Search } from "lucide-react";
+import { Plus, Edit, Trash2, X, Percent, Calendar, Search, Check } from "lucide-react";
 import { toast } from "sonner";
 import { referralUtilization, commissionOverrides } from "@/data/mockData";
 import DateInputDDMMYYYY from "@/components/DateInputDDMMYYYY";
@@ -18,10 +18,20 @@ export default function Utilization() {
   const [ufilter, setUfilter] = useState("All codes");
   const [oq, setOq] = useState("");
   const [ostatus, setOstatus] = useState("All statuses");
+  const [editing, setEditing] = useState(null); // override being edited inline
+  const [editPct, setEditPct] = useState("");
   const [form, setForm] = useState({ label: "", appliesTo: "All ambassadors", overridePct: "", startDate: "", endDate: "" });
   const filteredUtil = referralUtilization.filter(u => !isV2 || (u.code + u.orderId + u.customerId).toLowerCase().includes(uq.toLowerCase())).filter(u => !isV2 || ufilter === "All codes" || u.code === ufilter);
   const filteredOverrides = commissionOverrides.filter(o => !isV2 || (o.id + o.label + o.appliesTo).toLowerCase().includes(oq.toLowerCase())).filter(o => !isV2 || ostatus === "All statuses" || o.status === ostatus);
   const codeOptions = ["All codes", ...new Set(referralUtilization.map(u=>u.code))];
+
+  const beginEdit = (o) => { setEditing(o.id); setEditPct(String(o.overridePct)); };
+  const saveEdit = (o) => {
+    const n = parseFloat(editPct);
+    if (!isFinite(n) || n <= 0 || n > 50) { toast.error("Enter a % between 0 and 50"); return; }
+    toast.success(`${o.label}: commission override updated to ${n}%`);
+    setEditing(null);
+  };
 
   const save = (e) => {
     e.preventDefault();
@@ -34,9 +44,9 @@ export default function Utilization() {
   return (
     <div className="space-y-5">
       <div>
-        <span className="gajab-sticker-yellow">Utilization & Commission</span>
-        <h1 className="font-display text-3xl sm:text-4xl mt-2">Order utilization & commission overrides</h1>
-        <p className="text-[#5A6378] mt-1">Track each order using a referral URL, and override commission % for special campaigns.</p>
+        <span className="gajab-sticker-yellow">Commissions</span>
+        <h1 className="font-display text-3xl sm:text-4xl mt-2">Commissions & order utilization</h1>
+        <p className="text-[#5A6378] mt-1">Set base commission rates, run boost campaigns, and track every referral order.</p>
       </div>
 
       {/* COMMISSION OVERRIDES */}
@@ -60,11 +70,21 @@ export default function Utilization() {
                   <td className="p-3 font-bold">{o.label}</td>
                   <td className="p-3 text-xs">{o.appliesTo}</td>
                   <td className="p-3 text-right text-[#5A6378]">{o.originalPct}%</td>
-                  <td className="p-3 text-right font-display text-[#F26B1F]">{o.overridePct}%</td>
+                  <td className="p-3 text-right">
+                    {editing === o.id ? (
+                      <div className="inline-flex items-center gap-1">
+                        <input type="number" value={editPct} onChange={e=>setEditPct(e.target.value)} className="input-gajab h-8 w-20 text-right py-0" step="0.5" data-testid={`override-edit-input-${o.id}`} autoFocus />
+                        <button onClick={()=>saveEdit(o)} className="p-1.5 hover:bg-[#D1FAE5] rounded-lg text-[#065F46]" data-testid={`override-save-${o.id}`}><Check className="w-3.5 h-3.5" /></button>
+                        <button onClick={()=>setEditing(null)} className="p-1.5 hover:bg-[#FEE2E2] rounded-lg text-[#991B1B]"><X className="w-3.5 h-3.5" /></button>
+                      </div>
+                    ) : (
+                      <span className="font-display text-[#F26B1F]">{o.overridePct}%</span>
+                    )}
+                  </td>
                   <td className="p-3 text-xs">{o.startDate}</td>
                   <td className="p-3 text-xs">{o.endDate}</td>
                   <td className="p-3"><span className={`gajab-sticker border ${overrideStatusClr[o.status]}`}>{o.status}</span></td>
-                  <td className="p-3"><div className="flex gap-1"><button onClick={()=>toast.success(`Editing ${o.label}`)} className="p-1.5 hover:bg-[#FFF7EE] rounded-lg"><Edit className="w-3.5 h-3.5 text-[#5A6378]" /></button><button onClick={()=>toast.success(`Deleted ${o.label}`)} className="p-1.5 hover:bg-[#FEE2E2] rounded-lg"><Trash2 className="w-3.5 h-3.5 text-[#991B1B]" /></button></div></td>
+                  <td className="p-3"><div className="flex gap-1"><button onClick={()=>beginEdit(o)} className="p-1.5 hover:bg-[#FFF7EE] rounded-lg" data-testid={`override-edit-${o.id}`}><Edit className="w-3.5 h-3.5 text-[#5A6378]" /></button><button onClick={()=>toast.success(`Deleted ${o.label}`)} className="p-1.5 hover:bg-[#FEE2E2] rounded-lg"><Trash2 className="w-3.5 h-3.5 text-[#991B1B]" /></button></div></td>
                 </tr>
               ))}
             </tbody>

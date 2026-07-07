@@ -1,6 +1,6 @@
 import React from "react";
 import { toast } from "sonner";
-import { Bell, Globe, ShieldCheck } from "lucide-react";
+import { Bell, Globe, ShieldCheck, PauseCircle } from "lucide-react";
 import { useVersion } from "@/hooks/useVersion";
 
 const Toggle = ({ label, defaultChecked = true }) => (
@@ -42,7 +42,8 @@ export default function AccountSettings() {
         <h3 className="font-display text-lg flex items-center gap-2"><ShieldCheck className="w-5 h-5 text-[#F26B1F]" /> Security</h3>
         <button className="btn-ghost w-full justify-start" onClick={()=>toast.success("Password reset link sent")}>Change password</button>
         {!isV2 && <button className="btn-ghost w-full justify-start" onClick={()=>toast.success("2FA enabled")}>Enable two-factor auth</button>}
-        <button className="w-full text-left p-3 rounded-xl border border-[#FEE2E2] text-[#991B1B] hover:bg-[#FEE2E2] font-bold" onClick={()=>toast.error("Account deletion requested. Confirmation sent.")}>Delete account</button>
+        <button className="w-full text-left p-3 rounded-xl border border-[#FEF3C7] text-[#92400E] hover:bg-[#FEF3C7] font-bold flex items-center gap-2" onClick={()=>toast.success("Account paused. Reactivate anytime from your inbox link.")} data-testid="pause-account-btn"><PauseCircle className="w-4 h-4" /> Pause my account</button>
+        <p className="text-[11px] text-[#5A6378] pl-1">You can pause activity anytime. All your data, earnings history and tier progress will be preserved.</p>
       </div>
 
       <button className="btn-primary w-full" onClick={()=>toast.success("Settings saved")}>Save changes</button>

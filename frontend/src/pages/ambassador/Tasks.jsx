@@ -1,11 +1,13 @@
 import React, { useState } from "react";
-import { Clock, CheckCircle2, AlertCircle, Send, XCircle, RotateCw } from "lucide-react";
+import { Clock, CheckCircle2, AlertCircle, Send, XCircle, RotateCw, HeadphonesIcon } from "lucide-react";
 import { toast } from "sonner";
+import { useNavigate } from "react-router-dom";
 import { tasks } from "@/data/mockData";
 
 const tabs = ["Pending", "Under Review", "Rejected", "Approved"];
 
 export default function Tasks() {
+  const nav = useNavigate();
   const [active, setActive] = useState("Pending");
   const [openId, setOpenId] = useState(null);
   const [proof, setProof] = useState("");
@@ -53,6 +55,7 @@ export default function Tasks() {
                   <div className="mt-3 p-3 rounded-xl bg-[#FEE2E2] border border-[#991B1B]/30 text-sm">
                     <p className="font-bold text-[#991B1B] flex items-center gap-1"><XCircle className="w-4 h-4" /> Rejection reason</p>
                     <p className="text-[#991B1B] mt-1">{t.rejectReason}</p>
+                    <button onClick={()=>nav("/dashboard/support")} className="mt-3 inline-flex items-center gap-1.5 text-xs font-bold text-[#991B1B] hover:text-white hover:bg-[#991B1B] border border-[#991B1B]/40 px-3 py-1.5 rounded-full transition-all" data-testid={`contact-poc-${t.id}`}><HeadphonesIcon className="w-3 h-3" /> Contact your POC</button>
                   </div>
                 )}
                 {t.submission && active === "Under Review" && (

@@ -1,10 +1,12 @@
 import React from "react";
+import { toast } from "sonner";
+import { MapPin } from "lucide-react";
 import { ambassador, tiers } from "@/data/mockData";
 
-const Field = ({ label, value }) => (
+const Field = ({ label, value, type = "text" }) => (
   <label className="block">
     <span className="text-xs font-bold uppercase tracking-wider text-[#5A6378]">{label}</span>
-    <input defaultValue={value} className="input-gajab mt-1" />
+    <input type={type} defaultValue={value} className="input-gajab mt-1" />
   </label>
 );
 
@@ -14,7 +16,7 @@ export default function Profile() {
     <div className="space-y-5">
       <div>
         <span className="gajab-sticker-yellow">Your Profile</span>
-        <h1 className="font-display text-3xl sm:text-4xl mt-2">Settings</h1>
+        <h1 className="font-display text-3xl sm:text-4xl mt-2">Personal details</h1>
       </div>
       <div className="gajab-card p-6 flex items-center gap-4 flex-wrap">
         <img src={ambassador.avatar} alt="" className="w-20 h-20 rounded-full object-cover ring-2 ring-[#F26B1F]/30" />
@@ -33,20 +35,29 @@ export default function Profile() {
           {tier.icon}
         </div>
       </div>
-      <div className="gajab-card p-6 grid sm:grid-cols-2 gap-4">
-        <Field label="Full name" value={ambassador.name} />
-        <Field label="Phone" value={ambassador.phone} />
-        <Field label="Email" value={ambassador.email} />
-        <Field label="City" value={ambassador.city} />
-      </div>
+
       <div className="gajab-card p-6">
-        <h3 className="font-display text-lg mb-3">Change password</h3>
+        <h3 className="font-display text-lg mb-3">Personal info</h3>
         <div className="grid sm:grid-cols-2 gap-4">
-          <label className="block"><span className="text-xs font-bold uppercase tracking-wider text-[#5A6378]">Current password</span><input type="password" className="input-gajab mt-1" /></label>
-          <label className="block"><span className="text-xs font-bold uppercase tracking-wider text-[#5A6378]">New password</span><input type="password" className="input-gajab mt-1" /></label>
+          <Field label="Full name" value={ambassador.name} />
+          <Field label="Phone" value={ambassador.phone} />
+          <Field label="Email" value={ambassador.email} type="email" />
+          <Field label="City" value={ambassador.city} />
         </div>
-        <button className="btn-primary mt-4" data-testid="save-profile-btn">Save changes</button>
       </div>
+
+      <div className="gajab-card p-6" data-testid="profile-address-section">
+        <h3 className="font-display text-lg mb-3 flex items-center gap-2"><MapPin className="w-5 h-5 text-[#F26B1F]" /> Address</h3>
+        <div className="grid sm:grid-cols-2 gap-4">
+          <label className="block sm:col-span-2"><span className="text-xs font-bold uppercase tracking-wider text-[#5A6378]">Street / House / Landmark</span><input defaultValue="204, Rose Apartments, Model Town" className="input-gajab mt-1" data-testid="addr-street" /></label>
+          <Field label="City" value={ambassador.city} />
+          <Field label="State" value={ambassador.state || "Delhi"} />
+          <Field label="Pincode" value="110009" />
+          <Field label="Country" value="India" />
+        </div>
+      </div>
+
+      <button onClick={()=>toast.success("Profile changes saved")} className="btn-primary" data-testid="save-profile-btn">Save changes</button>
     </div>
   );
 }

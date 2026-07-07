@@ -1,0 +1,59 @@
+{
+  "summary": "Frontend-only regression for the doc-driven batch changes on Gajab static demo (ApplyPage + Ambassador + Admin + V1/V2). Executed 72 targeted assertions via Playwright against the external preview URL. 71 passed. The single failed assertion ('Commissions & order utilization' heading text-in-html) is a false negative in the test itself — the heading contains '&' which HTML-encodes to '&amp;' in page.content(); visual verification via screenshots confirms the heading renders correctly.",
+  "backend_issues": { "critical": [], "minor": [] },
+  "frontend_issues": {
+    "ui_bugs": [],
+    "integration_issues": [],
+    "design_issues": [
+      {
+        "screen": "Admin > Commissions > New Override modal & Admin > Tasks > New Task modal",
+        "issues": [
+          "Uses custom DateInputDDMMYYYY component (good — India-friendly). Verified acceptable. No native date picker leaks on these modals."
+        ]
+      }
+    ]
+  },
+  "verified_features": [
+    "ApplyPage: floating 'YOUR EARNINGS PREVIEW' / ₹24,865 card is REMOVED from hero (right side is only student photo + top live strip).",
+    "ApplyPage: 'Lead. Earn. Get Recognized.' shows exactly 3 cards — Founder LOR, Internship Opportunity, Experience Certificate. 'Live Leaderboard' card is GONE.",
+    "ApplyPage: 3 top perk cards use gajab.com underwater.webp / mobile.webp / pay.webp images with correct labels (International / Mega Rewards / 7.5%).",
+    "ApplyPage: Commission Calculator section present between perks and career cards. Two sliders (calc-orders-slider, calc-aov-slider) update calc-earnings live using orders*AOV*0.075 (25*1000*0.075=₹1,875 initial; 200*10000*0.075=₹150,000 after max). 'Paid as Gajab Cash Vouchers' pill visible.",
+    "Ambassador Home V2: home-period-filter present (Weekly/Monthly/Custom); Custom reveals home-custom-dates with two date inputs.",
+    "Ambassador Home V2: 6 status tiles present incl. status-repeat (Registered/Order/Completed/Repeat/Cancelled/Returned).",
+    "Ambassador Home V2: customers-onboarded section lists customer names with masked phone '+91 98765 4** ***' (last 3 digits masked).",
+    "Ambassador Home V2: three coloured buckets bucket-completed / bucket-cancelled / bucket-returned rendered below recent orders.",
+    "Ambassador Profile: profile-address-section renders with Street, City, State, Pincode, Country fields.",
+    "Ambassador Settings: 'Delete account' button is GONE. pause-account-btn present, click fires 'Account paused' success toast with preservation note visible.",
+    "Ambassador Tasks Rejected tab: contact-poc-<taskId> button present; click navigates to /dashboard/support.",
+    "Ambassador Payouts: voucher-notice present; each payout row shows Completed orders / GMV / Voucher code stats; rewards-section renders 3 reward cards (Welcome Kit / Silver Tier Certificate / Founder LOR).",
+    "Admin sidebar: label renamed to 'Commissions' (admin-nav-commissions). Page heading 'Commissions & order utilization' verified via visual/HTML source (test was tripped by & → &amp; encoding).",
+    "Admin Commissions: inline override edit works — override-edit-<id> switches Override % cell to override-edit-input-<id>; entering valid % (15) & saving fires success toast.",
+    "Admin Applicants: table has NO 'Comm %' column (headers = ID/NAME/PHONE/COLLEGE/CITY/STATE/APPLIED/STATUS/ACTIONS). Drawer shows non-editable applicant-fixed-commission block with '5%' and auto-upgrade note. No number input in drawer. Approve button reads 'Approve at 5% & send credentials'.",
+    "Admin Directory: clicking a row opens drill-down view with dir-detail-kpis (4 KPI cards: Orders/Revenue/Commission/Rank), Recent Tasks list, Recent Orders list, Achievements section. dir-back-btn returns to directory table.",
+    "Admin Tasks: tasks-reminder-btn in header fires 'Reminder sent via WhatsApp + Inbox' toast. Pending verifications reject buttons open reject-modal; empty submission shows 'Rejection reason is required' error toast; entering text and clicking 'Reject with reason' fires rejection toast.",
+    "Admin Analytics: analytics-ambassador-search + analytics-amb-input search work; typing 'aarav' populates analytics-amb-matches; clicking a match sets 'Ambassador: <name>' context in the filter row. new-vs-repeat section shows 1,284 New Orders and 462 Repeat Orders.",
+    "V1/V2 regression: localStorage 'gajab_version' defaults to 'v2'. Clicking version-toggle switches to 'v1'. Navigating to a different route auto-resets to 'v2' via RouteResetToV2. Behaviour intact after all batch changes."
+  ],
+  "test_report_links": [],
+  "action_items": [
+    "(Optional — pre-existing from iteration 1) Copy buttons in ambassador Home (copy-link-btn) & Referrals (copy-code-*) still call navigator.clipboard.writeText without try/catch — could still fire NotAllowedError in sandboxed contexts. Not exercised in this test round but flagged for completeness.",
+    "(Non-blocking) Recharts logs 'width(-1) height(-1)' warnings when Payouts / Analytics chart containers mount before layout — cosmetic console warning only; charts still render on final layout."
+  ],
+  "critical_code_review_comments": [
+    "ApplyPage.jsx has grown to ~485 lines mixing nav / hero / perks / calculator / career / prizes / apply-form / faq / footer. Split into sub-components (ApplyHero, ApplyPerks, CommissionCalculator (already inline), ApplyForm, Faq, ApplyFooter) — improves maintainability.",
+    "Directory.jsx renders the entire drill-down view inline via an early `if (detail)` return inside the same function (~120 lines). Extract to a separate <DirectoryDetail /> component to reduce cognitive load.",
+    "useVersion.jsx: `localStorage.setItem(KEY, DEFAULT)` inside useState initialiser + setter effect is fine but the KEY value is never read on mount (state is always seeded to DEFAULT). Consider dropping the localStorage write entirely if there is no cross-tab requirement — otherwise document why persistence is intentional despite always-reset-to-V2 behaviour.",
+    "Home.jsx status-tile testid derivation uses `s.label.split(' ')[0].toLowerCase()` which yields 'registered' for 'Registered · No order' and 'order' for 'Order placed'. Testids are stable but not entirely descriptive — consider explicit ids per tile (status-registered-no-order, status-order-placed).",
+    "Tasks.jsx (admin) — reject flow's `rejecting` state carries { pendingId, ambassador } but pendingId is unused after opening modal; can be simplified. Also, on success confirmation `toast.error` is used to convey a rejection — this is UX-appropriate but the review-request calls it a 'success toast about rejection' in one place and 'error toast (submission rejected)' in another; current implementation uses error (red) toast which is more semantically correct for a rejection action.",
+    "Applicants.jsx `act('reject')` requires comments (rejection reason) inline (line 30) — good. However, unlike admin Tasks, the applicants reject flow doesn't open a dedicated modal — the reason lives in the drawer textarea. Consistency across the two reject flows would help.",
+    "All /dashboard and /admin routes remain publicly accessible without any auth guard — expected for the static prototype but worth documenting."
+  ],
+  "updated_files": [],
+  "success_rate": { "backend": "N/A", "frontend": "71/72 (98.6%) — the 1 miss is a test-side HTML-encoding false negative, not a code bug" },
+  "test_credentials": "Static demo — no credentials required. If exercised: phone = any 10 digits, OTP = 123456.",
+  "seed_data_creation": "None — all data is mock in /app/frontend/src/data/mockData.js.",
+  "retest_needed": false,
+  "main_agent_can_self_test": true,
+  "context_for_next_testing_agent": "Every doc-driven change listed in the review request has been individually asserted (see verified_features array). Full external-URL Playwright run under 1920x900 desktop viewport. If retesting the 'Commissions & order utilization' heading, use `page.locator('h1', has_text='Commissions').first.inner_text()` rather than substring-searching page.content() — the '&' character encodes to '&amp;' in raw HTML. V1/V2 always snaps back to V2 on route change; to test any V1 layout you must toggle after arriving on the target page (do not toggle then navigate). The reject-modal button testid regex `[data-testid^=\"reject-\"]` collides with reject-modal / reject-reason-input / reject-confirm-btn — use a more specific selector like `[data-testid^=\"reject-\"]:not([data-testid=\"reject-modal\"]):not([data-testid=\"reject-reason-input\"]):not([data-testid=\"reject-confirm-btn\"])`.",
+  "rca of the issue": "N/A — no real bug found in this iteration. Previous iteration_1 flagged navigator.clipboard.writeText unhandled promise on copy buttons; this batch didn't touch those files so it remains open as a pre-existing concern (not exercised here)."
+}

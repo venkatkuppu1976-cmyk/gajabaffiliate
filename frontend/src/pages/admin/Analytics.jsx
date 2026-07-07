@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { BarChart, Bar, XAxis, YAxis, ResponsiveContainer, Tooltip, CartesianGrid, PieChart, Pie, Cell, Legend } from "recharts";
-import { Filter } from "lucide-react";
-import { adminKpis, trendData, states, cities } from "@/data/mockData";
+import { Filter, Search, ShoppingBag, Repeat } from "lucide-react";
+import { adminKpis, trendData, states, cities, leaderboard } from "@/data/mockData";
 import { useVersion } from "@/hooks/useVersion";
 
 const convData = [{ name: "With Referral", value: adminKpis.conversionWithRef }, { name: "Without Referral", value: adminKpis.conversionWithoutRef }];
@@ -17,6 +17,15 @@ export default function Analytics() {
   const [stateF, setStateF] = useState("All States");
   const [cityF, setCityF] = useState("All Cities");
   const [scope, setScope] = useState("Overall");
+  const [ambSearch, setAmbSearch] = useState("");
+  const [selectedAmb, setSelectedAmb] = useState(null);
+
+  const ambMatches = ambSearch.trim().length >= 1
+    ? leaderboard.filter(a => a.name.toLowerCase().includes(ambSearch.toLowerCase()) || a.college.toLowerCase().includes(ambSearch.toLowerCase())).slice(0, 6)
+    : [];
+
+  // Derive stats from selected scope
+  const activeAmbName = selectedAmb ? selectedAmb.name : "";
 
   return (
     <div className="space-y-5">
@@ -40,7 +49,28 @@ export default function Analytics() {
         <div className="flex flex-col"><span className="text-[10px] font-bold uppercase tracking-wider text-[#5A6378] mb-1">Scope</span><select value={scope} onChange={e=>setScope(e.target.value)} className="input-gajab h-10" data-testid="analytics-scope"><option>Overall</option><option>By tier</option><option>By college</option><option>By channel</option></select></div>
       </div>
 
-      <p className="text-xs text-[#5A6378]">Showing: <b className="text-[#1B2D54]">{frequency}</b> · <b className="text-[#1B2D54]">{stateF}</b> · <b className="text-[#1B2D54]">{cityF}</b> · <b className="text-[#1B2D54]">{scope}</b></p>
+      <p className="text-xs text-[#5A6378]">Showing: <b className="text-[#1B2D54]">{frequency}</b> · <b className="text-[#1B2D54]">{stateF}</b> · <b className="text-[#1B2D54]">{cityF}</b> · <b className="text-[#1B2D54]">{scope}</b>{selectedAmb && (<> · <b className="text-[#F26B1F]">Ambassador: {activeAmbName}</b> <button onClick={()=>{setSelectedAmb(null); setAmbSearch("");}} className="ml-1 text-[#F26B1F] underline">clear</button></>)}</p>
+
+      {/* Individual-level lookup */}
+      <div className="gajab-card p-4" data-testid="analytics-ambassador-search">
+        <div className="flex items-center gap-2 flex-wrap">
+          <span className="text-xs font-bold uppercase tracking-wider text-[#5A6378] flex items-center gap-1"><Search className="w-3 h-3" /> Drill into a specific ambassador</span>
+          <div className="relative flex-1 min-w-[240px] max-w-md">
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#5A6378]" />
+            <input value={ambSearch} onChange={e=>{setAmbSearch(e.target.value); if (!e.target.value) setSelectedAmb(null);}} placeholder="Search ambassador by name or college..." className="input-gajab pl-10 h-10" data-testid="analytics-amb-input" />
+          </div>
+        </div>
+        {ambMatches.length > 0 && !selectedAmb && (
+          <div className="mt-3 grid sm:grid-cols-2 lg:grid-cols-3 gap-2" data-testid="analytics-amb-matches">
+            {ambMatches.map(a => (
+              <button key={a.rank} onClick={()=>setSelectedAmb(a)} className="flex items-center gap-2 p-2 rounded-lg border border-[#EFEAE0] hover:border-[#F26B1F] hover:bg-[#FFF7EE] text-left transition-all">
+                <img src={a.avatar} alt="" className="w-8 h-8 rounded-full object-cover" />
+                <div className="min-w-0"><p className="font-bold text-sm">{a.name}</p><p className="text-[10px] text-[#5A6378]">{a.college} · #{a.rank}</p></div>
+              </button>
+            ))}
+          </div>
+        )}
+      </div>
 
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
         <Kpi label="% Orders w/ Referral" value={`${adminKpis.refOrdersPercent}%`} sub="of total orders" bg="bg-[#FFE9D9]" />
@@ -55,6 +85,22 @@ export default function Analytics() {
         </div>
         <div className="gajab-card p-5"><h3 className="font-display text-lg mb-3">Conversion comparison</h3>
           <div className="h-72"><ResponsiveContainer><PieChart><Pie data={convData} cx="50%" cy="50%" outerRadius={80} dataKey="value" label>{convData.map((_, i) => <Cell key={i} fill={COLORS[i]} stroke="#1B2D54" strokeWidth={2} />)}</Pie><Legend /></PieChart></ResponsiveContainer></div>
+        </div>
+      </div>
+
+      {/* New vs Repeat orders */}
+      <div className="grid sm:grid-cols-2 gap-4" data-testid="new-vs-repeat">
+        <div className="gajab-card p-6 bg-gradient-to-br from-[#E0E7FF] to-white">
+          <div className="w-10 h-10 rounded-full grid place-items-center bg-white shadow"><ShoppingBag className="w-5 h-5 text-[#3730A3]" strokeWidth={2.5} /></div>
+          <p className="text-[10px] font-bold uppercase tracking-wider text-[#3730A3] mt-3">New Orders</p>
+          <p className="font-display text-5xl text-[#1B2D54] mt-1">1,284</p>
+          <p className="text-xs text-[#5A6378] mt-2">First-time buyers this {frequency.toLowerCase()} · <b className="text-[#3730A3]">+18%</b> vs prior period</p>
+        </div>
+        <div className="gajab-card p-6 bg-gradient-to-br from-[#FFE9D9] to-white">
+          <div className="w-10 h-10 rounded-full grid place-items-center bg-white shadow"><Repeat className="w-5 h-5 text-[#C9450C]" strokeWidth={2.5} /></div>
+          <p className="text-[10px] font-bold uppercase tracking-wider text-[#C9450C] mt-3">Repeat Orders</p>
+          <p className="font-display text-5xl text-[#1B2D54] mt-1">462</p>
+          <p className="text-xs text-[#5A6378] mt-2">Returning customers · <b className="text-[#C9450C]">26.4%</b> repeat rate</p>
         </div>
       </div>
     </div>

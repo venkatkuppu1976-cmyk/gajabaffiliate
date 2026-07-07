@@ -53,6 +53,56 @@ const Faq = ({ q, a }) => {
   );
 };
 
+const CommissionCalculator = () => {
+  const [orders, setOrders] = React.useState(25);
+  const [aov, setAov] = React.useState(1000);
+  const rate = 0.075; // 7.5%
+  const earnings = Math.round(orders * aov * rate);
+
+  return (
+    <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14" data-testid="commission-calculator">
+      <div className="text-center max-w-3xl mx-auto mb-8">
+        <span className="gajab-sticker-orange">💰 Earnings Calculator</span>
+        <h2 className="font-display text-4xl sm:text-5xl font-extrabold mt-4">How Much Will You Earn?</h2>
+        <p className="text-[#5A6378] mt-3">Move the sliders. See your earning power instantly.</p>
+      </div>
+      <div className="grid lg:grid-cols-2 gap-6 items-stretch">
+        {/* Earnings display */}
+        <div className="gajab-card p-8 bg-gradient-to-br from-[#F26B1F] to-[#C9450C] text-white flex flex-col justify-center">
+          <p className="text-xs uppercase font-extrabold tracking-wider text-[#FFC93C]">You could earn up to</p>
+          <p className="font-display text-7xl sm:text-8xl font-extrabold leading-none mt-2" data-testid="calc-earnings">₹{earnings.toLocaleString()}</p>
+          <p className="text-sm mt-4 opacity-90">based on 7.5% commission rate</p>
+          <div className="mt-6 inline-flex items-center gap-2 self-start bg-white/15 border border-white/30 backdrop-blur px-3 py-1.5 rounded-full">
+            <span className="w-2 h-2 rounded-full bg-[#FFC93C]" />
+            <p className="text-xs font-bold">Paid as Gajab Cash Vouchers</p>
+          </div>
+        </div>
+        {/* Sliders */}
+        <div className="gajab-card p-8 space-y-6">
+          <div>
+            <div className="flex items-center justify-between mb-2">
+              <span className="text-sm font-bold flex items-center gap-1.5">📦 Number of Orders</span>
+              <span className="font-display text-2xl text-[#F26B1F]">{orders}</span>
+            </div>
+            <input type="range" min={25} max={200} step={5} value={orders} onChange={e=>setOrders(parseInt(e.target.value))} className="w-full accent-[#F26B1F]" data-testid="calc-orders-slider" />
+            <div className="flex justify-between text-[10px] font-bold text-[#5A6378] mt-1"><span>25 orders</span><span>200 orders</span></div>
+          </div>
+          <div>
+            <div className="flex items-center justify-between mb-2">
+              <span className="text-sm font-bold flex items-center gap-1.5">💰 Average Order Value</span>
+              <span className="font-display text-2xl text-[#F26B1F]">₹{aov.toLocaleString()}</span>
+            </div>
+            <input type="range" min={100} max={10000} step={100} value={aov} onChange={e=>setAov(parseInt(e.target.value))} className="w-full accent-[#F26B1F]" data-testid="calc-aov-slider" />
+            <div className="flex justify-between text-[10px] font-bold text-[#5A6378] mt-1"><span>₹100</span><span>₹10,000</span></div>
+          </div>
+          <p className="text-[11px] text-[#5A6378] leading-relaxed">*Earning estimates are for illustrative purposes only and depend on order performance, order values, and program terms.</p>
+          <a href="#apply" className="btn-primary w-full">Lock in Your Earnings <ArrowRight className="w-4 h-4" /></a>
+        </div>
+      </div>
+    </section>
+  );
+};
+
 export default function ApplyPage() {
   const nav = useNavigate();
   const [step, setStep] = useState(1);
@@ -154,18 +204,6 @@ export default function ApplyPage() {
                 </div>
               </div>
             </div>
-            {/* Floating earnings card */}
-            <div className="gajab-card p-4 bg-white absolute -bottom-8 left-4 sm:-left-8 max-w-[280px] w-[88%] sm:w-auto">
-              <Pill className="mb-2" style={{ transform: "rotate(-3deg)" }}>YOUR EARNINGS PREVIEW</Pill>
-              <p className="font-display text-4xl font-extrabold leading-none">₹24,865<span className="text-base text-[#F26B1F]">/mo</span></p>
-              <p className="text-[11px] text-[#5A6378] mt-1">Avg of a Top-10 Gajab Ambassador</p>
-              <div className="grid grid-cols-3 gap-1.5 mt-3">
-                <div className="rounded-lg border border-[#EFEAE0] p-1.5 bg-[#FFF6DC]"><p className="text-[9px] font-extrabold uppercase opacity-70">Clicks</p><p className="font-display text-sm font-extrabold">2,847</p></div>
-                <div className="rounded-lg border border-[#EFEAE0] p-1.5 bg-[#FFE9D9]"><p className="text-[9px] font-extrabold uppercase opacity-70">Orders</p><p className="font-display text-sm font-extrabold">184</p></div>
-                <div className="rounded-lg border border-[#EFEAE0] p-1.5 bg-[#E6F8EF]"><p className="text-[9px] font-extrabold uppercase opacity-70">Revenue</p><p className="font-display text-sm font-extrabold">2.48L</p></div>
-              </div>
-            </div>
-            <div className="absolute -top-3 -right-3 gajab-sticker-orange text-[10px] wiggle">🔥 Live earnings</div>
           </div>
         </div>
       </section>
@@ -173,23 +211,27 @@ export default function ApplyPage() {
       {/* PERKS HIGHLIGHTS — 3 hero stat cards */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
         <div className="grid md:grid-cols-3 gap-4">
-          <div className="gajab-card p-8 text-center">
-            <p className="text-4xl mb-2">✈️</p>
-            <p className="font-display text-3xl text-[#F26B1F]">International</p>
-            <p className="text-sm text-[#5A6378] mt-1">Trip Experience</p>
-          </div>
-          <div className="gajab-card p-8 text-center">
-            <p className="text-4xl mb-2">🏆</p>
-            <p className="font-display text-3xl text-[#F26B1F]">Mega Rewards</p>
-            <p className="text-sm text-[#5A6378] mt-1">Quarterly & Yearly</p>
-          </div>
-          <div className="gajab-card p-8 text-center">
-            <p className="text-4xl mb-2">📊</p>
-            <p className="font-display text-3xl text-[#F26B1F]">7.5%</p>
-            <p className="text-sm text-[#5A6378] mt-1">Commission Per Order</p>
-          </div>
+          {[
+            { img: "https://gajab.com/img/campus/underwater.webp", label: "International", sub: "Trip Experience" },
+            { img: "https://gajab.com/img/campus/mobile.webp", label: "Mega Rewards", sub: "Quarterly & Yearly" },
+            { img: "https://gajab.com/img/campus/pay.webp", label: "7.5%", sub: "Commission Per Order" },
+          ].map((c, i) => (
+            <div key={i} className="gajab-card overflow-hidden group hover:-translate-y-1 hover:shadow-[0_20px_40px_rgba(242,107,31,0.20)] transition-all duration-300">
+              <div className="relative aspect-[16/10] overflow-hidden">
+                <img src={c.img} alt={c.label} className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#1B2D54]/25 via-transparent to-transparent" />
+              </div>
+              <div className="p-6 text-center">
+                <p className="font-display text-3xl text-[#F26B1F]">{c.label}</p>
+                <p className="text-sm text-[#5A6378] mt-1">{c.sub}</p>
+              </div>
+            </div>
+          ))}
         </div>
       </section>
+
+      {/* COMMISSION CALCULATOR — mirrors gajab.com/campus-ambassador */}
+      <CommissionCalculator />
 
       {/* LEAD EARN GET RECOGNIZED */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14">
@@ -198,12 +240,11 @@ export default function ApplyPage() {
           <h2 className="font-display text-4xl sm:text-5xl font-extrabold mt-4">Lead. Earn. Get Recognized.</h2>
           <p className="text-[#5A6378] mt-3">Build a resume that gets you hired anywhere — certifications, founder LOR, and real industry experience, including regular visits to Gajab&apos;s offices.</p>
         </div>
-        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div className="grid sm:grid-cols-3 gap-4">
           {[
             { icon: "👑", title: "Founder LOR", desc: "Earn a personal Letter of Recommendation from Gajab founders. A career game-changer that opens doors to top opportunities.", img: "https://gajab.com/img/campus/gajab-founder-lor.webp" },
             { icon: "💼", title: "Internship Opportunity", desc: "Top performers earn official internship offers with Gajab. Real industry experience that sets you apart.", img: "https://gajab.com/img/campus/gajab-internship-opportunity.webp" },
             { icon: "📄", title: "Experience Certificate", desc: "Earn verified certificates at every milestone. Boost your resume, LinkedIn profile, and career story.", img: "https://gajab.com/img/campus/gajab-experience-certificate.webp" },
-            { icon: "📈", title: "Live Leaderboard", desc: "Monthly rewards for top performers. Track your rank in real-time, compete with ambassadors across India, and win every single month.", img: "https://gajab.com/img/campus/gajab-live-leaderboard.webp" },
           ].map((c, i) => (
             <div key={i} className="gajab-card overflow-hidden">
               <div className="relative aspect-video">
