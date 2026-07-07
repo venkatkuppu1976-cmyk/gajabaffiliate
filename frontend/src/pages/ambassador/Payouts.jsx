@@ -22,7 +22,7 @@ export default function Payouts() {
   return (
     <div className="space-y-5">
       <div>
-        <span className="gajab-sticker-yellow">💰 Your Money</span>
+        <span className="gajab-sticker-yellow inline-flex items-center gap-1.5"><Wallet className="w-3.5 h-3.5" strokeWidth={2} /> Your Money</span>
         <h1 className="font-display text-3xl sm:text-4xl mt-2">Payouts</h1>
         <p className="text-[#5A6378] mt-1">Bi-monthly payouts. Minimum ₹500.</p>
       </div>

@@ -1,5 +1,5 @@
 import React from "react";
-import { Bell } from "lucide-react";
+import { Bell, Clock } from "lucide-react";
 import { announcements } from "@/data/mockData";
 
 const priorityClr = { High: "bg-[#FEE2E2] text-[#991B1B]", Medium: "bg-[#FEF3C7] text-[#92400E]", Low: "bg-[#E0E7FF] text-[#3730A3]" };
@@ -18,7 +18,7 @@ export default function Announcements() {
             <div className="flex items-center gap-2 flex-wrap"><Bell className="w-4 h-4 text-[#F26B1F]" /><span className="text-[10px] font-bold uppercase tracking-wider text-[#5A6378]">{a.id}</span><span className={`gajab-sticker ${priorityClr[a.priority]} border border-current/30`}>{a.priority}</span></div>
             <h3 className="font-display text-lg mt-1.5">{a.title}</h3>
             <p className="text-sm text-[#5A6378] mt-1">{a.body}</p>
-            <p className="text-[10px] uppercase tracking-wider text-[#5A6378] mt-3">🕒 {a.sentOn}</p>
+            <p className="text-[10px] uppercase tracking-wider text-[#5A6378] mt-3 inline-flex items-center gap-1.5"><Clock className="w-3 h-3" strokeWidth={2} /> {a.sentOn}</p>
           </div>
         ))}
       </div>

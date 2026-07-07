@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { Sparkles, Trophy, IndianRupee, Rocket, Megaphone, Users, CheckCircle2, ArrowRight, Instagram, MessageCircle, Star, ChevronDown } from "lucide-react";
+import { Sparkles, Trophy, IndianRupee, Rocket, Megaphone, Users, CheckCircle2, ArrowRight, Instagram, MessageCircle, Star, ChevronDown, Award, Lock, Package } from "lucide-react";
 import { toast } from "sonner";
 import Logo from "@/components/Logo";
 import { colleges } from "@/data/mockData";
@@ -62,7 +62,7 @@ const CommissionCalculator = () => {
   return (
     <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14" data-testid="commission-calculator">
       <div className="text-center max-w-3xl mx-auto mb-8">
-        <span className="gajab-sticker-orange">💰 Earnings Calculator</span>
+        <span className="gajab-sticker-orange inline-flex items-center gap-1.5"><IndianRupee className="w-3.5 h-3.5" strokeWidth={2} /> Earnings Calculator</span>
         <h2 className="font-display text-4xl sm:text-5xl font-extrabold mt-4">How Much Will You Earn?</h2>
         <p className="text-[#5A6378] mt-3">Move the sliders. See your earning power instantly.</p>
       </div>
@@ -81,7 +81,7 @@ const CommissionCalculator = () => {
         <div className="gajab-card p-8 space-y-6">
           <div>
             <div className="flex items-center justify-between mb-2">
-              <span className="text-sm font-bold flex items-center gap-1.5">📦 Number of Orders</span>
+              <span className="text-sm font-bold inline-flex items-center gap-1.5"><Package className="w-4 h-4 text-[#F26B1F]" strokeWidth={2} /> Number of Orders</span>
               <span className="font-display text-2xl text-[#F26B1F]">{orders}</span>
             </div>
             <input type="range" min={25} max={200} step={5} value={orders} onChange={e=>setOrders(parseInt(e.target.value))} className="w-full accent-[#F26B1F]" data-testid="calc-orders-slider" />
@@ -89,7 +89,7 @@ const CommissionCalculator = () => {
           </div>
           <div>
             <div className="flex items-center justify-between mb-2">
-              <span className="text-sm font-bold flex items-center gap-1.5">💰 Average Order Value</span>
+              <span className="text-sm font-bold inline-flex items-center gap-1.5"><IndianRupee className="w-4 h-4 text-[#F26B1F]" strokeWidth={2} /> Average Order Value</span>
               <span className="font-display text-2xl text-[#F26B1F]">₹{aov.toLocaleString()}</span>
             </div>
             <input type="range" min={100} max={10000} step={100} value={aov} onChange={e=>setAov(parseInt(e.target.value))} className="w-full accent-[#F26B1F]" data-testid="calc-aov-slider" />
@@ -236,7 +236,7 @@ export default function ApplyPage() {
       {/* LEAD EARN GET RECOGNIZED */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14">
         <div className="text-center max-w-3xl mx-auto mb-10">
-          <span className="gajab-sticker-orange">🎖️ Your Career Story Starts Here</span>
+          <span className="gajab-sticker-orange inline-flex items-center gap-1.5"><Award className="w-3.5 h-3.5" strokeWidth={2} /> Your Career Story Starts Here</span>
           <h2 className="font-display text-4xl sm:text-5xl font-extrabold mt-4">Lead. Earn. Get Recognized.</h2>
           <p className="text-[#5A6378] mt-3">Build a resume that gets you hired anywhere — certifications, founder LOR, and real industry experience, including regular visits to Gajab&apos;s offices.</p>
         </div>
@@ -250,7 +250,7 @@ export default function ApplyPage() {
               <div className="relative aspect-video">
                 <img src={c.img} alt={c.title} className="absolute inset-0 w-full h-full object-cover" />
                 <div className="absolute inset-0 bg-gradient-to-t from-[#F26B1F]/80 via-[#F26B1F]/40 to-transparent" />
-                <span className="absolute top-3 left-3 gajab-sticker bg-white/95 text-[#1B2D54] text-[10px]">🔒 Only On Completion</span>
+                <span className="absolute top-3 left-3 gajab-sticker bg-white/95 text-[#1B2D54] text-[10px] inline-flex items-center gap-1"><Lock className="w-3 h-3" strokeWidth={2} /> Only On Completion</span>
                 <div className="absolute bottom-3 left-3 w-10 h-10 bg-white rounded-xl grid place-items-center text-xl shadow">{c.icon}</div>
               </div>
               <div className="p-5">
@@ -265,7 +265,7 @@ export default function ApplyPage() {
       {/* WIN BIG EVERY QUARTER */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14">
         <div className="text-center max-w-3xl mx-auto mb-10">
-          <span className="gajab-sticker-orange">🏆 Quarterly Prizes</span>
+          <span className="gajab-sticker-orange inline-flex items-center gap-1.5"><Trophy className="w-3.5 h-3.5" strokeWidth={2} /> Quarterly Prizes</span>
           <h2 className="font-display text-4xl sm:text-5xl font-extrabold mt-4">Win Big. Every Quarter.</h2>
           <p className="text-[#5A6378] mt-3">The top 10 leaders win epic prizes every 3 months.</p>
         </div>

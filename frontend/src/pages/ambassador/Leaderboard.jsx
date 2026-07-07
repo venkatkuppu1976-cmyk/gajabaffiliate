@@ -27,7 +27,7 @@ export default function Leaderboard() {
   return (
     <div className="space-y-5 pb-20">
       <div>
-        <span className="gajab-sticker-yellow">🏆 The Big Board</span>
+        <span className="gajab-sticker-yellow inline-flex items-center gap-1.5"><Trophy className="w-3.5 h-3.5" strokeWidth={2} /> The Big Board</span>
         <h1 className="font-display text-3xl sm:text-4xl mt-2">Top hustlers, ranked.</h1>
         <p className="text-[#5A6378] mt-1">Updated live. Race to the top is real.</p>
       </div>

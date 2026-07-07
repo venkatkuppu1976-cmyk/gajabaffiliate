@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Plus, Check, X, ExternalLink, Search, Filter, ArrowLeft, RotateCw, Bell, AlertTriangle } from "lucide-react";
+import { Plus, Check, X, ExternalLink, Search, Filter, ArrowLeft, RotateCw, Bell, AlertTriangle, Clock, Gift, Activity, Users } from "lucide-react";
 import { toast } from "sonner";
 import { adminTasks, taskAssignees, adminPendingTasks } from "@/data/mockData";
 import DateInputDDMMYYYY from "@/components/DateInputDDMMYYYY";
@@ -43,11 +43,11 @@ export default function AdminTasks() {
           <h1 className="font-display text-3xl mt-1">{detail.title}</h1>
           <p className="text-[#5A6378] mt-1">{detail.description}</p>
           <div className="mt-3 flex flex-wrap gap-4 text-sm">
-            <span>⏰ Deadline: <b>{detail.deadline}</b></span>
-            <span>🎁 Reward: <b>₹{detail.reward}</b></span>
-            <span>📊 Status: <b>{detail.status}</b></span>
-            <span>👥 Assigned: <b>{detail.assignedCount}</b></span>
-            <span>✓ Completed: <b>{detail.completedCount}</b></span>
+            <span className="inline-flex items-center gap-1.5"><Clock className="w-4 h-4" strokeWidth={2} /> Deadline: <b>{detail.deadline}</b></span>
+            <span className="inline-flex items-center gap-1.5"><Gift className="w-4 h-4" strokeWidth={2} /> Reward: <b>₹{detail.reward}</b></span>
+            <span className="inline-flex items-center gap-1.5"><Activity className="w-4 h-4" strokeWidth={2} /> Status: <b>{detail.status}</b></span>
+            <span className="inline-flex items-center gap-1.5"><Users className="w-4 h-4" strokeWidth={2} /> Assigned: <b>{detail.assignedCount}</b></span>
+            <span className="inline-flex items-center gap-1.5"><Check className="w-4 h-4" strokeWidth={2} /> Completed: <b>{detail.completedCount}</b></span>
           </div>
         </div>
 

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Search } from "lucide-react";
+import { Search, Medal } from "lucide-react";
 import { leaderboard, states, cities } from "@/data/mockData";
 import { useVersion } from "@/hooks/useVersion";
 
@@ -33,7 +33,16 @@ export default function MasterLeaderboard() {
         <tbody>
           {filtered.map(r => (
             <tr key={r.rank} className={`border-b border-[#EFEAE0] ${r.rank<=3?"bg-[#FFF1C2]":""}`} data-testid={`master-row-${r.rank}`}>
-              <td className="p-3"><span className="font-display font-extrabold text-xl">{r.rank<=3 ? ["🥇","🥈","🥉"][r.rank-1] : `#${r.rank}`}</span></td>
+              <td className="p-3">
+                {r.rank<=3 ? (
+                  <span className="inline-flex items-center gap-1.5" data-testid={`medal-${r.rank}`}>
+                    <Medal className="w-6 h-6" strokeWidth={2} style={{ color: r.rank===1 ? "#D4A017" : r.rank===2 ? "#8E8E93" : "#B87333" }} />
+                    <span className="font-display font-extrabold" style={{ color: r.rank===1 ? "#D4A017" : r.rank===2 ? "#5A6378" : "#8B4513" }}>#{r.rank}</span>
+                  </span>
+                ) : (
+                  <span className="font-display font-extrabold text-xl text-[#1B2D54]">#{r.rank}</span>
+                )}
+              </td>
               <td className="p-3"><div className="flex items-center gap-2"><img src={r.avatar} alt="" className="w-8 h-8 rounded-full object-cover" /><span className="font-bold">{r.name}</span></div></td>
               <td className="p-3">{r.college}</td>
               {isV2 && <><td className="p-3 text-xs">{r.city}</td><td className="p-3 text-xs">{r.state}</td></>}

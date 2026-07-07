@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Search, Users, ShoppingBag, TrendingUp, Upload, Download, Plus, MessageSquare, X, ExternalLink, ArrowLeft, Trophy, ListChecks, IndianRupee, Award } from "lucide-react";
+import { Search, Users, ShoppingBag, TrendingUp, Upload, Download, Plus, MessageSquare, X, ExternalLink, ArrowLeft, Trophy, ListChecks, IndianRupee, Award, Gift, FileText } from "lucide-react";
 import { toast } from "sonner";
 import { leaderboard, adminKpis, states, cities } from "@/data/mockData";
 
@@ -111,9 +111,9 @@ export default function Directory() {
         <div className="gajab-card p-5">
           <h3 className="font-display text-lg mb-3 flex items-center gap-2"><Award className="w-5 h-5 text-[#F26B1F]" /> Achievements</h3>
           <div className="grid sm:grid-cols-3 gap-3">
-            <div className="p-3 rounded-xl border border-[#EFEAE0]"><p className="font-bold text-sm">🎁 Welcome Kit</p><p className="text-xs text-[#5A6378]">Received Feb 2026</p></div>
-            <div className="p-3 rounded-xl border border-[#EFEAE0]"><p className="font-bold text-sm">📜 {tier} Certificate</p><p className="text-xs text-[#5A6378]">Unlocked at {commRate}% tier</p></div>
-            <div className="p-3 rounded-xl border border-[#EFEAE0]"><p className="font-bold text-sm">🏆 Top 10 rank</p><p className="text-xs text-[#5A6378]">Current position #{detail.rank}</p></div>
+            <div className="p-3 rounded-xl border border-[#EFEAE0]"><p className="font-bold text-sm flex items-center gap-1.5"><Gift className="w-4 h-4 text-[#F26B1F]" strokeWidth={2} /> Welcome Kit</p><p className="text-xs text-[#5A6378]">Received Feb 2026</p></div>
+            <div className="p-3 rounded-xl border border-[#EFEAE0]"><p className="font-bold text-sm flex items-center gap-1.5"><FileText className="w-4 h-4 text-[#F26B1F]" strokeWidth={2} /> {tier} Certificate</p><p className="text-xs text-[#5A6378]">Unlocked at {commRate}% tier</p></div>
+            <div className="p-3 rounded-xl border border-[#EFEAE0]"><p className="font-bold text-sm flex items-center gap-1.5"><Trophy className="w-4 h-4 text-[#F26B1F]" strokeWidth={2} /> Top 10 rank</p><p className="text-xs text-[#5A6378]">Current position #{detail.rank}</p></div>
           </div>
         </div>
       </div>

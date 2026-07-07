@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Plus, Edit, Trash2, X, Bell, Send } from "lucide-react";
+import { Plus, Edit, Trash2, X, Bell, Send, Megaphone, Clock, Eye } from "lucide-react";
 import { toast } from "sonner";
 import { announcements } from "@/data/mockData";
 import { useVersion } from "@/hooks/useVersion";
@@ -46,9 +46,9 @@ export default function AdminAnnouncements() {
                 <h3 className="font-display text-lg mt-1.5">{a.title}</h3>
                 <p className="text-sm text-[#5A6378] mt-1">{a.body}</p>
                 <div className="mt-3 flex flex-wrap gap-3 text-xs text-[#5A6378]">
-                  <span>📣 Audience: <b className="text-[#1B2D54]">{a.audience}</b></span>
-                  <span>🕒 Sent: <b className="text-[#1B2D54]">{a.sentOn}</b></span>
-                  {!isV2 && <span>👁️ Read: <b className="text-[#1B2D54]">{a.reads}/{a.total}</b></span>}
+                  <span className="inline-flex items-center gap-1.5"><Megaphone className="w-3 h-3" strokeWidth={2} /> Audience: <b className="text-[#1B2D54]">{a.audience}</b></span>
+                  <span className="inline-flex items-center gap-1.5"><Clock className="w-3 h-3" strokeWidth={2} /> Sent: <b className="text-[#1B2D54]">{a.sentOn}</b></span>
+                  {!isV2 && <span className="inline-flex items-center gap-1.5"><Eye className="w-3 h-3" strokeWidth={2} /> Read: <b className="text-[#1B2D54]">{a.reads}/{a.total}</b></span>}
                 </div>
               </div>
               <div className="flex gap-1">
