@@ -26,7 +26,6 @@ export default function AdminTasks() {
     .filter(t => (t.title + t.description + t.id).toLowerCase().includes(q.toLowerCase()));
 
   const create = (e) => { e.preventDefault(); if (!form.title || !form.desc) { toast.error("Title & description required"); return; } toast.success("Task created & assigned!"); setOpen(false); setForm({ title:"", desc:"", deadline:"", target:"all" }); };
-  const sendReminder = () => toast.success("Reminder sent via WhatsApp + Inbox to all ambassadors with pending / overdue tasks");
   const confirmReject = () => {
     if (!rejectReason.trim()) { toast.error("Rejection reason is required"); return; }
     toast.error(`${rejecting.ambassador}'s submission rejected · reason logged`);
@@ -85,10 +84,7 @@ export default function AdminTasks() {
           <h1 className="font-display text-3xl sm:text-4xl mt-2">Task library & verifications</h1>
           <p className="text-[#5A6378] mt-1">{filtered.length} of {adminTasks.length} tasks · {adminPendingTasks.length} pending verifications</p>
         </div>
-        <div className="flex gap-2 flex-wrap">
-          <button onClick={sendReminder} className="btn-ghost text-sm" data-testid="tasks-reminder-btn"><Bell className="w-4 h-4" /> Send Reminder</button>
-          <button onClick={()=>setOpen(true)} className="btn-primary" data-testid="create-task-btn"><Plus className="w-4 h-4" /> New Task</button>
-        </div>
+        <button onClick={()=>setOpen(true)} className="btn-primary" data-testid="create-task-btn"><Plus className="w-4 h-4" /> New Task</button>
       </div>
 
       <div className="gajab-card p-4 grid lg:grid-cols-3 gap-3">
