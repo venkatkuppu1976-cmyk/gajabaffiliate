@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { Sparkles, Trophy, IndianRupee, Rocket, Megaphone, Users, CheckCircle2, ArrowRight, Instagram, MessageCircle, Star, ChevronDown, Award, Lock, Package } from "lucide-react";
+import { Sparkles, Trophy, IndianRupee, Rocket, Megaphone, Users, CheckCircle2, ArrowRight, Instagram, MessageCircle, Star, ChevronDown, Award, Lock, Package, Feather, Briefcase, FileText } from "lucide-react";
 import { toast } from "sonner";
 import Logo from "@/components/Logo";
 import { colleges } from "@/data/mockData";
@@ -242,16 +242,16 @@ export default function ApplyPage() {
         </div>
         <div className="grid sm:grid-cols-3 gap-4">
           {[
-            { icon: "👑", title: "Founder LOR", desc: "Earn a personal Letter of Recommendation from Gajab founders. A career game-changer that opens doors to top opportunities.", img: "https://gajab.com/img/campus/gajab-founder-lor.webp" },
-            { icon: "💼", title: "Internship Opportunity", desc: "Top performers earn official internship offers with Gajab. Real industry experience that sets you apart.", img: "https://gajab.com/img/campus/gajab-internship-opportunity.webp" },
-            { icon: "📄", title: "Experience Certificate", desc: "Earn verified certificates at every milestone. Boost your resume, LinkedIn profile, and career story.", img: "https://gajab.com/img/campus/gajab-experience-certificate.webp" },
+            { Icon: Feather, title: "Founder LOR", desc: "Earn a personal Letter of Recommendation from Gajab founders. A career game-changer that opens doors to top opportunities.", img: "https://gajab.com/img/campus/gajab-founder-lor.webp" },
+            { Icon: Briefcase, title: "Internship Opportunity", desc: "Top performers earn official internship offers with Gajab. Real industry experience that sets you apart.", img: "https://gajab.com/img/campus/gajab-internship-opportunity.webp" },
+            { Icon: FileText, title: "Experience Certificate", desc: "Earn verified certificates at every milestone. Boost your resume, LinkedIn profile, and career story.", img: "https://gajab.com/img/campus/gajab-experience-certificate.webp" },
           ].map((c, i) => (
             <div key={i} className="gajab-card overflow-hidden">
               <div className="relative aspect-video">
                 <img src={c.img} alt={c.title} className="absolute inset-0 w-full h-full object-cover" />
                 <div className="absolute inset-0 bg-gradient-to-t from-[#F26B1F]/80 via-[#F26B1F]/40 to-transparent" />
                 <span className="absolute top-3 left-3 gajab-sticker bg-white/95 text-[#1B2D54] text-[10px] inline-flex items-center gap-1"><Lock className="w-3 h-3" strokeWidth={2} /> Only On Completion</span>
-                <div className="absolute bottom-3 left-3 w-10 h-10 bg-white rounded-xl grid place-items-center text-xl shadow">{c.icon}</div>
+                <div className="absolute bottom-3 left-3 w-10 h-10 bg-white rounded-xl grid place-items-center shadow"><c.Icon className="w-5 h-5 text-[#F26B1F]" strokeWidth={2} /></div>
               </div>
               <div className="p-5">
                 <h4 className="font-display text-lg">{c.title}</h4>
