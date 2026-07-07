@@ -1,5 +1,6 @@
-import React, { useState } from "react";
-import { Crown, Trophy, Medal, MapPin } from "lucide-react";
+import React, { useState, useEffect, useRef } from "react";
+import { Crown, Trophy, Medal, MapPin, Globe, Sparkles, X } from "lucide-react";
+import confetti from "canvas-confetti";
 import { leaderboard, ambassador } from "@/data/mockData";
 
 const PodiumCard = ({ rank, name, college, revenue, avatar, color, height, icon: Icon }) => (
@@ -17,15 +18,60 @@ const scopes = ["Overall", "My State", "My City"];
 
 export default function Leaderboard() {
   const [scope, setScope] = useState("Overall");
+  const [showTop10Popup, setShowTop10Popup] = useState(false);
+  const firedRef = useRef(false);
+
   let data = leaderboard;
   if (scope === "My State") data = leaderboard.filter(r => r.state === ambassador.state);
   if (scope === "My City") data = leaderboard.filter(r => r.city === ambassador.city);
-  // Re-rank for filtered views
   const ranked = data.map((r, i) => ({ ...r, displayRank: i + 1 }));
   const [first, second, third, ...rest] = ranked;
 
+  // Fire confetti & popup if ambassador is in top-10 in the current scope
+  useEffect(() => {
+    const yourEntry = ranked.find(r => r.isYou);
+    if (yourEntry && yourEntry.displayRank <= 10 && !firedRef.current) {
+      firedRef.current = true;
+      setShowTop10Popup(true);
+      // Confetti burst — brand colors
+      const brand = ["#F26B1F", "#FFC93C", "#1B2D54", "#10B981", "#EF4444"];
+      const shoot = (originX) => confetti({
+        particleCount: 80,
+        spread: 70,
+        startVelocity: 45,
+        origin: { x: originX, y: 0.6 },
+        colors: brand,
+      });
+      shoot(0.25);
+      setTimeout(() => shoot(0.75), 200);
+      setTimeout(() => confetti({ particleCount: 120, spread: 100, origin: { y: 0.5 }, colors: brand }), 400);
+    }
+  }, [ranked]);
+
+  const yourRank = ranked.find(r => r.isYou)?.displayRank || ambassador.rank;
+
   return (
     <div className="space-y-5 pb-20">
+      {/* Top-10 celebration popup */}
+      {showTop10Popup && (
+        <div className="fixed inset-0 z-50 grid place-items-center p-4 bg-[#1B2D54]/60 backdrop-blur-sm" data-testid="top10-popup" onClick={()=>setShowTop10Popup(false)}>
+          <div onClick={e=>e.stopPropagation()} className="gajab-card p-8 max-w-md w-full text-center bg-gradient-to-br from-[#FFF7EE] to-white relative animate-in fade-in zoom-in duration-300">
+            <button onClick={()=>setShowTop10Popup(false)} className="absolute top-3 right-3 w-8 h-8 rounded-full grid place-items-center hover:bg-[#EFEAE0]" data-testid="top10-popup-close"><X className="w-4 h-4" /></button>
+            <div className="w-20 h-20 mx-auto rounded-full bg-gradient-to-br from-[#FFC93C] to-[#F26B1F] grid place-items-center shadow-[0_10px_30px_rgba(242,107,31,0.4)]">
+              <Trophy className="w-10 h-10 text-white" strokeWidth={2.5} />
+            </div>
+            <span className="gajab-sticker-orange inline-flex items-center gap-1.5 mt-5"><Sparkles className="w-3.5 h-3.5" strokeWidth={2} /> Congratulations</span>
+            <h2 className="font-display text-4xl font-extrabold mt-3 text-[#1B2D54]">You&apos;re in the Top 10!</h2>
+            <p className="text-[#5A6378] mt-2">You&apos;re currently ranked <b className="font-display text-2xl text-[#F26B1F]">#{yourRank}</b> in the {scope.toLowerCase()} board. Keep pushing — quarterly prizes are within reach.</p>
+            <div className="mt-6 flex items-center justify-center gap-2 flex-wrap">
+              <div className="px-3 py-1.5 rounded-full bg-[#FFF1C2] border border-[#FFC93C]/60 text-xs font-bold text-[#92400E]">Silver Tier bonus unlocked</div>
+              <div className="px-3 py-1.5 rounded-full bg-[#E6F8EF] border border-[#10B981]/40 text-xs font-bold text-[#065F46]">Founder LOR nomination</div>
+            </div>
+            <button onClick={()=>setShowTop10Popup(false)} className="btn-primary mt-6" data-testid="top10-popup-continue">Keep Hustling <Trophy className="w-4 h-4" /></button>
+          </div>
+        </div>
+      )}
+
       <div>
         <span className="gajab-sticker-yellow inline-flex items-center gap-1.5"><Trophy className="w-3.5 h-3.5" strokeWidth={2} /> The Big Board</span>
         <h1 className="font-display text-3xl sm:text-4xl mt-2">Top hustlers, ranked.</h1>
@@ -34,8 +80,8 @@ export default function Leaderboard() {
 
       <div className="flex gap-2">
         {scopes.map(s => (
-          <button key={s} onClick={() => setScope(s)} className={`nav-tab border ${scope===s ? "bg-[#1B2D54] text-white border-[#1B2D54]" : "bg-white border-[#EFEAE0] text-[#5A6378]"}`} data-testid={`lb-scope-${s.toLowerCase().replace(/ /g,"-")}`}>
-            {s === "Overall" ? "🌐 Overall" : s === "My State" ? `📍 ${ambassador.state}` : `🏙️ ${ambassador.city}`}
+          <button key={s} onClick={() => { setScope(s); firedRef.current = false; }} className={`nav-tab border inline-flex items-center gap-1.5 ${scope===s ? "bg-[#1B2D54] text-white border-[#1B2D54]" : "bg-white border-[#EFEAE0] text-[#5A6378]"}`} data-testid={`lb-scope-${s.toLowerCase().replace(/ /g,"-")}`}>
+            {s === "Overall" ? <><Globe className="w-3.5 h-3.5" strokeWidth={2} /> Overall</> : s === "My State" ? <><MapPin className="w-3.5 h-3.5" strokeWidth={2} /> {ambassador.state}</> : <><MapPin className="w-3.5 h-3.5" strokeWidth={2} /> {ambassador.city}</>}
           </button>
         ))}
       </div>

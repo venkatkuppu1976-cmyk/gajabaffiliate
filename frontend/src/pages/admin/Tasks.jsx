@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Plus, Check, X, ExternalLink, Search, Filter, ArrowLeft, RotateCw, Bell, AlertTriangle, Clock, Gift, Activity, Users } from "lucide-react";
+import { Plus, Check, X, ExternalLink, Search, Filter, ArrowLeft, RotateCw, Bell, AlertTriangle, Clock, Activity, Users } from "lucide-react";
 import { toast } from "sonner";
 import { adminTasks, taskAssignees, adminPendingTasks } from "@/data/mockData";
 import DateInputDDMMYYYY from "@/components/DateInputDDMMYYYY";
@@ -19,13 +19,13 @@ export default function AdminTasks() {
   const [filter, setFilter] = useState("All");
   const [rejecting, setRejecting] = useState(null); // { pendingId, ambassador } waiting for rejection reason
   const [rejectReason, setRejectReason] = useState("");
-  const [form, setForm] = useState({ title:"", desc:"", deadline:"", reward:"", target:"all" });
+  const [form, setForm] = useState({ title:"", desc:"", deadline:"", target:"all" });
 
   const filtered = adminTasks
     .filter(t => filter === "All" || t.status === filter)
     .filter(t => (t.title + t.description + t.id).toLowerCase().includes(q.toLowerCase()));
 
-  const create = (e) => { e.preventDefault(); if (!form.title || !form.desc) { toast.error("Title & description required"); return; } toast.success("Task created & assigned!"); setOpen(false); setForm({ title:"", desc:"", deadline:"", reward:"", target:"all" }); };
+  const create = (e) => { e.preventDefault(); if (!form.title || !form.desc) { toast.error("Title & description required"); return; } toast.success("Task created & assigned!"); setOpen(false); setForm({ title:"", desc:"", deadline:"", target:"all" }); };
   const sendReminder = () => toast.success("Reminder sent via WhatsApp + Inbox to all ambassadors with pending / overdue tasks");
   const confirmReject = () => {
     if (!rejectReason.trim()) { toast.error("Rejection reason is required"); return; }
@@ -35,16 +35,21 @@ export default function AdminTasks() {
 
   if (detail) {
     const assignees = taskAssignees[detail.id] || [];
+    const sendTaskReminder = () => toast.success(`Reminder sent for "${detail.title}" to ${detail.assignedCount - detail.completedCount} pending ambassador(s)`);
     return (
       <div className="space-y-5">
         <button onClick={()=>setDetail(null)} className="btn-ghost text-sm"><ArrowLeft className="w-4 h-4" /> Back to all tasks</button>
         <div className="gajab-card p-6">
-          <span className="text-[10px] font-bold uppercase tracking-wider text-[#5A6378]">{detail.id}</span>
-          <h1 className="font-display text-3xl mt-1">{detail.title}</h1>
-          <p className="text-[#5A6378] mt-1">{detail.description}</p>
-          <div className="mt-3 flex flex-wrap gap-4 text-sm">
+          <div className="flex items-start justify-between gap-3 flex-wrap">
+            <div className="min-w-0">
+              <span className="text-[10px] font-bold uppercase tracking-wider text-[#5A6378]">{detail.id}</span>
+              <h1 className="font-display text-3xl mt-1">{detail.title}</h1>
+              <p className="text-[#5A6378] mt-1">{detail.description}</p>
+            </div>
+            <button onClick={sendTaskReminder} className="btn-primary text-sm" data-testid="task-detail-remind-btn"><Bell className="w-4 h-4" /> Send reminder</button>
+          </div>
+          <div className="mt-4 flex flex-wrap gap-4 text-sm">
             <span className="inline-flex items-center gap-1.5"><Clock className="w-4 h-4" strokeWidth={2} /> Deadline: <b>{detail.deadline}</b></span>
-            <span className="inline-flex items-center gap-1.5"><Gift className="w-4 h-4" strokeWidth={2} /> Reward: <b>₹{detail.reward}</b></span>
             <span className="inline-flex items-center gap-1.5"><Activity className="w-4 h-4" strokeWidth={2} /> Status: <b>{detail.status}</b></span>
             <span className="inline-flex items-center gap-1.5"><Users className="w-4 h-4" strokeWidth={2} /> Assigned: <b>{detail.assignedCount}</b></span>
             <span className="inline-flex items-center gap-1.5"><Check className="w-4 h-4" strokeWidth={2} /> Completed: <b>{detail.completedCount}</b></span>
@@ -148,10 +153,7 @@ export default function AdminTasks() {
             <div className="flex items-center justify-between"><h3 className="font-display text-2xl">New task</h3><button type="button" onClick={()=>setOpen(false)}><X className="w-5 h-5" /></button></div>
             <label className="block"><span className="text-xs font-bold uppercase tracking-wider text-[#5A6378]">Title</span><input value={form.title} onChange={e=>setForm({...form, title:e.target.value})} className="input-gajab mt-1" data-testid="task-title" /></label>
             <label className="block"><span className="text-xs font-bold uppercase tracking-wider text-[#5A6378]">Description</span><textarea value={form.desc} onChange={e=>setForm({...form, desc:e.target.value})} rows={3} className="input-gajab mt-1 py-3 h-auto resize-none" data-testid="task-desc" /></label>
-            <div className="grid grid-cols-2 gap-3">
-              <label className="block"><span className="text-xs font-bold uppercase tracking-wider text-[#5A6378]">Deadline (dd/mm/yyyy)</span><div className="mt-1"><DateInputDDMMYYYY value={form.deadline} onChange={v=>setForm({...form, deadline:v})} testId="task-deadline" /></div></label>
-              <label className="block"><span className="text-xs font-bold uppercase tracking-wider text-[#5A6378]">Reward (₹)</span><input type="number" value={form.reward} onChange={e=>setForm({...form, reward:e.target.value})} className="input-gajab mt-1" data-testid="task-reward" /></label>
-            </div>
+            <label className="block"><span className="text-xs font-bold uppercase tracking-wider text-[#5A6378]">Deadline (dd/mm/yyyy)</span><div className="mt-1"><DateInputDDMMYYYY value={form.deadline} onChange={v=>setForm({...form, deadline:v})} testId="task-deadline" /></div></label>
             <label className="block"><span className="text-xs font-bold uppercase tracking-wider text-[#5A6378]">Assign to</span><select value={form.target} onChange={e=>setForm({...form, target:e.target.value})} className="input-gajab mt-1"><option value="all">All ambassadors</option><option value="gold">Gold tier+</option><option value="specific">Specific ambassadors</option></select></label>
             <button className="btn-primary w-full" data-testid="submit-task-btn"><Plus className="w-4 h-4" /> Create & Assign</button>
           </form>
